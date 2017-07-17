@@ -1,0 +1,643 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\App\Repositories\PosicionesRepo;
+use App\App\Repositories\CampeonatoRepo;
+use App\App\Repositories\ConfiguracionRepo;
+use App\App\Repositories\PartidoRepo;
+use App\App\Repositories\CampeonatoEquipoRepo;
+use App\App\Repositories\PlantillaRepo;
+use App\App\Repositories\GoleadorRepo;
+use App\App\Repositories\PorteroRepo;
+use App\App\Repositories\EventoPartidoRepo;
+use App\App\Repositories\AlineacionRepo;
+use App\App\Repositories\LigaRepo;
+use App\App\Repositories\EstadioRepo;
+use App\App\Repositories\EquipoRepo;
+use App\App\Repositories\TablaAcumuladaRepo;
+
+use App\App\ExtraEntities\FichaPartido;
+
+use View;
+use stdClass;
+
+class RestController extends BaseController {
+
+	protected $posicionesRepo;
+	protected $campeonatoRepo;
+	protected $configuracionRepo;
+	protected $partidoRepo;
+	protected $campeonatoEquipoRepo;
+	protected $plantillaRepo;
+	protected $goleadorRepo;
+	protected $porteroRepo;
+	protected $eventoPartidoRepo;
+	protected $alineacionRepo;
+	protected $ligaRepo;
+	protected $estadioRepo;
+	protected $equipoRepo;
+	protected $tablaAcumuladaRepo;
+
+	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo, 
+		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
+		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, plantillaRepo $PlantillaRepo,
+		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo)
+	{
+		$this->posicionesRepo = $posicionesRepo;
+		$this->campeonatoRepo = $campeonatoRepo;
+		$this->partidoRepo = $partidoRepo;
+		$this->campeonatoEquipoRepo = $campeonatoEquipoRepo;
+		$this->plantillaRepo = $plantillaRepo;
+		$this->goleadorRepo = $goleadorRepo;
+		$this->configuracionRepo = $configuracionRepo;
+		$this->eventoPartidoRepo = $eventoPartidoRepo;
+		$this->alineacionRepo = $alineacionRepo;
+		$this->ligaRepo = $ligaRepo;
+		$this->estadioRepo = $estadioRepo;
+		$this->equipoRepo = $equipoRepo;
+		$this->porteroRepo = $porteroRepo;
+		$this->tablaAcumuladaRepo = $tablaAcumuladaRepo;
+
+		header('Access-Control-Allow-Origin: *');
+		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+		header('Access-Control-Allow-Headers: Authorization,Content-Type');
+
+	   	if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
+		    http_response_code(200);
+		    exit(0);
+		}
+	}
+
+	public function inicio($ligaId)
+	{
+		$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		$configuracion = $this->configuracionRepo->find(1);
+		$diasInicio = $configuracion->parametro1;
+		$diasFin = $configuracion->parametro2;
+
+		$fechaInicio = $this->getFecha($diasInicio . ' day');
+		$fechaFin = $this->getFecha($diasFin . ' day');
+		$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
+		
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		$configuracion = $this->configuracionRepo->find(2);
+		$data['configuracion'] = $configuracion;
+
+		foreach($partidos as $partido)
+		{
+			$p = new \App\App\Entities\Partido;
+			$p->id = $partido->id;
+			$p->equipoLocal = $partido->equipoLocal->nombre;
+			$p->equipoVisita = $partido->equipoVisita->nombre;
+			$p->rutaLocal = $partido->equipoLocal->imagen;
+			$p->rutaVisita = $partido->equipoVisita->imagen;
+			$p->golesLocal = $partido->goles_local;
+			$p->golesVisita = $partido->goles_visita;
+			$partido->fecha = strtotime($partido->fecha);
+			$p->fecha = date('d/m',$partido->fecha);
+			$p->hora = date('H:i',$partido->fecha);
+			$p->estadio = $partido->estadio->nombre;
+			$p->estado = $partido->estado->nombre;
+
+			$data['partidos'][] = $p;
+		}
+
+		return json_encode($data);
+	}
+
+	public function inicioConCampeonato($ligaId, $campeonatoId)
+	{
+		$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		$configuracion = $this->configuracionRepo->find(1);
+			$diasInicio = $configuracion->parametro1;
+			$diasFin = $configuracion->parametro2;
+
+			$fechaInicio = $this->getFecha($diasInicio . ' day');
+			$fechaFin = $this->getFecha($diasFin . ' day');
+		$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
+		
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		$configuracion = $this->configuracionRepo->find(2);
+		$data['configuracion'] = $configuracion;
+
+		foreach($partidos as $partido)
+		{
+			$p = new \App\App\Entities\Partido;
+			$p->id = $partido->id;
+			$p->equipoLocal = $partido->equipoLocal->nombre;
+			$p->equipoVisita = $partido->equipoVisita->nombre;
+			$p->rutaLocal = $partido->equipoLocal->imagen;
+			$p->rutaVisita = $partido->equipoVisita->imagen;
+			$p->golesLocal = $partido->goles_local;
+			$p->golesVisita = $partido->goles_visita;
+			$partido->fecha = strtotime($partido->fecha);
+			$p->fecha = date('d/m',$partido->fecha);
+			$p->hora = date('H:i',$partido->fecha);
+			$p->estadio = $partido->estadio->nombre;
+			$p->estado = $partido->estado->nombre;
+
+			$data['partidos'][] = $p;
+		}
+
+		return json_encode($data);
+	}
+
+	public function posiciones($ligaId, $campeonatoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, 2, [2,3]);
+		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+
+		$data['posiciones'] = $posiciones;
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		return json_encode($data);
+	}
+
+	public function porteros($ligaId,$campeonatoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$porteros = $this->porteroRepo->getPorteros($campeonato->id);
+		$data['porteros'] = $porteros;
+
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		return json_encode($data);
+	}
+
+	public function goleadores($ligaId,$campeonatoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$goleadores = $this->goleadorRepo->getGoleadores($campeonato);
+		$goleadores = array_slice($goleadores, 0, 10); 
+		$data['goleadores'] = $goleadores;
+		
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		return json_encode($data);
+	}
+
+	public function plantilla($ligaId, $campeonatoId, $equipoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$equipo = null;
+		if($equipoId != 0){
+			$equipo = $this->equipoRepo->find($equipoId);
+		}
+		$jugadores = $this->plantillaRepo->getPlantilla($campeonato, $equipoId);
+		$plantilla = array();
+		foreach($jugadores as $jugador)
+		{
+			$j = new stdClass();
+
+			mb_internal_encoding("UTF-8");
+			$string = $jugador->primer_nombre;
+			$j->primer_nombre = mb_substr($string,0,1) . '.';
+
+			//$j->primer_nombre = $jugador->persona->primer_nombre;
+
+			/*mb_internal_encoding("UTF-8");
+			$string = $jugador->persona->primer_apellido;
+			$j->primer_apellido = mb_substr($string,0,1);*/
+
+			$j->primer_apellido = $jugador->primer_apellido;
+			$j->mj = $jugador->minutos_jugados;
+			$j->goles = $jugador->goles;
+			$j->edad = $jugador->edad;
+			$plantilla[] = $j;
+		}
+
+
+		$data['plantilla'] = $plantilla;
+		
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+
+
+		$e = new \App\App\Entities\Equipo;
+		$e->id = $equipo->id;
+		$e->nombre = $equipo->nombre;
+		$e->imagen = $equipo->imagen;
+		$data['equipo'] = $e;
+
+
+		return json_encode($data);
+	}
+
+	public function equipos($ligaId, $campeonatoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$campeonatoEquipos = $this->campeonatoEquipoRepo->getEquiposByCampeonato($campeonato->id);
+		$equipos = array();
+		foreach($campeonatoEquipos as $ce)
+		{
+			$e['id'] = $ce->id;
+			$e['nombre'] = $ce->nombre;
+			$e['imagen'] = $ce->imagen;
+			$equipos[] = $e;
+		}
+		$data['equipos']  = $equipos;
+		
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+
+		return json_encode($data);
+
+	}
+
+	public function calendario($ligaId, $campeonatoId, $completo)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		
+		if($completo == 0){
+			$configuracion = $this->configuracionRepo->find(1);
+			$diasInicio = $configuracion->parametro1;
+			$diasFin = $configuracion->parametro2;
+
+			$fechaInicio = $this->getFecha($diasInicio . ' day');
+			$fechaFin = $this->getFecha($diasFin . ' day');
+
+			//$fechaInicio = $this->getFecha($configuracion->parametro1) . ' 00:00:00';
+			//$fechaFin = $this->getFecha($configuracion->parametro2) . ' 23:59:59';
+			$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
+		}
+		else
+			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
+
+		$jornadas = array();
+		
+		foreach($partidos as $partido){
+			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada->nombre;
+			
+			$p = new \App\App\Entities\Partido;
+			$p->id = $partido->id;
+			$p->equipoLocal = $partido->equipoLocal->nombre;
+			$p->equipoVisita = $partido->equipoVisita->nombre;
+			$p->imagenLocal = $partido->equipoLocal->imagen;
+			$p->imagenVisita = $partido->equipoVisita->imagen;
+			$p->golesLocal = $partido->goles_local;
+			$p->golesVisita = $partido->goles_visita;
+			$p->fecha = date('d/m',strtotime($partido->fecha));
+			$p->hora = date('H:i',strtotime($partido->fecha));
+			$p->estadio = $partido->estadio->nombre;
+			$p->estado = $partido->estado->nombre;
+
+			$jornadas[$partido->jornada_id]['partidos'][] = $p;	
+		}
+
+		//$data['jornadas'] = $jornadas;
+
+		$j = array();
+		foreach($jornadas as $jornada)
+		{
+			$jj = new stdClass();
+			$jj->jornada = $jornada['jornada'];
+			$jj->partidos = $jornada['partidos'];
+			$j[] = $jj;
+		}
+		$data['jornadas'] = $j;
+
+		$c = new \App\App\Entities\Campeonato;
+		$c->id = $campeonato->id;
+		$c->nombre = $campeonato->nombre;
+		$data['campeonato'] = $c;
+		return json_encode($data);
+	}
+
+	public function eventos($partidoId)
+	{
+		$partido = $this->partidoRepo->find($partidoId);
+		
+		$es = [];
+		if($partido->estado_id != 1){
+
+			$eventos = $this->eventoPartidoRepo->getByEventos($partidoId, array(6,7,8,10,11));
+		
+			$i = 0;
+			$golesLocal = 0;
+			$golesVisita = 0;
+			foreach($eventos as $evento)
+			{
+				if($evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8)
+				{
+					if($evento->equipo_id == $partido->equipo_local_id){
+						$golesLocal++;
+					}
+					else{
+						$golesVisita++;
+					}
+					$es[$i]['resultado'] = $golesLocal . ' - ' . $golesVisita;
+				}
+				if($evento->equipo_id == $partido->equipo_local_id){
+					$es[$i]['minuto_local'] = $evento->minuto;	
+					mb_internal_encoding("UTF-8");				
+					$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
+					$es[$i]['nombre_local'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
+					$es[$i]['imagen_local'] = $evento->imagen->ruta;
+				}
+				else{
+					$es[$i]['minuto_visita'] = $evento->minuto;
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
+					$es[$i]['nombre_visita'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
+					$es[$i]['imagen_visita'] = $evento->imagen->ruta;
+				}
+				
+				$i++;
+			}
+		}
+		$data['eventos'] = $es;
+
+		$p = new \App\App\Entities\Partido;
+		$p->id = $partido->id;
+		$p->equipoLocal = $partido->equipoLocal->nombre;
+		$p->equipoVisita = $partido->equipoVisita->nombre;
+		$p->golesLocal = $partido->goles_local;
+		$p->golesVisita = $partido->goles_visita;
+		$p->imagenLocal = $partido->equipoLocal->imagen;
+		$p->imagenVisita = $partido->equipoVisita->imagen;
+		$partido->fecha = strtotime($partido->fecha);
+		$p->fecha = date('d/m',$partido->fecha);
+		$p->hora = date('H:ia',$partido->fecha);
+		$p->estadio = $partido->estadio->nombre;
+		$p->estado = $partido->estado->nombre;
+
+		$data['partido'] = $p;
+
+		return json_encode($data);
+	}
+
+	public function enVivo($partidoId)
+	{
+		$partido = $this->partidoRepo->find($partidoId);
+		$es = [];
+		if($partido->estado_id != 1){
+
+			$eventos = $this->eventoPartidoRepo->getEnVivo($partidoId);
+		
+			$i = 0;
+			foreach($eventos as $evento)
+			{
+				$es[$i]['comentario'] = $evento->comentario;
+				$es[$i]['minuto'] = $evento->minuto;
+				$es[$i]['imagen'] = $evento->imagen->ruta;
+				$i++;
+			}
+		}
+		$data['eventos'] = $es;
+
+		$p = new \App\App\Entities\Partido;
+		$p->id = $partido->id;
+		$p->equipoLocal = $partido->equipoLocal->nombre;
+		$p->equipoVisita = $partido->equipoVisita->nombre;
+		$p->golesLocal = $partido->goles_local;
+		$p->golesVisita = $partido->goles_visita;
+		$p->imagenLocal = $partido->equipoLocal->imagen;
+		$p->imagenVisita = $partido->equipoVisita->imagen;
+		$partido->fecha = strtotime($partido->fecha);
+		$p->fecha = date('d/m',$partido->fecha);
+		$p->hora = date('H:ia',$partido->fecha);
+		$p->estadio = $partido->estadio->nombre;
+		$p->estado = $partido->estado->nombre;
+
+		$data['partido'] = $p;
+		
+		return json_encode($data);
+	}
+
+	public function alineaciones($partidoId)
+	{
+		$partido = $this->partidoRepo->find($partidoId);
+		$alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, true);
+		$alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, true);
+		$dtLocal = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_local_id);
+		$dtVisita = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_visita_id);
+
+		$alLocal = [];
+		$alVisita = [];
+		foreach($alineacionLocal as $al)
+		{
+			mb_internal_encoding("UTF-8");
+			$nombre = mb_substr($al->persona->primer_nombre,0,1);
+			$jugador['nombre'] = $nombre . '. ' . $al->persona->primer_apellido;
+			$jugador['es_titular'] = $al->es_titular;
+
+			$alLocal[] = $jugador;
+		}
+		foreach($alineacionVisita as $av)
+		{
+			mb_internal_encoding("UTF-8");
+			$nombre = mb_substr($av->persona->primer_nombre,0,1);
+			$jugador['nombre'] = $nombre . '. ' . $av->persona->primer_apellido;
+			$jugador['es_titular'] = $av->es_titular;
+
+			$alVisita[] = $jugador;
+		}
+		$data['alineacionVisita'] = $alVisita;
+		$data['alineacionLocal'] = $alLocal;
+
+		$data['dtLocal'] = [];
+		$data['dtVisita'] = [];
+		if(!is_null($dtLocal))  {
+			mb_internal_encoding("UTF-8");
+			$nombre = mb_substr($dtLocal->primer_nombre,0,1);
+			$data['dtLocal']['nombre'] = $nombre . '. ' . $dtLocal->primer_apellido;
+		}
+		if(!is_null($dtVisita)){
+			mb_internal_encoding("UTF-8");
+			$nombre = mb_substr($dtVisita->primer_nombre,0,1);
+		  	$data['dtVisita']['nombre'] = $nombre . '. ' . $dtVisita->primer_apellido;
+		}
+
+		//* SUSTITUCIONES *///
+		$sustitucionesLocal = [];
+		$sustitucionesVisita = [];
+		$eventosLocal = $this->eventoPartidoRepo->getByEventosByEquipo($partidoId, array(9), $partido->equipo_local_id);
+		$eventosVisita = $this->eventoPartidoRepo->getByEventosByEquipo($partidoId, array(9), $partido->equipo_visita_id);
+		foreach($eventosLocal as $el)
+		{
+			mb_internal_encoding("UTF-8");
+			$nombreEntra = mb_substr($el->jugador1->primer_nombre,0,1);
+			$s['entra_nombre'] = $nombreEntra . '. ' . $el->jugador1->primer_apellido;
+			$nombreSale = mb_substr($el->jugador2->primer_nombre,0,1);
+			$s['sale_nombre'] = $nombreSale . '. ' .$el->jugador2->primer_apellido;
+			$s['minuto'] = $el->minuto;
+			$sustitucionesLocal[] = $s;
+		}
+
+		foreach($eventosVisita as $ev)
+		{
+			mb_internal_encoding("UTF-8");
+			$nombreEntra = mb_substr($ev->jugador1->primer_nombre,0,1);
+			$s['entra_nombre'] = $nombreEntra . '. ' . $ev->jugador1->primer_apellido;
+			$nombreSale = mb_substr($ev->jugador2->primer_nombre,0,1);
+			$s['sale_nombre'] = $nombreSale . '. ' .$ev->jugador2->primer_apellido;
+			$s['minuto'] = $ev->minuto;
+			$sustitucionesVisita[] = $s;
+		}
+
+		$data['sustitucionesLocal'] = $sustitucionesLocal;
+		$data['sustitucionesVisita'] = $sustitucionesVisita;
+
+		$p = new \App\App\Entities\Partido;
+		$p->id = $partido->id;
+		$p->equipoLocal = $partido->equipoLocal->nombre;
+		$p->equipoVisita = $partido->equipoVisita->nombre;
+		$p->imagenLocal = $partido->equipoLocal->imagen;
+		$p->imagenVisita = $partido->equipoVisita->imagen;
+		$p->golesLocal = $partido->goles_local;
+		$p->golesVisita = $partido->goles_visita;
+		$partido->fecha = strtotime($partido->fecha);
+		$p->fecha = date('d/m',$partido->fecha);
+		$p->hora = date('H:ia',$partido->fecha);
+		$p->estadio = $partido->estadio->nombre;
+		$p->estado = $partido->estado->nombre;
+
+		$data['partido'] = $p;
+		
+		return json_encode($data);
+	}
+
+	public function acumulada($ligaId, $campeonatoId)
+	{
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
+		if(count($ta) > 0)
+		{
+			$partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, 2, [2,3]);
+			$partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, 2, [2,3]);
+			$partidos = $partidosC1->merge($partidosC2);
+			$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+		}
+		else
+		{
+			$partidos = $this->partidoRepo->getByCampeonatoByFase($campeonato->id, 2);
+			$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+		}
+		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+		return json_encode($posiciones);
+	}
+
+	public function campeonatosApp()
+	{
+		$campeonatosDB = $this->campeonatoRepo->getMostrarApp();
+		$campeonatos = array();
+		/*foreach($campeonatosDB as $c)
+		{
+			$campeonato[$c->liga_id]['id'] = $c->liga_id;
+			$campeonato[$c->liga_id]['nombre'] = $c->liga->nombre;
+			$campeonato[$c->liga_id][] = $c;
+			$campeonatos[] = $campeonato;
+		}*/
+
+
+		$ligas = array();
+		$i = 0;
+		$liga = '';
+		$campeonatosByLiga = array();
+		$newkey = 0;
+		foreach($campeonatosDB as $campeonato){
+
+			if($liga == '')
+			{
+				$campeonatosByLiga[] = $campeonato;
+				$liga = $campeonato->liga;
+			}
+			else
+			{
+				if($liga != $campeonato->liga){
+					$ligas[$i]['liga'] = $liga;
+					$ligas[$i]['campeonatos'] = $campeonatosByLiga;
+					$i++;
+					$liga = $campeonato->liga;
+					$campeonatosByLiga = array();
+					$campeonatosByLiga[] = $campeonato;
+				}
+				else
+				{
+					$liga = $campeonato->liga;
+					$campeonatosByLiga[] = $campeonato;
+				}
+			}
+		}
+		$ligas[$i]['liga'] = $liga;
+		$ligas[$i]['campeonatos'] = $campeonatosByLiga;
+		return json_encode($ligas);
+	}
+
+	function getFecha($extraDays){
+		$fecha = date('Y-m-d');
+		$nuevafecha = strtotime ( $extraDays , strtotime ( $fecha ) ) ;
+		$nuevafecha = date ( 'Y-m-d' , $nuevafecha );
+		return $nuevafecha;
+	}
+
+
+}

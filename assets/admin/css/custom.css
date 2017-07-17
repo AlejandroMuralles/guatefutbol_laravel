@@ -1,0 +1,86 @@
+/*Select2*/
+.select2-container--default .select2-selection--single {
+	display: block !important;
+    width: 100% !important;
+    height: 34px !important;
+    padding: 6px 12px !important;
+    font-size: 14px !important;
+    border-radius: initial !important;
+    border: 1px solid #d2d6de;
+}
+
+.has-error+.select2>.selection>.select2-selection--single{
+	border: 3px solid red !important;
+    display: block !important;
+}
+
+/*Tables*/
+div.table-responsive {
+	/*overflow-x: hidden !important;*/
+}
+tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+tfoot.search {
+    display: table-header-group;
+}
+
+.table-striped tbody tr:nth-child(even) {background: #3c8dbc !important; color: white !important; }
+.table-striped tbody tr:nth-child(odd) {background: #FFF !important}
+.table-striped thead tr { 
+	background-color: #222d32 !important;
+	color: white !important;
+}
+.table-bordered thead tr th {
+	text-align: center !important; 
+    background-color: #3c8dbc;
+    color: #fff;
+}
+.table-bordered tbody tr td {
+    text-align: center !important;
+}
+
+@media screen and (max-width: 767px){
+    .table-responsive {
+        border: none;
+    }
+    div.container{
+        padding: 0px;
+    }
+    section.content{
+        padding: 15px 0;
+    }
+}
+
+/* OTROS */
+.square{
+	padding: 4px !important;	
+}
+
+.has-error{
+	border: 3px solid red !important;
+}
+
+/*MENUS*/
+/*.dropdown-menu>li>a {
+    font-size: 16px;
+    color: #fff;
+}
+.dropdown-menu>li>a:hover {
+    background-color: #e1e3e9;
+    color: #333;
+}
+.navbar-nav>li>.dropdown-menu {
+    background-color: #3c8dbc;
+}
+.dropdown-menu {
+    border-color: #3c8dbc;
+}
+@media (min-width: 768px){
+    
+    .navbar-nav>li {
+        font-size: 18px;
+    }
+}*/
