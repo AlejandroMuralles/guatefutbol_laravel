@@ -280,7 +280,7 @@ class PublicController extends BaseController {
 
 	public function miniPosiciones($ligaId, $campeonatoId)
 	{
-		$campeonatos = $this->campeonatoRepo->getListCampeonatosPublicados($ligaId);
+		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 		if($campeonatoId == 0)
 		{
 			$campeonato = $this->campeonatoRepo->getActual($ligaId);
@@ -290,7 +290,7 @@ class PublicController extends BaseController {
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
 		$configuracion = $this->configuracionRepo->find(5);
-		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, 2, [2,3]);
+		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
 		return View::make('publico/mini_posiciones', compact('campeonato','ligaId','campeonatos','configuracion','posiciones'));
@@ -298,7 +298,7 @@ class PublicController extends BaseController {
 
 	public function jsonMiniPosiciones($ligaId, $campeonatoId)
 	{
-		$campeonatos = $this->campeonatoRepo->getListCampeonatosPublicados($ligaId);
+		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 		if($campeonatoId == 0)
 		{
 			$campeonato = $this->campeonatoRepo->getActual($ligaId);
@@ -307,7 +307,7 @@ class PublicController extends BaseController {
 		{
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
-		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, 2, [2,3]);
+		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
 		return json_encode($posiciones);
@@ -315,7 +315,7 @@ class PublicController extends BaseController {
 
 	public function miniCalendario($ligaId, $campeonatoId, $completo)
 	{
-		$campeonatos = $this->campeonatoRepo->getListCampeonatosPublicados($ligaId);
+		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 		if($campeonatoId == 0)
 		{
 			$campeonato = $this->campeonatoRepo->getActual($ligaId);
@@ -357,7 +357,7 @@ class PublicController extends BaseController {
 
 	public function jsonMiniCalendario($ligaId, $campeonatoId, $completo)
 	{
-		$campeonatos = $this->campeonatoRepo->getListCampeonatosPublicados($ligaId);
+		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 		if($campeonatoId == 0)
 		{
 			$campeonato = $this->campeonatoRepo->getActual($ligaId);

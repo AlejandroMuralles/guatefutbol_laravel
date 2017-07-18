@@ -31,12 +31,6 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Configuracion/editar/{id}', ['as' => 'editar_configuracion', 'uses' => 'ConfiguracionController@mostrarEditar']);
 	Route::post('Configuracion/editar/{id}', ['as' => 'editar_configuracion', 'uses' => 'ConfiguracionController@editar']);
 
-	Route::get('Rol/listado', ['as' => 'roles', 'uses' => 'RolController@listado']);
-	Route::get('Rol/agregar', ['as' => 'agregar_rol', 'uses' => 'RolController@mostrarAgregar']);
-	Route::post('Rol/agregar', ['as' => 'agregar_rol', 'uses' => 'RolController@agregar']);
-	Route::get('Rol/editar/{id}', ['as' => 'editar_rol', 'uses' => 'RolController@mostrarEditar']);
-	Route::post('Rol/editar/{id}', ['as' => 'editar_rol', 'uses' => 'RolController@editar']);
-
 	Route::get('Departamento/listado', ['as' => 'departamentos', 'uses' => 'DepartamentoController@listado']);
 	Route::get('Departamento/agregar', ['as' => 'agregar_departamento', 'uses' => 'DepartamentoController@mostrarAgregar']);
 	Route::post('Departamento/agregar', ['as' => 'agregar_departamento', 'uses' => 'DepartamentoController@agregar']);

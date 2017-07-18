@@ -54,7 +54,7 @@
 					<tr ng-repeat="posicion in posiciones">
 						<td class="text-center"><% posicion.POS %> </td>
 						<td>
-							<img ng-src="{{asset('assets/imagenes/equipos')}}/<% posicion.equipo.imagen %>" width="15px"> 
+							<img ng-src="<% posicion.equipo.logo %>" width="15px"> 
 							<% posicion.equipo.nombre %> 
 						</td>
 						<td class="text-center"><% posicion.PTS %> </td>

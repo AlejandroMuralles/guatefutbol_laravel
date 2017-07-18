@@ -41,7 +41,7 @@ class RestController extends BaseController {
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo, 
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
-		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, plantillaRepo $PlantillaRepo,
+		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, PlantillaRepo $plantillaRepo,
 		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
@@ -91,12 +91,10 @@ class RestController extends BaseController {
 		{
 			$p = new \App\App\Entities\Partido;
 			$p->id = $partido->id;
-			$p->equipoLocal = $partido->equipoLocal->nombre;
-			$p->equipoVisita = $partido->equipoVisita->nombre;
-			$p->rutaLocal = $partido->equipoLocal->imagen;
-			$p->rutaVisita = $partido->equipoVisita->imagen;
-			$p->golesLocal = $partido->goles_local;
-			$p->golesVisita = $partido->goles_visita;
+			$p->equipo_local = $partido->equipo_local;
+			$p->equipo_visita = $partido->equipo_visita;
+			$p->goles_local = $partido->goles_local;
+			$p->goles_visita = $partido->goles_visita;
 			$partido->fecha = strtotime($partido->fecha);
 			$p->fecha = date('d/m',$partido->fecha);
 			$p->hora = date('H:i',$partido->fecha);
@@ -131,12 +129,10 @@ class RestController extends BaseController {
 		{
 			$p = new \App\App\Entities\Partido;
 			$p->id = $partido->id;
-			$p->equipoLocal = $partido->equipoLocal->nombre;
-			$p->equipoVisita = $partido->equipoVisita->nombre;
-			$p->rutaLocal = $partido->equipoLocal->imagen;
-			$p->rutaVisita = $partido->equipoVisita->imagen;
-			$p->golesLocal = $partido->goles_local;
-			$p->golesVisita = $partido->goles_visita;
+			$p->equipo_local = $partido->equipo_local;
+			$p->equipo_visita = $partido->equipo_visita;
+			$p->goles_local = $partido->goles_local;
+			$p->goles_visita = $partido->goles_visita;
 			$partido->fecha = strtotime($partido->fecha);
 			$p->fecha = date('d/m',$partido->fecha);
 			$p->hora = date('H:i',$partido->fecha);
@@ -159,7 +155,7 @@ class RestController extends BaseController {
 		{
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
-		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, 2, [2,3]);
+		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
 

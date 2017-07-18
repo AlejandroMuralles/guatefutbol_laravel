@@ -17,7 +17,7 @@
 				</div>
 				<div class="soccer-recent-result-item">
 					<div class="soccer-recent-result-list" style="width: 36%; padding-left: 3px">
-						<img src="{{asset('assets/imagenes/equipos/')}}/{{ $partido->equipoLocal->imagen }}"> {{ $partido->equipoLocal->nombre }}
+						<img src="{{ $partido->equipo_local->logo }}"> {{ $partido->equipo_local->nombre }}
 					</div>
 					@if(!is_null($partido->goles_local))
 					<div class="text-center soccer-recent-result-list" style="width: 25%">
@@ -29,7 +29,7 @@
 					</div>
 					@endif
 					<div class="text-center soccer-recent-result-list" style="width: 36%">
-						{{ $partido->equipoVisita->nombre }} <img src="{{asset('assets/imagenes/equipos/')}}/{{ $partido->equipoVisita->imagen }}">
+						{{ $partido->equipo_visita->nombre }} <img src="{{ $partido->equipo_visita->logo }}">
 					</div>
 				</div>
 			</div> 

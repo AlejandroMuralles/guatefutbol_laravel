@@ -20,7 +20,7 @@
 				</div>
 				<div class="soccer-recent-result-item">
 					<div class="soccer-recent-result-list" style="width: 36%; padding-left: 3px">
-						<img ng-src="{{asset('assets/imagenes/equipos/')}}/<% partido.imagenLocal %>"> <% partido.equipolocal %>
+						<img ng-src="<% partido.imagenLocal %>"> <% partido.equipolocal %>
 					</div>
 					<div class="text-center soccer-recent-result-list" ng-hide="partido.golesLocal==null" style="width: 25%">
 						<span class="goal"><% partido.golesLocal %></span> - <span class="goal"><% partido.golesVisita %></span>
@@ -29,7 +29,7 @@
 						-
 					</div>
 					<div class="text-center soccer-recent-result-list" style="width: 36%">
-						<% partido.equipovisita %> <img ng-src="{{asset('assets/imagenes/equipos/')}}/<% partido.imagenVisita %>">
+						<% partido.equipovisita %> <img ng-src="<% partido.imagenVisita %>">
 					</div>
 				</div>
 			</div> 
