@@ -154,7 +154,7 @@ class EventoPartidoRepo extends BaseRepo{
 								->orderBy('minuto')->get();
 	}
 
-	public function getListJugadoresEnCampo($partidoId, $equipoId)
+	public function getJugadoresEnCampo($partidoId, $equipoId)
 	{
 		$jugadoresExpulsados = \DB::table('evento_partido')
 									->where('evento_id','=',11)
@@ -172,14 +172,16 @@ class EventoPartidoRepo extends BaseRepo{
 									->whereNotIn('persona_id',$jugadoresExpulsados)
 									->whereNotIn('persona_id',$jugadoresSalieronDeCambio)
 									->where('minutos_jugados','!=',0)->pluck('persona_id');
+		
 		$personas = Persona::whereIn('id', $alineacion)
-    			->select('id',\DB::raw("CONCAT(primer_apellido,' ',segundo_apellido,' ',primer_nombre,' ',segundo_nombre) as nombre"))
-    			->orderBy('nombre')
-    			->pluck('nombre','id');
+				->orderBy('primer_nombre')
+    			->orderBy('segundo_nombre')
+    			->orderBy('primer_apellido')
+    			->orderBy('segundo_apellido')->get();
     	return $personas;
 	}
 
-	public function getListJugadoresEnBanca($partidoId, $equipoId)
+	public function getJugadoresEnBanca($partidoId, $equipoId)
 	{
 		$jugadoresExpulsados = \DB::table('evento_partido')
 									->where('evento_id','=',11)
@@ -201,9 +203,10 @@ class EventoPartidoRepo extends BaseRepo{
 									->pluck('persona_id');
 
 		$personas = Persona::whereIn('id', $alineacion)
-    			->select('id',\DB::raw("CONCAT(primer_apellido,' ',segundo_apellido,' ',primer_nombre,' ',segundo_nombre) as nombre"))
-    			->orderBy('nombre')
-    			->pluck('nombre','id');
+    			->orderBy('primer_nombre')
+    			->orderBy('segundo_nombre')
+    			->orderBy('primer_apellido')
+    			->orderBy('segundo_apellido')->get();
     	
     	return $personas;
 		

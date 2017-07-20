@@ -12,7 +12,7 @@
 	<a href="{{route('agregar_usuario')}}" class="btn bg-navy btn-flat">Agregar</a>
 	<hr>
 	<div class="table-respondive">
-		<table class="table table-bordered">
+		<table id="tabla" class="table table-bordered">
 			<thead>
 				<tr>
 					<th>USERNAME</th>
@@ -44,7 +44,7 @@
 <script src="{{ asset('assets/admin/plugins/datatables/dataTables.bootstrap.js') }}"></script>
 <script>
 	$(document).ready(function() {
-   		$('table').dataTable({
+   		$('#table').dataTable({
    			"bSort" : true
    		});
 	});

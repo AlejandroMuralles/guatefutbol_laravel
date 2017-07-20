@@ -11,7 +11,7 @@
 <div class="table-responsive">
 	<a href="{{route('agregar_campeonato',$liga->id)}}" class="btn bg-navy btn-flat">Agregar</a>
 	<hr>
-	<table class="table table-bordered">
+	<table id="tabla" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>NOMBRE</th>
@@ -73,7 +73,7 @@
 <script src="{{ asset('assets/admin/plugins/datatables/dataTables.bootstrap.js') }}"></script>
 <script>
 	$(document).ready(function() {
-   		$('table').dataTable({
+   		$('#table').dataTable({
    			"bSort" : false
    		});
 	});

@@ -16,7 +16,7 @@
 	
 
 <div class="table-responsive">
-	<table class="table table-bordered">
+	<table id="tabla" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>FECHA</th>

@@ -80,10 +80,10 @@ class AlineacionController extends BaseController {
 	{
 		$partido = $this->partidoRepo->find($partidoId);
 		if($partido->equipo_local_id == $equipoId){
-			$equipo = $partido->equipoLocal;
+			$equipo = $partido->equipo_local;
 		}
 		else{
-			$equipo = $partido->equipoVisita;
+			$equipo = $partido->equipo_visita;
 		}
 		$alineacion = $this->alineacionRepo->getAlineacion($partidoId, $equipoId);
 		return view('administracion/EventoPartido/editar_minutos', compact('alineacion','partidoId','equipoId','eventoId', 'equipo','partido'));

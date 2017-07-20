@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('title') Editar Minutos Jugados - {{$equipo->nombre}} @stop
 @section('css')
 <link href="{{asset('assets/admin/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">

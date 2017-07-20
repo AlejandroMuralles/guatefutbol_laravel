@@ -79,8 +79,8 @@ class EventoPartidoController extends BaseController {
 		{			
 			if($eventoId == 9)
 			{
-				$jugadores = $this->eventoPartidoRepo->getListJugadoresEnCampo($partidoId, $equipoId);
-				$jugadoresBanca = $this->eventoPartidoRepo->getListJugadoresEnBanca($partidoId, $equipoId)->toArray();
+				$jugadores = $this->eventoPartidoRepo->getJugadoresEnCampo($partidoId, $equipoId)->pluck('nombreCompletoApellidos','id')->toArray();;
+				$jugadoresBanca = $this->eventoPartidoRepo->getJugadoresEnBanca($partidoId, $equipoId)->pluck('nombreCompletoApellidos','id')->toArray();
 			}
 			else
 			{
@@ -92,7 +92,6 @@ class EventoPartidoController extends BaseController {
 			}
 		}
 		if($eventoId == 6 || $eventoId == 7) $twitterChecked = true;
-		//dd($twitterChecked);
 
 		return view('administracion/EventoPartido/agregar_persona', compact('partido','partidoId','jugadores','evento','equipo','equipoId',
 			'imagenes','jugadoresBanca', 'jugadoresContrarios', 'twitterChecked'));

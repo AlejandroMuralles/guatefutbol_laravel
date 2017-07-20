@@ -15,7 +15,7 @@
 </h2>
 <div class="table-responsive">
 	<hr>
-	<table class="table table-bordered">
+	<table id="tabla" class="table table-bordered">
 		<thead>
 			<tr>
 				<th>EVENTO</th>
