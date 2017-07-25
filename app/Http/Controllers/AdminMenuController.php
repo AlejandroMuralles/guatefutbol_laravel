@@ -19,6 +19,7 @@ class AdminMenuController {
 		$menu->push((object)['title' => 'Configuracion', 'url' => route('configuraciones'), 'class' => '' ,'icon' => 'fa fa-location-arrow']);
 		$menu->push((object)['title' => 'Estadios', 'url' => route('estadios'), 'class' => '' ,'icon' => 'fa fa-location-arrow']);
 		$menu->push((object)['title' => 'Equipos', 'url' => route('equipos'), 'class' => '' ,'icon' => 'fa fa-users']);
+		$menu->push((object)['title' => 'Eventos', 'url' => route('eventos'), 'class' => '' ,'icon' => 'fa fa-users']);
 		$menu->push((object)['title' => 'Ligas', 'url' => route('ligas'), 'class' => '' ,'icon' => 'fa fa-users']);
 		$menu->push((object)['title' => 'Historial Campeon', 'url' => route('historial_campeones'), 'class' => '' ,'icon' => 'fa fa-users']);
 		$menu->push((object)['title' => 'Personas', 'url' => route('personas'), 'class' => '' ,'icon' => 'fa fa-users']);

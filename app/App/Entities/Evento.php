@@ -10,4 +10,11 @@ class Evento extends \Eloquent {
 
 	protected $table = 'evento';
 
+	public function getImagenAttribute($imagen)
+    {
+    	if(!is_null($imagen))
+    		return \Storage::disk('public')->url($imagen);
+    	return null;
+    }
+
 }

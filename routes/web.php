@@ -49,6 +49,10 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Equipo/editar/{id}', ['as' => 'editar_equipo', 'uses' => 'EquipoController@mostrarEditar']);
 	Route::post('Equipo/editar/{id}', ['as' => 'editar_equipo', 'uses' => 'EquipoController@editar']);
 
+	Route::get('Evento/listado', ['as' => 'eventos', 'uses' => 'EventoController@listado']);
+	Route::get('Evento/editar/{evento}', ['as' => 'editar_evento', 'uses' => 'EventoController@mostrarEditar']);
+	Route::post('Evento/editar/{evento}', ['as' => 'editar_evento', 'uses' => 'EventoController@editar']);
+
 	Route::get('Liga/listado', ['as' => 'ligas', 'uses' => 'LigaController@listado']);
 	Route::get('Liga/agregar', ['as' => 'agregar_liga', 'uses' => 'LigaController@mostrarAgregar']);
 	Route::post('Liga/agregar', ['as' => 'agregar_liga', 'uses' => 'LigaController@agregar']);

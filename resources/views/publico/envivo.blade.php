@@ -63,7 +63,7 @@
 								@foreach($eventos as $evento)
 									<tr @if($evento->evento->id == 6 || $evento->evento->id == 7) style="background-color: #9FF19F" @endif>
 										<td style="width: 40px">{{$evento->minuto}}'</td>
-										<td style="width: 40px; text-align: center"><img src="{{$evento->imagen}}" height="25px"></td>
+										<td style="width: 40px; text-align: center"><img src="{{$evento->evento->imagen}}" height="25px"></td>
 										<td>{{$evento->comentario}}</td>
 									</tr>
 								@endforeach
