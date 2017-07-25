@@ -202,6 +202,7 @@ class PartidoRepo extends BaseRepo{
 						->with('equipo_local')
 						->with('equipo_visita')
 						->with('campeonato')
+						->with('estadio')
 						->with('campeonato.liga')
 						->orderBy('fecha')
 						->get();
