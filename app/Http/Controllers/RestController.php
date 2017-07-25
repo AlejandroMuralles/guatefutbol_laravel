@@ -296,12 +296,7 @@ class RestController extends BaseController {
 		$c->nombre = $campeonato->nombre;
 		$data['campeonato'] = $c;
 
-
-		$e = new \App\App\Entities\Equipo;
-		$e->id = $equipo->id;
-		$e->nombre = $equipo->nombre;
-		$e->imagen = $equipo->logo;
-		$data['equipo'] = $e;
+		$data['equipo'] = $equipo;
 
 
 		return json_encode($data);
@@ -321,10 +316,7 @@ class RestController extends BaseController {
 		$equipos = array();
 		foreach($campeonatoEquipos as $ce)
 		{
-			$e['id'] = $ce->id;
-			$e['nombre'] = $ce->nombre;
-			$e['imagen'] = $ce->logo;
-			$equipos[] = $e;
+			$equipos[] = $ce;
 		}
 		$data['equipos']  = $equipos;
 		
