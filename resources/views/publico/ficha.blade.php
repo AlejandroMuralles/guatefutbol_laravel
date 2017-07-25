@@ -52,7 +52,12 @@
 						</tr>
 						<tr>
 							<td style="font-weight: bold; padding: 5px" class="bg-primary">Árbitro: &nbsp;&nbsp;</td>
-							<td style="padding: 5px; background-color: #B7E3F9">@if($partido->arbitroCental) {{$partido->arbitroCental->nombreCompleto}} @endif </td>
+							<td style="padding: 5px; background-color: #B7E3F9">
+
+								@if(!is_null($partido->arbitro_central))
+									{{$partido->arbitro_central->nombre_completo}} 
+								@endif
+							</td>
 						</tr>
 					</table>
 				</center>
