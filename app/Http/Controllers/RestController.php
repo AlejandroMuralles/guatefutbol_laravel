@@ -218,7 +218,7 @@ class RestController extends BaseController {
 
 		foreach($porteros as $portero)
 		{
-			dd(\Storage::disk('public')->url($portero->imagen_equipo));
+			$portero->imagen_equipo = \Storage::disk('public')->url($portero->imagen_equipo);
 		}
 
 		$data['porteros'] = $porteros;
