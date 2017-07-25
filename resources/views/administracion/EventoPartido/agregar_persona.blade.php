@@ -15,12 +15,12 @@
 			{!! Field::select('jugador_entra',$jugadoresBanca, null, ['data-required'=>'true']) !!}
 			{!! Field::select('jugador_sale',$jugadores, null, ['data-required'=>'true']) !!}
 		@else
-			{!! Field::select('jugador1_id',$jugadores, null, ['data-required'=>'true']) !!}
-
 			@if($evento->id == 6 || $evento->id == 7 || $evento->id == 8)
-				{!! Field::select('portero_encaja_gol',$jugadoresContrarios, null, ['data-required'=>'true']) !!}			
+				{!! Field::select('jugador1_id',$jugadores, null, ['data-required'=>'false']) !!}
+				{!! Field::select('portero_encaja_gol',$jugadoresContrarios, null, ['data-required'=>'false']) !!}
+			@else
+				{!! Field::select('jugador1_id',$jugadores, null, ['data-required'=>'true']) !!}
 			@endif
-
 		@endif
 
 		@if($evento->id == 11)

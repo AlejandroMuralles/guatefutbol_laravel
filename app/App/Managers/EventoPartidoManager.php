@@ -280,7 +280,11 @@ class EventoPartidoManager extends BaseManager
 
 	function agregarPersona($partido,$equipoId)
 	{
-		$rules = $this->getRulesPersona();
+		if($this->data['evento_id'] == 6 || $this->data['evento_id'] == 7 || $this->data['evento_id'] == 8)
+			$rules = $this->getRules();
+		else
+			$rules = $this->getRulesPersona();
+
 		$validation = \Validator::make($this->data, $rules);
 		if ($validation->fails())
         {
@@ -375,7 +379,7 @@ class EventoPartidoManager extends BaseManager
 				//Si es gol o autogol, es necesario publicar imagen.
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
-					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->imagen;
+					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
 					//dd($imagen); 
 					$this->postImageFacebook($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 				}
@@ -387,7 +391,7 @@ class EventoPartidoManager extends BaseManager
 			if(isset($this->data['twitter'])){
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
-					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->imagen;
+					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
 					//$this->postTwitter($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 					$this->postImageTwitter($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 				}
@@ -474,30 +478,36 @@ class EventoPartidoManager extends BaseManager
 		if($eventoId == 6 || $eventoId == 8)
 		{
 			$equipo = $this->getEquipo($partido, $equipoId);
-			return '¡GOOOL! de ' .$equipo->nombre . '. Anota ' . $jugador->nombreCompleto . '. ' . $this->getResultado($partido);
+			if(!is_null($jugador))
+				return '¡GOOOL! de ' .$equipo->nombre . '. Anota ' . $jugador->nombre_completo . '. ' . $this->getResultado($partido);
+
+			return '¡GOOOL! de ' .$equipo->nombre . '. ' . $this->getResultado($partido);
 		}
 		if($eventoId == 7)
 		{
 			$equipo = $this->getEquipo($partido, $equipoId);
-			return '¡GOOOL! de ' .$equipo->nombre . '. Anota en propia puerta ' . $jugador->nombreCompleto . '. ' . $this->getResultado($partido);
+			if(!is_null($jugador))
+				return '¡GOOOL! de ' .$equipo->nombre . '. Anota en propia puerta ' . $jugador->nombre_completo . '. ' . $this->getResultado($partido);
+
+			return '¡GOOOL! de ' .$equipo->nombre . '. ' . $this->getResultado($partido);
 		}
 		if($eventoId == 9)
 		{
 			$equipo = $this->getEquipo($partido, $equipoId);
-			return 'CAMBIO en '.$equipo->nombre. '. Sale ' . $jugador2->nombreCompleto . ' y entra ' . $jugador->nombreCompleto . '. ';
+			return 'CAMBIO en '.$equipo->nombre. '. Sale ' . $jugador2->nombre_completo . ' y entra ' . $jugador->nombre_completo . '. ';
 		}
 		if($eventoId == 10)
 		{
 			$equipo = $this->getEquipo($partido, $equipoId);
-			return 'AMARILLA para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombreCompleto;
+			return 'AMARILLA para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombre_completo;
 		}
 		if($eventoId == 11)
 		{
 			$equipo = $this->getEquipo($partido, $equipoId);
 			if($this->entity->doble_amarilla){
-				return 'ROJA por doble amonestación para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombreCompleto;
+				return 'ROJA por doble amonestación para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombre_completo;
 			}
-			return 'ROJA para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombreCompleto;
+			return 'ROJA para el jugador de ' . $equipo->nombre . ' ' . $jugador->nombre_completo;
 		}
 		if($eventoId == 12)
 		{
@@ -505,7 +515,9 @@ class EventoPartidoManager extends BaseManager
 		}
 		if($eventoId == 20)
 		{
-			return 'Gol encajado al portero ' . $jugador->nombreCompleto;
+			if($jugador)
+				return 'Gol encajado al portero ' . $jugador->nombre_completo;
+			return 'Gol encajado';
 		}
 	}
 
