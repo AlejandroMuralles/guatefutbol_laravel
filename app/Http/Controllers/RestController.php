@@ -359,6 +359,7 @@ class RestController extends BaseController {
 
 		$jornadas = array();
 		foreach($partidos as $partido){
+
 			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada->nombre;
 			
 			$p = new \App\App\Entities\Partido;
@@ -594,8 +595,8 @@ class RestController extends BaseController {
 		$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
 		if(count($ta) > 0)
 		{
-			$partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, 2, [2,3]);
-			$partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, 2, [2,3]);
+			$partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
+			$partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
 			$partidos = $partidosC1->merge($partidosC2);
 			$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 		}
