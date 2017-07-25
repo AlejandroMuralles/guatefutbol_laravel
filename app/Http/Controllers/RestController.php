@@ -215,6 +215,12 @@ class RestController extends BaseController {
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
 		$porteros = $this->porteroRepo->getPorteros($campeonato->id);
+
+		foreach($porteros as $portero)
+		{
+			dd(\Storage::disk('public')->url($portero->imagen_equipo));
+		}
+
 		$data['porteros'] = $porteros;
 
 		$c = new \App\App\Entities\Campeonato;
