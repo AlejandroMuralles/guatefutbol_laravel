@@ -38,14 +38,14 @@ return [
     'facebook' => [
         'client_id'     => env('FB_API_KEY'),
         'client_secret' => env('FB_API_SECRET'),
-        'redirect'      => 'http://guatefutbol.net/guatefutbol/account/facebook',
+        'redirect'      => 'http://gfs.guatefutbol.com/guatefutbol/account/facebook',
         //'redirect'      => 'http://localhost/sistemas/guatefutbol/account/facebook',
     ],
 
     'twitter' => [
         'client_id'     => env('TWITTER_CONSUMER_KEY'),
         'client_secret' => env('TWITTER_CONSUMER_SECRET'),
-        'redirect'      => 'http://guatefutbol.net/guatefutbol/account/twitter',
+        'redirect'      => 'http://gfs.guatefutbol.com/guatefutbol/account/twitter',
         //'redirect'      => 'http://localhost/sistemas/guatefutbol/account/twitter',
     ],
 
