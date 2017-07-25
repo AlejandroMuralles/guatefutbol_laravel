@@ -2152,3 +2152,8 @@ div.menu a:hover {
 .tanteo-visit { float: right; }
 .tanteo-local { float: left; }
 .tanteo-time { font: 15px/68px 'sourceblack', arial, helvetica; }
+
+@media(max-width:768px) {
+    .dir-result .eq-local, .dir-result .eq-visit { width: 30%; float: left; }
+    .dir-result .marcador { width: 40%; margin:0 auto; text-align: center; float: left; }
+}

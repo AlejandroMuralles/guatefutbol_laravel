@@ -19,7 +19,7 @@
 		</div>
 		<div class="marcador cf">
 			<span class="tanteo-local">{{$partido->goles_local}}</span>
-			<span class="tanteo-time"> {{$partido->tiempo}} </span>
+			<span class="tanteo-time" id="tiempoPartido"></span>
 			<span class="tanteo-visit">{{$partido->goles_visita}}</span>
 			@if(!is_null($partido->descripcion_penales)) <span class="tanteo-visit">({{$partido->descripcion_penales}})</span> @endif
 		</div>
@@ -104,6 +104,44 @@
         	window.location.reload();
         }
     } 
+</script>
+
+<script> 
+
+	var minuto = 0;
+	var segundo = 0;
+	var tiempoPartido = '';
+
+    function mueveReloj(){
+    	segundo = segundo + 1;
+    	if(segundo == 60){
+    		minuto = minuto + 1;
+    		segundo = 0;
+    	}
+    	txtSeg = segundo;
+    	txtMin = minuto;
+        if(txtSeg<10) txtSeg = "0"+txtSeg;
+        if(txtMin<10) txtMin = "0"+txtMin;
+
+        tiempoPartido = txtMin + " : " + txtSeg; 
+
+        $('#tiempoPartido').text(tiempoPartido);
+
+        setTimeout("mueveReloj()",1000) 
+    } 
+
+    $(document).ready(function()
+    {
+    	tiempoPartido = '{{$partido->tiempo}}';
+    	if(!tiempoPartido.includes(":")){
+       		$('#tiempoPartido').text(tiempoPartido);
+       		return ;
+       	}
+       	tiempoPartido = tiempoPartido.split(":");
+        minuto = parseInt(tiempoPartido[0]);
+        segundo = parseInt(tiempoPartido[1]);
+        mueveReloj();
+    });
 </script>
 
 @stop

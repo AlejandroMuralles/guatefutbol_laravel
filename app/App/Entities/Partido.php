@@ -63,7 +63,8 @@ class Partido extends \Eloquent {
 		}
 		elseif($this->estado_tiempo == 'FPT')
 		{
-			$minutos = 45; $segundos = 0;
+			return $this->estado_tiempo;
+			//$minutos = 45; $segundos = 0;
 		}
 		elseif($this->estado_tiempo == 'ST')
 		{
@@ -75,7 +76,8 @@ class Partido extends \Eloquent {
 		}
 		elseif($this->estado_tiempo == 'FPTE')
 		{
-			$minutos = 105; $segundos = 0;
+			return $this->estado_tiempo;
+			//$minutos = 105; $segundos = 0;
 		}
 		elseif($this->estado_tiempo == 'STE')
 		{
@@ -85,7 +87,7 @@ class Partido extends \Eloquent {
 			return $this->estado_tiempo;
 		}
 		$segundos = str_pad($segundos, 2, '0', STR_PAD_LEFT);
-		return $minutos . '\'';// . ':' . $segundos;
+		return $minutos . ':' . $segundos;
 	}
 
 }

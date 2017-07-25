@@ -55,7 +55,7 @@ class EquipoManager extends BaseManager
 			}
 			else
 			{
-				$this->entity->logo = 'imagenes/equipos/nada.png';
+				$this->entity->logo = 'imagenes/equipos/equipo.png';
 				$this->entity->save();
 			}
 

@@ -1,6 +1,12 @@
 @extends('layouts.publico')
 
 @section('css')
+<style>
+	table.unbordered, .unbordered td, .unbordered th{
+		border: none !important;
+	}
+	table, td, th { border: 1px solid white !important; }
+</style>
 
 @if($configuracion->parametro3)
  <meta http-equiv="refresh" content="{{$configuracion->parametro1}};">
@@ -28,7 +34,51 @@
 			</div>
 		</div>
 		<br/><br/>
-		<div class="table-responsive">
+		<div class="row">
+			@foreach($jornadas as $jornada)
+			<div class="col-lg-4 col-md-6">
+				<div class="portlet portlet-default" style="margin-bottom: 15px !important">
+					<div class="portlet-heading">
+						<div class="portlet-title">
+							<h4>{{$jornada['jornada']->nombre}}</h4>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="portlet-body" style="padding-bottom: 0px !important">
+						<div class="table-responsive">
+							<table class="table table-responsive unbordered">
+								@foreach($jornada['partidos'] as $partido)
+								<tr>
+									<td class="text-right">
+										{{$partido->equipo_local->nombre}}
+										<img src="{{$partido->equipo_local->logo}}" height="25px" width="25px">
+									</td>
+									<td class="text-center default" style="color: white !important" width="80px">
+										<a href="{{route('ficha',$partido->id)}}" class="text-white" style="text-decoration: none; font-weight: bold" >
+											@if($partido->estado != 1)
+												{{$partido->goles_local}} - {{$partido->goles_visita}}
+											@else
+												<span style="font-size: 10px">
+												{{date('d-m',strtotime($partido->fecha))}} / 
+												{{date('H:i',strtotime($partido->fecha))}}
+												</span>
+											@endif
+										</a>
+									</td>
+									<td class="text-left">
+										<img src="{{$partido->equipo_visita->logo}}" height="25px" width="25px">
+										{{$partido->equipo_visita->nombre}}
+									</td>
+								</tr>
+								@endforeach
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			@endforeach
+		</div>
+		<!--<div class="table-responsive">
 			<table class="table watermark">
 				<thead>
 					<tr>
@@ -64,7 +114,7 @@
 					@endforeach
 				</tbody>
 			</table>
-		</div>
+		</div>-->
 	</div>
 </div>
 

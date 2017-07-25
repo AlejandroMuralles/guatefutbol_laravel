@@ -45,6 +45,7 @@ class PartidoRepo extends BaseRepo{
 						->with('jornada')
 						->with('equipo_local')
 						->with('equipo_visita')
+						->with('estadio')
 						->orderBy('fecha')
 						->get();
 		$partidos = $partidos->sortBy(function($partido){
@@ -190,6 +191,20 @@ class PartidoRepo extends BaseRepo{
 							->take(10)
 							->get();
 		return $personas;
+	}
+
+	public function getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin)
+	{
+		return Partido::whereBetween('fecha',[$fechaInicio,$fechaFin])
+						->whereHas('campeonato', function($q){
+							$q->where('mostrar_app',1);
+						})
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('campeonato')
+						->with('campeonato.liga')
+						->orderBy('fecha')
+						->get();
 	}
 
 	private function orderByJornada($partidoA, $partidoB)

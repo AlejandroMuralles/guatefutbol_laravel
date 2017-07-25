@@ -69,6 +69,43 @@ class RestController extends BaseController {
 		}
 	}
 
+	public function inicioLigas()
+	{
+		$configuracion = $this->configuracionRepo->find(1);
+		$diasInicio = $configuracion->parametro1;
+		$diasFin = $configuracion->parametro2;
+
+		$fechaInicio = $this->getFecha($diasInicio . ' day');
+		$fechaInicio = '2017-05-01';
+		$fechaFin = $this->getFecha($diasFin . ' day');
+		$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
+		
+		$configuracion = $this->configuracionRepo->find(2);
+		$data['configuracion'] = $configuracion;
+
+		foreach($partidos as $partido)
+		{
+			$p = new \App\App\Entities\Partido;
+			$p->id = $partido->id;
+			$p->equipo_local = $partido->equipo_local;
+			$p->equipo_visita = $partido->equipo_visita;
+			$p->goles_local = $partido->goles_local;
+			$p->goles_visita = $partido->goles_visita;
+			$partido->fecha = strtotime($partido->fecha);
+			$p->fecha = date('d/m',$partido->fecha);
+			$p->hora = date('H:i',$partido->fecha);
+			$p->estadio = $partido->estadio->nombre;
+			$p->estado = $partido->descripcion_estado;
+			$p->tiempo = $partido->tiempo;
+			$p->liga = $partido->campeonato->liga->nombre;
+			$p->campeonato = $partido->campeonato;
+
+			$data['partidos'][] = $p;
+		}
+
+		return json_encode($data);
+	}
+
 	public function inicio($ligaId)
 	{
 		$campeonato = $this->campeonatoRepo->getActual($ligaId);
@@ -257,7 +294,7 @@ class RestController extends BaseController {
 		$e = new \App\App\Entities\Equipo;
 		$e->id = $equipo->id;
 		$e->nombre = $equipo->nombre;
-		$e->imagen = $equipo->imagen;
+		$e->imagen = $equipo->logo;
 		$data['equipo'] = $e;
 
 
@@ -280,7 +317,7 @@ class RestController extends BaseController {
 		{
 			$e['id'] = $ce->id;
 			$e['nombre'] = $ce->nombre;
-			$e['imagen'] = $ce->imagen;
+			$e['imagen'] = $ce->logo;
 			$equipos[] = $e;
 		}
 		$data['equipos']  = $equipos;
@@ -321,26 +358,22 @@ class RestController extends BaseController {
 			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
 
 		$jornadas = array();
-		
 		foreach($partidos as $partido){
 			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada->nombre;
 			
 			$p = new \App\App\Entities\Partido;
 			$p->id = $partido->id;
-			$p->equipoLocal = $partido->equipoLocal->nombre;
-			$p->equipoVisita = $partido->equipoVisita->nombre;
-			$p->imagenLocal = $partido->equipoLocal->imagen;
-			$p->imagenVisita = $partido->equipoVisita->imagen;
-			$p->golesLocal = $partido->goles_local;
-			$p->golesVisita = $partido->goles_visita;
+			$p->equipo_local = $partido->equipo_local;
+			$p->equipo_visita = $partido->equipo_visita;
+			$p->goles_local = $partido->goles_local;
+			$p->goles_visita = $partido->goles_visita;
 			$p->fecha = date('d/m',strtotime($partido->fecha));
 			$p->hora = date('H:i',strtotime($partido->fecha));
 			$p->estadio = $partido->estadio->nombre;
-			$p->estado = $partido->estado->nombre;
+			$p->estado = $partido->descripcion_estado;
 
 			$jornadas[$partido->jornada_id]['partidos'][] = $p;	
 		}
-
 		//$data['jornadas'] = $jornadas;
 
 		$j = array();
@@ -389,14 +422,14 @@ class RestController extends BaseController {
 					mb_internal_encoding("UTF-8");				
 					$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
 					$es[$i]['nombre_local'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
-					$es[$i]['imagen_local'] = $evento->imagen->ruta;
+					$es[$i]['imagen_local'] = $evento->imagen;
 				}
 				else{
 					$es[$i]['minuto_visita'] = $evento->minuto;
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
 					$es[$i]['nombre_visita'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
-					$es[$i]['imagen_visita'] = $evento->imagen->ruta;
+					$es[$i]['imagen_visita'] = $evento->evento->imagen;
 				}
 				
 				$i++;
@@ -406,17 +439,15 @@ class RestController extends BaseController {
 
 		$p = new \App\App\Entities\Partido;
 		$p->id = $partido->id;
-		$p->equipoLocal = $partido->equipoLocal->nombre;
-		$p->equipoVisita = $partido->equipoVisita->nombre;
-		$p->golesLocal = $partido->goles_local;
-		$p->golesVisita = $partido->goles_visita;
-		$p->imagenLocal = $partido->equipoLocal->imagen;
-		$p->imagenVisita = $partido->equipoVisita->imagen;
+		$p->equipo_local = $partido->equipo_local;
+		$p->equipo_visita = $partido->equipo_visita;
+		$p->goles_gocal = $partido->goles_local;
+		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
-		$p->estado = $partido->estado->nombre;
+		$p->estado = $partido->descripcion_estado;
 
 		$data['partido'] = $p;
 
@@ -436,7 +467,7 @@ class RestController extends BaseController {
 			{
 				$es[$i]['comentario'] = $evento->comentario;
 				$es[$i]['minuto'] = $evento->minuto;
-				$es[$i]['imagen'] = $evento->imagen->ruta;
+				$es[$i]['imagen'] = $evento->evento->imagen;
 				$i++;
 			}
 		}
@@ -444,17 +475,15 @@ class RestController extends BaseController {
 
 		$p = new \App\App\Entities\Partido;
 		$p->id = $partido->id;
-		$p->equipoLocal = $partido->equipoLocal->nombre;
-		$p->equipoVisita = $partido->equipoVisita->nombre;
-		$p->golesLocal = $partido->goles_local;
-		$p->golesVisita = $partido->goles_visita;
-		$p->imagenLocal = $partido->equipoLocal->imagen;
-		$p->imagenVisita = $partido->equipoVisita->imagen;
+		$p->equipo_local = $partido->equipo_local;
+		$p->equipo_visita = $partido->equipo_visita;
+		$p->goles_local = $partido->goles_local;
+		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
-		$p->estado = $partido->estado->nombre;
+		$p->estado = $partido->descripcion_estado;
 
 		$data['partido'] = $p;
 		
@@ -537,17 +566,15 @@ class RestController extends BaseController {
 
 		$p = new \App\App\Entities\Partido;
 		$p->id = $partido->id;
-		$p->equipoLocal = $partido->equipoLocal->nombre;
-		$p->equipoVisita = $partido->equipoVisita->nombre;
-		$p->imagenLocal = $partido->equipoLocal->imagen;
-		$p->imagenVisita = $partido->equipoVisita->imagen;
-		$p->golesLocal = $partido->goles_local;
-		$p->golesVisita = $partido->goles_visita;
+		$p->equipo_local = $partido->equipo_local;
+		$p->equipo_visita = $partido->equipo_visita;
+		$p->goles_local = $partido->goles_local;
+		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
-		$p->estado = $partido->estado->nombre;
+		$p->estado = $partido->descripcion_estado;
 
 		$data['partido'] = $p;
 		

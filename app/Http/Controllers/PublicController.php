@@ -500,8 +500,8 @@ class PublicController extends BaseController {
 
 	public function partidosScroll()
 	{
-		$fechaInicio = '2017-07-15';
-		$fechaFin = '2017-07-30';
+		$fechaInicio = '2017-01-15';
+		$fechaFin = '2017-01-30';
 		$partidos = $this->partidoRepo->getBetweenFechas($fechaInicio, $fechaFin);
 		return View::make('publico/partidos_scroll',compact('partidos'));
 	}
