@@ -49,11 +49,11 @@
 							<table class="table table-responsive unbordered">
 								@foreach($jornada['partidos'] as $partido)
 								<tr>
-									<td class="text-right">
+									<td class="text-right" width="40%">
 										{{$partido->equipo_local->nombre}}
 										<img src="{{$partido->equipo_local->logo}}" height="25px" width="25px">
 									</td>
-									<td class="text-center default" style="color: white !important" width="80px">
+									<td class="text-center default" style="color: white !important" width="20%">
 										<a href="{{route('ficha',$partido->id)}}" class="text-white" style="text-decoration: none; font-weight: bold" >
 											@if($partido->estado != 1)
 												{{$partido->goles_local}} - {{$partido->goles_visita}}
@@ -65,7 +65,7 @@
 											@endif
 										</a>
 									</td>
-									<td class="text-left">
+									<td class="text-left" width="40%">
 										<img src="{{$partido->equipo_visita->logo}}" height="25px" width="25px">
 										{{$partido->equipo_visita->nombre}}
 									</td>
