@@ -87,3 +87,51 @@ FROM guatefut_sys.historial_campeon;
 INSERT INTO guatefut_gfsys.tabla_acumulada
 SELECT id,campeonato1_id, campeonato2_id,'A', created_at, updated_at, 'admin','admin'
 FROM guatefut_sys.tabla_acumulada;
+
+UPDATE equipo SET logo = 'imagenes/equipos/equipo.png';
+
+UPDATE equipo SET logo = 'imagenes/equipos/25.png' WHERE id = 25;
+UPDATE equipo SET logo = 'imagenes/equipos/26.png' WHERE id = 26;
+UPDATE equipo SET logo = 'imagenes/equipos/27.png' WHERE id = 27;
+UPDATE equipo SET logo = 'imagenes/equipos/28.gif' WHERE id = 28;
+UPDATE equipo SET logo = 'imagenes/equipos/29.png' WHERE id = 29;
+UPDATE equipo SET logo = 'imagenes/equipos/30.png' WHERE id = 30;
+UPDATE equipo SET logo = 'imagenes/equipos/31.png' WHERE id = 31;
+UPDATE equipo SET logo = 'imagenes/equipos/32.png' WHERE id = 32;
+UPDATE equipo SET logo = 'imagenes/equipos/33.png' WHERE id = 33;
+UPDATE equipo SET logo = 'imagenes/equipos/34.png' WHERE id = 34;
+UPDATE equipo SET logo = 'imagenes/equipos/35.png' WHERE id = 35;
+UPDATE equipo SET logo = 'imagenes/equipos/36.png' WHERE id = 36;
+UPDATE equipo SET logo = 'imagenes/equipos/37.png' WHERE id = 37;
+UPDATE equipo SET logo = 'imagenes/equipos/38.png' WHERE id = 38;
+UPDATE equipo SET logo = 'imagenes/equipos/39.png' WHERE id = 39;
+UPDATE equipo SET logo = 'imagenes/equipos/40.png' WHERE id = 40;
+UPDATE equipo SET logo = 'imagenes/equipos/42.png' WHERE id = 42;
+UPDATE equipo SET logo = 'imagenes/equipos/43.png' WHERE id = 43;
+UPDATE equipo SET logo = 'imagenes/equipos/44.png' WHERE id = 44;
+UPDATE equipo SET logo = 'imagenes/equipos/55.png' WHERE id = 55;
+UPDATE equipo SET logo = 'imagenes/equipos/56.png' WHERE id = 56;
+UPDATE equipo SET logo = 'imagenes/equipos/57.png' WHERE id = 57;
+UPDATE equipo SET logo = 'imagenes/equipos/58.png' WHERE id = 58;
+UPDATE equipo SET logo = 'imagenes/equipos/59.png' WHERE id = 59;
+UPDATE equipo SET logo = 'imagenes/equipos/60.png' WHERE id = 60;
+UPDATE equipo SET logo = 'imagenes/equipos/61.png' WHERE id = 61;
+UPDATE equipo SET logo = 'imagenes/equipos/62.png' WHERE id = 62;
+UPDATE equipo SET logo = 'imagenes/equipos/63.png' WHERE id = 63;
+UPDATE equipo SET logo = 'imagenes/equipos/64.png' WHERE id = 64;
+UPDATE equipo SET logo = 'imagenes/equipos/65.png' WHERE id = 65;
+UPDATE equipo SET logo = 'imagenes/equipos/68.png' WHERE id = 68;
+UPDATE equipo SET logo = 'imagenes/equipos/68.png' WHERE id = 68;
+UPDATE equipo SET logo = 'imagenes/equipos/70.png' WHERE id = 70;
+UPDATE equipo SET logo = 'imagenes/equipos/71.png' WHERE id = 71;
+UPDATE equipo SET logo = 'imagenes/equipos/72.png' WHERE id = 72;
+UPDATE equipo SET logo = 'imagenes/equipos/73.png' WHERE id = 73;
+UPDATE equipo SET logo = 'imagenes/equipos/74.png' WHERE id = 74;
+UPDATE equipo SET logo = 'imagenes/equipos/75.png' WHERE id = 75;
+UPDATE equipo SET logo = 'imagenes/equipos/76.png' WHERE id = 76;
+UPDATE equipo SET logo = 'imagenes/equipos/79.png' WHERE id = 79;
+UPDATE equipo SET logo = 'imagenes/equipos/80.png' WHERE id = 80;
+UPDATE equipo SET logo = 'imagenes/equipos/81.png' WHERE id = 81;
+UPDATE equipo SET logo = 'imagenes/equipos/82.png' WHERE id = 82;
+UPDATE equipo SET logo = 'imagenes/equipos/83.png' WHERE id = 83;
+
