@@ -132,6 +132,11 @@
 
     $(document).ready(function()
     {
+    	var estadoPartido = {{$partido->estado}};
+    	if(estadoPartido == 1){
+       		return ;
+    	}
+
     	tiempoPartido = '{{$partido->tiempo}}';
     	if(!tiempoPartido.includes(":")){
        		$('#tiempoPartido').text(tiempoPartido);
