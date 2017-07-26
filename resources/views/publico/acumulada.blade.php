@@ -67,7 +67,7 @@
 						<tr>
 							<td class="text-center">{{$posicion->POS}}</td>
 							<td style="text-align: left">
-								<img src="{{asset('assets/imagenes/equipos')}}/{{$posicion->equipo->imagen}}" style="height: 25px; width: 25px"> 
+								<img src="{{$posicion->equipo->logo}}" style="height: 25px; width: 25px"> 
 									{{$posicion->equipo->nombre}}
 							</td>
 							<td class="text-center">{{$posicion->PTS}}</td>
