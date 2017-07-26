@@ -285,6 +285,7 @@
     {
     	var estadoPartido = {{$partido->estado}};
     	if(estadoPartido == 1){
+    		$('#tiempoPartido').html('&nbsp;');
        		return ;
     	}
 
