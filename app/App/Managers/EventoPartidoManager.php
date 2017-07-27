@@ -83,7 +83,7 @@ class EventoPartidoManager extends BaseManager
 				if($this->entity->evento_id == 2){
 					$partido->goles_local = 0;
 					$partido->goles_visita = 0;
-					$partido->estado = 1;
+					$partido->estado = 2;
 					$partido->estado_tiempo = 'PT';
 					$partido->fecha_tiempo = $this->data['fecha_tiempo'];
 				}

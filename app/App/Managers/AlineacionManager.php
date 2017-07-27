@@ -48,7 +48,8 @@ class AlineacionManager extends BaseManager
 				$tecnico->persona_id = $this->data['tecnico_id'];
 				$tecnico->partido_id = $partidoId;
 				$tecnico->equipo_id = $equipoId;
-
+				$tecnico->es_titular = 1;
+				$tecnico->minutos_jugados = 0;
 				$tecnico->save();
 			}
 			else{
@@ -85,6 +86,7 @@ class AlineacionManager extends BaseManager
 		}
 		catch(\Exception $ex)
 		{
+			dd($ex);
 			throw new SaveDataException('¡Error!', $ex);
 		}
 
