@@ -8,7 +8,7 @@ use App\App\Entities\User;
 
 use App\App\Repositories\PerfilRepo;
 
-use Controller, Redirect, Input, View;
+use Controller, Redirect, Input, View, Variable, Session;
 
 class UsuarioController extends BaseController {
 
@@ -30,8 +30,9 @@ class UsuarioController extends BaseController {
 
 	public function mostrarAgregar()
 	{
+		$estados = Variable::getEstadosGenerales();
 		$perfiles = $this->perfilRepo->lists('nombre','id');
-		return view('administracion/Usuario/agregar',compact('perfiles'));
+		return view('administracion/Usuario/agregar',compact('perfiles','estados'));
 	}
 
 	public function agregar()
@@ -39,14 +40,16 @@ class UsuarioController extends BaseController {
 		$data = Input::all();
 		$manager = new UsuarioManager(new User(), $data);
 		$manager->save();
+		Session::flash('success',' Se creó el usuario con éxito.');
 		return redirect(route('usuarios'));
 	}
 
 	public function mostrarEditar($id)
 	{
+		$estados = Variable::getEstadosGenerales();
 		$perfiles = $this->perfilRepo->lists('nombre','id');
 		$usuario = $this->usuarioRepo->find($id);
-		return view('administracion/Usuario/editar', compact('usuario','perfiles'));
+		return view('administracion/Usuario/editar', compact('usuario','perfiles','estados'));
 	}
 
 	public function editar($id)
@@ -55,6 +58,7 @@ class UsuarioController extends BaseController {
 		$data = Input::all();
 		$manager = new UsuarioManager($usuario, $data);
 		$manager->update();
+		Session::flash('success','Se editó el usuario con éxito.');
 		return redirect(route('usuarios'));
 	}
 

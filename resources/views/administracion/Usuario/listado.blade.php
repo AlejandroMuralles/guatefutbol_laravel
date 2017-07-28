@@ -17,6 +17,7 @@
 				<tr>
 					<th>USERNAME</th>
 					<th>PERFIL</th>
+					<th>ESTADO</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -25,6 +26,7 @@
 				<tr>
 					<td>{{$usuario->username}}</td>
 					<td>{{$usuario->perfil->nombre}}</td>
+					<td>{{$usuario->descripcion_estado}}</td>
 					<td>
 						<a href="{{route('editar_usuario',$usuario->id)}}" class="btn btn-warning btn-flat btn-xs">
 							Editar

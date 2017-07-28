@@ -4,15 +4,17 @@
 
 @section('content')
 
-	{!! Form::model($usuario, ['route' => array('editar_usuario',$usuario->id), 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
+	{!! Form::model($usuario, ['route' => array('editar_usuario',$usuario->id), 'method' => 'POST', 'id' => 'form', 'class'=>'validate-form']) !!}
 	
-		{!! Field::text('username', $usuario->username, ['disabled']) !!}
+		{!! Field::text('username',null,['data-required'=>'true']) !!}
 
-		{!! Field::password('password') !!}
+		{!! Field::password('password',null,['data-required'=>'true']) !!}
 
-		{!! Field::password('password_confirmation') !!}
+		{!! Field::password('password_confirmation',null,['data-required'=>'true']) !!}
 
-		{!! Field::select('perfil_id', $perfiles) !!}
+		{!! Field::select('perfil_id', $perfiles,null,['data-required'=>'true']) !!}
+		
+		{!! Field::select('estado', $estados,null,['data-required'=>'true']) !!}
 
 		<br/>
 

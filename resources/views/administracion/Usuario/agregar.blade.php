@@ -4,15 +4,17 @@
 
 @section('content')
 
-	{!! Form::open(['route' => 'agregar_usuario', 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
+	{!! Form::open(['route' => 'agregar_usuario', 'method' => 'POST', 'id' => 'form', 'class'=>'validate-form']) !!}
 	
-		{!! Field::text('username') !!}
+		{!! Field::text('username',null,['data-required'=>'true']) !!}
 
-		{!! Field::password('password') !!}
+		{!! Field::password('password',null,['data-required'=>'true']) !!}
 
-		{!! Field::password('password_confirmation') !!}
+		{!! Field::password('password_confirmation',null,['data-required'=>'true']) !!}
 
-		{!! Field::select('perfil_id', $perfiles) !!}
+		{!! Field::select('perfil_id', $perfiles,null,['data-required'=>'true']) !!}
+		
+		{!! Field::select('estado', $estados,null,['data-required'=>'true']) !!}
 
 		<br/>
 

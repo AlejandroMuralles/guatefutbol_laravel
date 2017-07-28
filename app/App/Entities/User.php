@@ -10,11 +10,13 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
+use Variable;
+
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
                                     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword, UserStamps;
 
     /**
      * The database table used by the model.
@@ -48,5 +50,10 @@ class User extends Model implements AuthenticatableContract,
         {
             $this->attributes['password'] = bcrypt($value);
         }
+    }
+
+    protected function getDescripcionEstadoAttribute()
+    {
+        return Variable::getEstadoGeneral($this->estado);
     }
 }
