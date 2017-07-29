@@ -85,7 +85,7 @@
 	var segundos = 0;
 	$(function(){
 		@if($configuracion->parametro3)
-			segundos = {{$configuracion->parametro1}};
+			segundos = 20; //{{$configuracion->parametro1}};
  			actualizar(); 
 		@endif
 	});

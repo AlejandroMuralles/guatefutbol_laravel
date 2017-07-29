@@ -27,7 +27,7 @@
 		<tbody>
 			@foreach($eventos as $evento)
 			<tr>
-				<td><img src="{{$evento->imagen}}" alt="" height="25px"></td>
+				<td><img src="{{$evento->evento->imagen}}" alt="" height="25px"></td>
 				<td>{{$evento->minuto}}</td>
 				<td>{{$evento->comentario}}</td>
 				<td>
