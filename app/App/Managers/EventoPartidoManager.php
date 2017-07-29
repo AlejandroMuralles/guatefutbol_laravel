@@ -180,7 +180,7 @@ class EventoPartidoManager extends BaseManager
 							$jugadorSaleId = $exp->jugador2_id;
 							if($jugadorSaleId == $persona->id)
 							{
-								$alineacion = $alineacionRepo->getJugadorByPartido($partido->id, $persona->id);
+								$alineacion = $alineacionRepo->getJugadorByPartido($partido->id, $jugadorSaleId);
 
 								if($minutoEvento > 90)
 									$alineacion->minutos_jugados = 90;
@@ -189,12 +189,13 @@ class EventoPartidoManager extends BaseManager
 							}
 							/*si es jugador que entra*/
 							else{
-								$alineacion = $alineacionRepo->getJugadorByPartido($partido->id, $persona->id);
+								$jugadorEntraId = $exp->jugador1_id;
+								$alineacion = $alineacionRepo->getJugadorByPartido($partido->id, $jugadorEntraId);
 
 								if($minutoEvento == $minutoFinPartido)
 									$alineacion->minutos_jugados = 1;
 								else if($minutoEvento >= 90)
-									$alineacion->minutos_jugados = 90;
+									$alineacion->minutos_jugados = $minutoEvento - 90;
 								else
 									$alineacion->minutos_jugados = 90 - $minutoEvento;
 							}
