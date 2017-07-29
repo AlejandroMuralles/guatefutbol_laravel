@@ -440,7 +440,7 @@ class RestController extends BaseController {
 		$p->id = $partido->id;
 		$p->equipo_local = $partido->equipo_local;
 		$p->equipo_visita = $partido->equipo_visita;
-		$p->goles_gocal = $partido->goles_local;
+		$p->goles_local = $partido->goles_local;
 		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
