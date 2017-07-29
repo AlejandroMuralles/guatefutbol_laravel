@@ -380,9 +380,14 @@ class EventoPartidoManager extends BaseManager
 				//Si es gol o autogol, es necesario publicar imagen.
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
-					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
-					//dd($imagen); 
-					$this->postImageFacebook($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
+					if(file_exists($imagen))
+					{
+						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
+						$this->postImageFacebook($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					}
+					else
+						$this->postFacebook($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 				}
 				else
 					$this->postFacebook($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
@@ -392,9 +397,15 @@ class EventoPartidoManager extends BaseManager
 			if(isset($this->data['twitter'])){
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
-					$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
-					//$this->postTwitter($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
-					$this->postImageTwitter($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
+					if(file_exists($imagen)){
+						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
+						$this->postImageTwitter($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					}
+					else{
+						$this->postTwitter($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					}
+					
 				}
 			}
 		}
