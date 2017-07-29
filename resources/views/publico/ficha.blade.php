@@ -29,7 +29,7 @@
 	</div>
 </div>
 <br/>
-@if($configuracion->parametro3)
+@if($configuracion->parametro3 && $partido->estado != 3)
 	<h2 style="margin-top: 10px; float:right"><i class="fa fa-refresh"></i> <span id="txtActualizar"></span></h2>
 @endif
 <ul class="nav nav-tabs">
@@ -238,7 +238,7 @@
 <script>
 	var segundos = 0;
 	$(function(){
-		@if($configuracion->parametro3)
+		@if($configuracion->parametro3 && $partido->estado != 3)
 			segundos = {{$configuracion->parametro1}};
  			actualizar(); 
 		@endif
