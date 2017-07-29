@@ -139,7 +139,11 @@
 						@if($ficha->golesLocal)
 							@foreach($ficha->golesLocal as $gl)
 								<tr>
-									<td>{{$gl->jugador->nombreCompletoApellidos}} @if($gl->autogol) (ag) @endif</td>
+									<td>
+										@if($gl->jugador)
+											{{$gl->jugador->nombreCompletoApellidos}} @if($gl->autogol) (ag) @endif
+										@endif
+									</td>
 									<td style="width: 30px;" class="text-center">{{$gl->minuto}}</td>
 								</tr>
 							@endforeach
@@ -161,7 +165,11 @@
 						@if($ficha->golesVisita)
 							@foreach($ficha->golesVisita as $gv)
 								<tr>
-									<td>{{$gv->jugador->nombreCompletoApellidos}} @if($gv->autogol) (ag) @endif</td>
+									<td>
+										@if($gv->jugador)
+											{{$gv->jugador->nombreCompletoApellidos}} @if($gv->autogol) (ag) @endif
+										@endif
+									</td>
 									<td style="width: 30px;" class="text-center">{{$gv->minuto}}</td>
 								</tr>
 							@endforeach
