@@ -71,10 +71,10 @@
 							<td>{{$partido->jornada->nombre}}</td>
 							<td>{{date('d-m-Y',strtotime($partido->fecha))}}</td>
 							<td>{{date('H:i',strtotime($partido->fecha))}}</td>
-							<td>{{$partido->equipoLocal->nombre}}</td>
+							<td>{{$partido->equipo_local->nombre}}</td>
 							<td>
 								<a href="{{route('ficha',$partido->id)}}" style="font-weight: bold;">{{$partido->goles_local}} - {{$partido->goles_visita}} </a></td>
-							<td>{{$partido->equipoVisita->nombre}}</td>
+							<td>{{$partido->equipo_visita->nombre}}</td>
 						</tr>
 					
         			@endforeach

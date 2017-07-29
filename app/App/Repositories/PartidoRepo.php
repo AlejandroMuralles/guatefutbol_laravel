@@ -121,11 +121,15 @@ class PartidoRepo extends BaseRepo{
 	public function getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id)
 	{
 		return Partido::whereHas('campeonato',function($q) use($ligaId){
-							$q->where('liga_id','=',$ligaId);
+							$q->where('liga_id',$ligaId);
 						})
-						->whereIn('estado_id', [2,3])
+						->whereIn('estado', [2,3])
 						->WhereRaw('( ( equipo_local_id = '.$equipo1Id.' AND equipo_visita_id = '.$equipo2Id.' ) OR ( 
 										equipo_local_id = '.$equipo2Id.' AND equipo_visita_id = '.$equipo1Id.') )')
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('jornada')
+						->with('campeonato')
 						->orderBy('fecha','DESC')
 						->get();
 	}

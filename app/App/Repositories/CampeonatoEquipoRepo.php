@@ -66,13 +66,13 @@ class CampeonatoEquipoRepo extends BaseRepo{
     	return Equipo::whereIn('id', $ids)->orderBy('nombre');
 	}
 
-	public function getListByLiga($ligaId)
+	public function getByLiga($ligaId)
 	{
 		$ids = CampeonatoEquipo::whereHas('campeonato', function($q) use($ligaId){
-						$q->where('liga_id','=',$ligaId);
+						$q->where('liga_id',$ligaId);
 					})
 					->pluck('equipo_id');
-    	return Equipo::whereIn('id', $ids)->orderBy('nombre')->pluck('nombre','id');
+    	return Equipo::whereIn('id', $ids)->orderBy('nombre')->get();
 	}
 
 }

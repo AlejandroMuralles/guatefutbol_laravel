@@ -38,7 +38,7 @@ class AdminController extends BaseController {
 	{
 		$equipo1 = $this->equipoRepo->find($equipo1Id);
 		$equipo2 = $this->equipoRepo->find($equipo2Id);
-		$equipos = $this->campeonatoEquipoRepo->getListByLiga($ligaId)->toArray();
+		$equipos = $this->campeonatoEquipoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 
 		$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
 		
@@ -167,7 +167,7 @@ class AdminController extends BaseController {
 	    	$totalesEquipos[$alineacion->equipo_id]->apariciones++;
 
 	    	if($alineacion->equipo_id == $alineacion->partido->equipo_local_id){
-	    		$alineacion->rival = $alineacion->partido->equipoVisita;
+	    		$alineacion->rival = $alineacion->partido->equipo_visita;
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita){
 	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
@@ -182,7 +182,7 @@ class AdminController extends BaseController {
 	    		}
 	    	}
 	    	else{
-	    		$alineacion->rival = $alineacion->partido->equipoLocal;
+	    		$alineacion->rival = $alineacion->partido->equipo_local;
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita) {
 	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;	
 	    			$perdidos++;
@@ -396,14 +396,14 @@ class AdminController extends BaseController {
 	public function jugadoresLiga($ligaId)
 	{
 		$nombre = Input::get('term');
-		$personas = $this->plantillaRepo->getAutocompletePersonas($ligaId, $nombre, [2]);
-		return json_encode($personas->toArray());
+		$personas = $this->plantillaRepo->getAutocompletePersonas($ligaId, $nombre, ['J']);
+		return json_encode($personas);
 	}
 
 	public function arbitrosLiga($ligaId)
 	{
 		$nombre = Input::get('term');
-		$personas = $this->partidoRepo->getAutocompletePersonas($ligaId, $nombre, [3]);
+		$personas = $this->partidoRepo->getAutocompletePersonas($ligaId, $nombre, ['A']);
 		return json_encode($personas->toArray());
 	}
 

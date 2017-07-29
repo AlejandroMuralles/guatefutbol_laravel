@@ -184,6 +184,11 @@ class AlineacionRepo extends BaseRepo{
 				})
 				->where('persona_id','=',$jugadorId)
 				->where('minutos_jugados','>',0)
+				->with('partido')
+				->with('partido.equipo_local')
+				->with('partido.equipo_visita')
+				->with('partido.campeonato')
+				->with('equipo')
 				->get();
 	}
 
@@ -194,6 +199,11 @@ class AlineacionRepo extends BaseRepo{
 				})
 				->where('persona_id','=',$jugadorId)
 				->where('minutos_jugados','>',0)
+				->with('partido')
+				->with('partido.equipo_local')
+				->with('partido.equipo_visita')
+				->with('partido.campeonato')
+				->with('equipo')
 				->get();
 	}
 
@@ -208,6 +218,11 @@ class AlineacionRepo extends BaseRepo{
 				->where('persona_id','=',$jugadorId)
 				->where('minutos_jugados','>',0)
 				->where('equipo_id','<>',$rivalId)
+				->with('partido')
+				->with('partido.equipo_local')
+				->with('partido.equipo_visita')
+				->with('partido.campeonato')
+				->with('equipo')
 				->get();
 	}
 
@@ -222,6 +237,11 @@ class AlineacionRepo extends BaseRepo{
 				->where('persona_id','=',$jugadorId)
 				->where('minutos_jugados','>',0)
 				->where('equipo_id','=',$equipoId)
+				->with('partido')
+				->with('partido.equipo_local')
+				->with('partido.equipo_visita')
+				->with('partido.campeonato')
+				->with('equipo')
 				->get();
 	}
 

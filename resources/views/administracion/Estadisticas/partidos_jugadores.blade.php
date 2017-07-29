@@ -4,10 +4,42 @@
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link href="{{asset('assets/admin/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">
+<style>
+	/* highlight results */
+.ui-autocomplete span.hl_results {
+    background-color: #ffff66;
+}
+ 
+/* loading - the AJAX indicator */
+.ui-autocomplete-loading {
+    background: white url('../img/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+ 
+/* scroll results */
+.ui-autocomplete {
+    max-height: 250px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding for vertical scrollbar */
+    padding-right: 5px;
+}
+ 
+.ui-autocomplete li {
+    font-size: 16px;
+}
+ 
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+    height: 250px;
+}
+</style>
 @stop
 @section('content')
 
-	{!! Form::open(['route' => ['partidos_jugadores',$ligaId,0], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form', 'id'=>'form']) !!}
+	{!! Form::open(['route' => ['partidos_jugadores',$ligaId,0,0,0,0], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form', 'id'=>'form']) !!}
 	
 	@if($equipoId != 0)
 		<h3>{{$jugador->nombreCompleto}} con {{$equipo}}</h3>
@@ -21,7 +53,7 @@
 	@else
 
 		@if($jugador)
-			{!! Field::text('jugador', $jugador->nombreCompleto , ['id'=>'jugador']) !!}
+			{!! Field::text('jugador', $jugador->nombre_completo , ['id'=>'jugador']) !!}
 		@else
 			{!! Field::text('jugador', null, ['id'=>'jugador']) !!}
 		@endif
@@ -57,7 +89,7 @@
 				<tr>
 				@if($jugador)
 					<td>
-						<a href="{{route('partidos_jugadores',[$ligaId,$jugadorId,0,0,0])}}">{{$jugador->nombreCompleto}}</a>
+						<a href="{{route('partidos_jugadores',[$ligaId,$jugadorId,0,0,0])}}">{{$jugador->nombre_completo}}</a>
 					</td>
 					<td>{{$totales->apariciones}}</td>
 					<td>{{$totales->minutos_jugados}}</td>
@@ -143,11 +175,11 @@
 					<td>{{$alineacion->amarillas}}</td>
 					<td>{{$alineacion->doblesamarillas}}</td>
 					<td>{{$alineacion->rojas}}</td>
-					<td>{{$alineacion->partido->equipoLocal->nombre}}</td>
+					<td>{{$alineacion->partido->equipo_local->nombre}}</td>
 					<td>
 						<a href="{{route('ficha',$alineacion->partido->id)}}">{{$alineacion->partido->goles_local}} - {{$alineacion->partido->goles_visita}}</a>
 					</td>
-					<td>{{$alineacion->partido->equipoVisita->nombre}}</td>
+					<td>{{$alineacion->partido->equipo_visita->nombre}}</td>
 					<td>
 						<a href="{{route('partidos_jugadores',[$ligaId,$jugadorId,0,$alineacion->rival->id,0])}}">{{$alineacion->rival->nombre}}</a>
 					</td>
@@ -200,11 +232,13 @@
 		$('#form').submit(function(){
 			return false;
 		})
-
 		$('#jugador').autocomplete({
 		    source: "{{route('inicio')}}/Jugadores-Liga/{{$ligaId}}",
 		    dataType: 'json',
 		    type: 'GET',
+		    beforeSend: function(){
+				alert('be');
+			},
 		    select: function(event, ui) {
 		    	console.log(ui.item);
 			  	$('#jugador').val(ui.item.label);
