@@ -89,6 +89,8 @@
     	<div class="estado">
         @if($partido->estado == 2)
           <i style="color: yellow" class="fa fa-clock-o"></i> <span style="color: yellow" id="tiempoPartido{{$partido->id}}"></span>
+        @elseif($partido->estado == 1)
+          {{date('d-m H:i',strtotime($partido->fecha))}}
         @else
     		  <span>{{$partido->descripcion_estado}}</span>
         @endif
