@@ -447,6 +447,7 @@ class RestController extends BaseController {
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
+		$p->minuto_jugado = $partido->tiempo;
 
 		$data['partido'] = $p;
 
@@ -483,6 +484,7 @@ class RestController extends BaseController {
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
+		$p->minuto_jugado = $partido->tiempo;
 
 		$data['partido'] = $p;
 		
@@ -574,6 +576,7 @@ class RestController extends BaseController {
 		$p->hora = date('H:ia',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
+		$p->minuto_jugado = $partido->tiempo;
 
 		$data['partido'] = $p;
 		

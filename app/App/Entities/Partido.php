@@ -51,7 +51,6 @@ class Partido extends \Eloquent {
 	{
 		if(is_null($this->fecha_tiempo))
 			return $this->estado_tiempo;
-
 		$tiempo = Variable::getHorasMinutosSegundosBetweenFechas(date('Y-m-d H:i:s'), $this->fecha_tiempo);
 		$tiempo = explode(':', $tiempo);
 		$horas = intval($tiempo[0]);
