@@ -422,7 +422,7 @@ class PublicController extends BaseController {
 
 	public function dashboard($ligaId, $campeonatoId)
 	{
-		$campeonatos = $this->campeonatoRepo->getListCampeonatosPublicados($ligaId);
+		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 		if($campeonatoId == 0)
 		{
 			$campeonato = $this->campeonatoRepo->getActual($ligaId);

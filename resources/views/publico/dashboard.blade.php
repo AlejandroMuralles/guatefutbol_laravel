@@ -37,20 +37,20 @@
 					<thead>
 						<tr>
 							<th colspan="2" class="default">
-								@if($partido['partido']->estado_id == 1)
+								@if($partido['partido']->estado == 1)
 									{{date('d/m/y H:i', strtotime($partido['partido']->fecha))}}
 								@else
-									{{$partido['partido']->estado->nombre}}
+									{{$partido['partido']->descripcion_estado}}
 								@endif
 							</th>
 						</tr>
 						<tr>
 							<th colspan="5">
 								<a href="{{route('ficha',$partido['partido']->id)}}" style="color: white; ">
-									<img src="{{asset('assets/imagenes/equipos')}}/{{$partido['partido']->equipoLocal->imagen}}" width="25px">
-									{{$partido['partido']->equipoLocal->nombre}} {{$partido['partido']->goles_local}} - 
-									{{$partido['partido']->goles_visita}} {{$partido['partido']->equipoVisita->nombre}} 	
-									<img src="{{asset('assets/imagenes/equipos')}}/{{$partido['partido']->equipoVisita->imagen}}" width="25px">
+									<img src="{{$partido['partido']->equipo_local->logo}}" width="25px">
+									{{$partido['partido']->equipo_local->nombre}} {{$partido['partido']->goles_local}} - 
+									{{$partido['partido']->goles_visita}} {{$partido['partido']->equipo_visita->nombre}} 	
+									<img src="{{$partido['partido']->equipo_visita->logo}}" width="25px">
 								</a>
 							</th>
 						</tr>
