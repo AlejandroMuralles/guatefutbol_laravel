@@ -444,11 +444,11 @@ class RestController extends BaseController {
 		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
-		$p->hora = date('H:ia',$partido->fecha);
+		$p->hora = date('H:i',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
 		$p->minuto_jugado = $partido->tiempo;
-		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:ia',$partido->fecha);
+		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
 
 		$data['partido'] = $p;
 
@@ -482,11 +482,11 @@ class RestController extends BaseController {
 		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
-		$p->hora = date('H:ia',$partido->fecha);
+		$p->hora = date('H:i',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
 		$p->minuto_jugado = $partido->tiempo;
-		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:ia',$partido->fecha);
+		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
 
 		$data['partido'] = $p;
 		
@@ -575,11 +575,11 @@ class RestController extends BaseController {
 		$p->goles_visita = $partido->goles_visita;
 		$partido->fecha = strtotime($partido->fecha);
 		$p->fecha = date('d/m',$partido->fecha);
-		$p->hora = date('H:ia',$partido->fecha);
+		$p->hora = date('H:i',$partido->fecha);
 		$p->estadio = $partido->estadio->nombre;
 		$p->estado = $partido->descripcion_estado;
 		$p->minuto_jugado = $partido->tiempo;
-		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:ia',$partido->fecha);
+		if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
 
 		$data['partido'] = $p;
 		
