@@ -143,8 +143,7 @@ class EventoPartidoController extends BaseController {
 	{
 		$evento = $this->eventoPartidoRepo->find($id);
 		$partido = $this->partidoRepo->find($evento->partido_id);
-		$imagenes = $this->imagenEventoRepo->lists('nombre','id');
-		return view('administracion/EventoPartido/editar', compact('evento','partido','imagenes'));
+		return view('administracion/EventoPartido/editar', compact('evento','partido'));
 	}
 
 	public function editar($id)
@@ -166,11 +165,11 @@ class EventoPartidoController extends BaseController {
 		$partido = $this->partidoRepo->find($evento->partido_id);
 		if($partido->equipo_local_id == $evento->equipo_id)
 		{
-			$equipo = $partido->equipoLocal;
+			$equipo = $partido->equipo_local;
 		}
 		else
 		{
-			$equipo = $partido->equipoVisita;
+			$equipo = $partido->equipo_visita;
 		}
 		if($evento->evento_id == 7) //autogol
 		{
@@ -188,8 +187,7 @@ class EventoPartidoController extends BaseController {
 			$jugadores = $this->alineacionRepo->getListAlineacion($partido->id, $evento->equipo_id);
 		}
 		$jugadores = $jugadores->toArray();
-		$imagenes = $this->imagenEventoRepo->lists('nombre','id');
-		return view('administracion/EventoPartido/editar_persona', compact('evento','partido','jugadores','equipo','imagenes'));
+		return view('administracion/EventoPartido/editar_persona', compact('evento','partido','jugadores','equipo'));
 	}
 
 	public function editarPersona($id)
