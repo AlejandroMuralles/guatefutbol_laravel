@@ -11,7 +11,7 @@
 		{!! Field::number('minuto') !!}
 
 		@if($evento->id != 12)
-			{!! Field::text('fecha_tiempo',date('Y-m-d H:i')) !!}
+			{!! Field::text('fecha_tiempo',date('Y-m-d H:i:s')) !!}
 		@endif
 
 		@if($evento->id == 12)
