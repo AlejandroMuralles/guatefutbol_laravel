@@ -421,7 +421,7 @@ class RestController extends BaseController {
 					mb_internal_encoding("UTF-8");				
 					$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
 					$es[$i]['nombre_local'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
-					$es[$i]['imagen_local'] = $evento->imagen;
+					$es[$i]['imagen_local'] = $evento->evento->imagen;
 				}
 				else{
 					$es[$i]['minuto_visita'] = $evento->minuto;
