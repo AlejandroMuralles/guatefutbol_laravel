@@ -45,7 +45,7 @@
 						<div class="clearfix"></div>
 					</div>
 					<div class="portlet-body" style="padding-bottom: 0px !important">
-						<div class="table-responsive">
+						<div class="table-responsive" style="border: none;">
 							<table class="table table-responsive unbordered">
 								@foreach($jornada['partidos'] as $partido)
 								<tr>
