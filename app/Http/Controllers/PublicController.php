@@ -471,7 +471,7 @@ class PublicController extends BaseController {
 					$es[$i]['nombre_local'] = $evento->jugador1->primer_nombre . ' ' . $evento->jugador1->primer_apellido;
 					if($evento->evento_id == 7)
 						$es[$i]['nombre_local'] .= ' (ag)';
-					$es[$i]['imagen_local'] = $evento->imagen->ruta;
+					$es[$i]['imagen_local'] = $evento->evento->imagen;
 					$es[$i]['minuto_visita'] = '';
 					$es[$i]['nombre_visita'] = '';
 				}
@@ -482,7 +482,7 @@ class PublicController extends BaseController {
 					$es[$i]['nombre_visita'] = $evento->jugador1->primer_nombre . ' ' . $evento->jugador1->primer_apellido;
 					if($evento->evento_id == 7)
 						$es[$i]['nombre_visita'] = '(ag) ' . $es[$i]['nombre_visita'];
-					$es[$i]['imagen_visita'] = $evento->imagen->ruta;
+					$es[$i]['imagen_visita'] = $evento->evento->imagen;
 				}				
 				$i++;
 			}
