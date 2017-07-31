@@ -77,7 +77,7 @@ Tabla de Goleadores - {{$campeonato->nombre}}
 								<td>{{$goleador->jugador->nombreCompletoApellidos}}</td>
 								<td class="text-center">{{$goleador->jugador->fecha_nacimiento}}</td>
 								<td class="text-center">
-									<img src="{{asset('assets/imagenes/equipos')}}/{{$goleador->equipo->imagen}}" width="25px"> {{$goleador->equipo->nombre}}
+									<img src="{{$goleador->equipo->logo}}" width="25px"> {{$goleador->equipo->nombre}}
 								</td>
 								<td class="text-center">{{$goleador->goles}}</td>
 								<td class="text-center">{{$goleador->minutos}}</td>
