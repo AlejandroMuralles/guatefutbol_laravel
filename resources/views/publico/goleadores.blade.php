@@ -65,10 +65,10 @@ Tabla de Goleadores - {{$campeonato->nombre}}
 						<thead>
 							<tr class="dark-blue white">
 								<th>JUGADOR</th>
-								<th>EDAD</th>
-								<th>EQUIPO</th>
-								<th>G</th>
-								<th>MJ</th>
+								<th style="text-align: center;">EDAD</th>
+								<th style="text-align: center;">EQUIPO</th>
+								<th style="text-align: center;">G</th>
+								<th style="text-align: center;">MJ</th>
 							</tr>
 						</thead>
 						<tbody>
