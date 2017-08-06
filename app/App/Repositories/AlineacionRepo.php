@@ -115,10 +115,10 @@ class AlineacionRepo extends BaseRepo{
 					->pluck('persona_id');
     	return Persona::whereIn('id', $ids)
     			->where('rol',$rol)
-    			->orderBy('primer_nombre')
-    			->orderBy('segundo_nombre')
     			->orderBy('primer_apellido')
     			->orderBy('segundo_apellido')
+    			->orderBy('primer_nombre')
+    			->orderBy('segundo_nombre')    			
     			->get();
 	}
 
