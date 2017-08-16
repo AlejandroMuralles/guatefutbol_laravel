@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/public/plugins/slick/slick-theme.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <meta http-equiv="refresh" content="90">
   <style type="text/css">
     html, body {
       margin: 0;
