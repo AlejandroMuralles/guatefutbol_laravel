@@ -96,7 +96,7 @@ class RestController extends BaseController {
 			$p->hora = date('H:i',$partido->fecha);
 			$p->estadio = $partido->estadio->nombre;
 			$p->estado = $partido->descripcion_estado;
-			$p->descripcion_estado = $partido->estado;
+			$p->estado_tiempo = $partido->estado_tiempo;
 			$p->tiempo = $partido->tiempo;
 			$p->liga = $partido->campeonato->liga->nombre;
 			$p->campeonato = $partido->campeonato;
