@@ -61,7 +61,7 @@
     <!-- /#wrapper -->
 
     <!-- GLOBAL SCRIPTS -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
     <!-- Bootstrap 3.3.2 JS -->
     <script src="{{ asset('assets/public/js/plugins/bootstrap/bootstrap.min.js') }}" type="text/javascript"></script>
