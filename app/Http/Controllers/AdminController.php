@@ -11,8 +11,10 @@ use App\App\Repositories\PartidoRepo;
 use App\App\Repositories\PersonaRepo;
 use App\App\Repositories\AlineacionRepo;
 use App\App\Repositories\EventoPartidoRepo;
+use App\App\Repositories\PosicionesRepo;
 
 use App\App\Entities\Equipo;
+use App\App\Entities\Liga;
 
 class AdminController extends BaseController {
 
@@ -22,9 +24,10 @@ class AdminController extends BaseController {
 	protected $campeonatoEquipoRepo;
 	protected $alineacionRepo;
 	protected $eventoPartidoRepo;
+	protected $posicionesRepo;
 
 	public function __construct(EquipoRepo $equipoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, PlantillaRepo $plantillaRepo,
-								PartidoRepo $partidoRepo, PersonaRepo $personaRepo, AlineacionRepo $alineacionRepo, EventoPartidoRepo $eventoPartidoRepo)
+								PartidoRepo $partidoRepo, PersonaRepo $personaRepo, AlineacionRepo $alineacionRepo, EventoPartidoRepo $eventoPartidoRepo, PosicionesRepo $posicionesRepo)
 	{
 		$this->campeonatoEquipoRepo = $campeonatoEquipoRepo;
 		$this->plantillaRepo = $plantillaRepo;
@@ -33,6 +36,7 @@ class AdminController extends BaseController {
 		$this->personaRepo = $personaRepo;
 		$this->alineacionRepo = $alineacionRepo;
 		$this->eventoPartidoRepo = $eventoPartidoRepo;
+		$this->posicionesRepo = $posicionesRepo;
 		View::composer('layouts.admin', 'App\Http\Controllers\AdminMenuController');
 	}
 
@@ -405,6 +409,14 @@ class AdminController extends BaseController {
 
 
 		return view('administracion/Estadisticas/partidos_jugadores',compact('ligaId','jugadorId','equipoId','rivalId','campeonatoId','jugador','partidos','alineaciones', 'totales','totalesEquipos','equipo','rival','campeonato'));
+	}
+
+	public function mostrarPosicionesLiga(Liga $liga)
+	{
+		$partidos = $this->partidoRepo->getByLigaByFaseByEstado($liga->id, ['R'], [2,3]);
+		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosicionesByLiga($liga->id);
+		$posiciones = $this->posicionesRepo->getTablaByLiga($liga->id, 0, $partidos, $equipos);
+		return view('administracion/Estadisticas/posiciones_liga', compact('posiciones','liga'));
 	}
 
 	public function jugadoresLiga($ligaId)
