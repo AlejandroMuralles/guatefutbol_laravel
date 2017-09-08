@@ -12,6 +12,8 @@ use App\App\Repositories\PersonaRepo;
 use App\App\Repositories\AlineacionRepo;
 use App\App\Repositories\EventoPartidoRepo;
 
+use App\App\Entities\Equipo;
+
 class AdminController extends BaseController {
 
 	protected $equipoRepo;
@@ -40,13 +42,25 @@ class AdminController extends BaseController {
 		$equipo2 = $this->equipoRepo->find($equipo2Id);
 		$equipos = $this->campeonatoEquipoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 
-		$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
+		if($equipo2Id == -1){
+			$partidos = $this->partidoRepo->getByLigaByEquipo($ligaId, $equipo1Id);	
+		}
+		else{
+			$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
+		}
 		
 		$estadisticas1 = new stdClass();
 		$estadisticas1->equipo = $equipo1;
 		$estadisticas1->JJ = 0; $estadisticas1->JG = 0; $estadisticas1->JE = 0; $estadisticas1->JP = 0; $estadisticas1->GF = 0; $estadisticas1->GC = 0;
+
 		$estadisticas2 = new stdClass();
-		$estadisticas2->equipo = $equipo2;
+		if($equipo2Id == -1){
+			$e = new Equipo();
+			$e->nombre = 'Todos';
+			$estadisticas2->equipo = $e;
+		}
+		else
+			$estadisticas2->equipo = $equipo2;
 		$estadisticas2->JJ = 0; $estadisticas2->JG = 0; $estadisticas2->JE = 0; $estadisticas2->JP = 0; $estadisticas2->GF = 0; $estadisticas2->GC = 0;
 
 		foreach($partidos as $partido)

@@ -61,18 +61,23 @@ class FieldBuilder {
 		return ucfirst($label);
 	}
 
-	public function buildControl($type, $name, $value = null, $attributes = array(), $options = array(), $checked = false)
+	public function buildControl($type, $name, $value = null, $attributes = array(), $options = array())
 	{
 		switch ($type) {
 			case 'select':
 				$options = ['' => 'Seleccione'] + $options;
 				return $this->form->select($name, $options, $value, $attributes);
+			case 'selectAll':
+				$options = ['-1' => 'Todos'] + $options;
+				return $this->form->select($name, $options, $value, $attributes);
 			case 'password':
 				return $this->form->password($name, $attributes);
 			case 'checkbox':
-				return $this->form->checkbox($name, $value, $checked);
+				return $this->form->checkbox($name, $value, $value);
 			case 'textarea':
 				return $this->form->textarea($name, $value, $attributes);
+			case 'label':
+				return $this->form->label($name, $value);
 			default:
 				return $this->form->input($type, $name, $value, $attributes);
 		}
@@ -101,12 +106,11 @@ class FieldBuilder {
 		return 'fields.default';
 	}
 
-	public function input($type, $name, $value = null, $attributes = array(), $options = array(), $checked = false)
+	public function input($type, $name, $value = null, $attributes = array(), $options = array())
 	{	
-		//dd($checked);
 		$this->buildCSSClasses($type, $attributes);
 		$label = $this->buildLabel($name);
-		$control = $this->buildControl($type, $name, $value, $attributes, $options, $checked);
+		$control = $this->buildControl($type, $name, $value, $attributes, $options);
 		$error = $this->buildError($name);
 		$template = $this->buildTemplate($type);
 
@@ -121,6 +125,11 @@ class FieldBuilder {
 	public function select($name, $options, $value = null, $attributes = array())
 	{
 		return $this->input('select', $name, $value, $attributes, $options);
+	}
+
+	public function selectAll($name, $options, $value = null, $attributes = array())
+	{
+		return $this->input('selectAll', $name, $value, $attributes, $options);
 	}
 
 	public function __call($method, $params)
