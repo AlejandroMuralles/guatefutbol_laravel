@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title') Posiciones Liga {{$liga->nombre}} @stop
+@section('title') Posiciones {{$liga->nombre}} @stop
 
 @section('css')
 <link href="{{asset('assets/admin/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">

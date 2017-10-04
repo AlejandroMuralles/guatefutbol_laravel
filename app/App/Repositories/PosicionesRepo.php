@@ -158,15 +158,17 @@ class PosicionesRepo {
         }
 
         
-        foreach($equipos as $index => $equipo)
-        {
-            /* Quitar puntos a siquinalá del campeoanto 63*/
-            if($equipo->equipo->id == 82){
-                $equipo->PTS -= 3;
-            }
-            /* Quitar puntos a chiantla del campeonato 59*/
-            if($equipo->equipo->id == 69){
-                $equipo->PTS -= 3;
+        if($ligaId == 23){
+            foreach($equipos as $index => $equipo)
+            {
+                /* Quitar puntos a siquinalá del campeoanto 63*/
+                if($equipo->equipo->id == 82){
+                    $equipo->PTS -= 3;
+                }
+                /* Quitar puntos a chiantla del campeonato 59*/
+                if($equipo->equipo->id == 69){
+                    $equipo->PTS -= 3;
+                }
             }
         }
 

@@ -41,9 +41,10 @@ class PartidoRepo extends BaseRepo{
 
 	public function getByLigaByFaseByEstado($ligaId, $fases, $estados)
 	{
-		return Partido::whereHas('campeonato', function($q) use ($ligaId){
+		$partidos = Partido::whereHas('campeonato', function($q) use ($ligaId){
 							$q->where('liga_id',$ligaId);
 						})
+						//->whereRaw('(equipo_local_id = 38 or equipo_visita_id = 38)')
 						->with('equipo_local')
 						->with('equipo_visita')
 						->with('arbitro_central')
@@ -54,6 +55,7 @@ class PartidoRepo extends BaseRepo{
 						->whereIn('estado',$estados)
 						->orderBy('fecha')
 						->get();
+		return $partidos;
 	}
 
 	public function getByCampeonato($campeonatoId)
