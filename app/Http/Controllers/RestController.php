@@ -69,6 +69,56 @@ class RestController extends BaseController {
 		}
 	}
 
+	public function inicioLigasAgrupadas()
+	{
+		$configuracion = $this->configuracionRepo->find(1);
+		$diasInicio = $configuracion->parametro1;
+		$diasFin = $configuracion->parametro2;
+
+		$fechaInicio = $this->getFecha($diasInicio . ' day');
+		//$fechaInicio = '2017-05-01';
+		$fechaFin = $this->getFecha($diasFin . ' day');
+		$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
+		
+		$configuracion = $this->configuracionRepo->find(2);
+		$data['configuracion'] = $configuracion;
+
+		$ligas = [];
+
+		foreach($partidos as $partido)
+		{
+			$ligaId = $partido->campeonato->liga_id;
+			if(!isset($ligas[$ligaId])){
+				$ligas[$ligaId]['liga'] = $partido->campeonato->liga;
+			}
+
+			$p = new \App\App\Entities\Partido;
+			$p->id = $partido->id;
+			$p->equipo_local = $partido->equipo_local;
+			$p->equipo_visita = $partido->equipo_visita;
+			$p->goles_local = $partido->goles_local;
+			$p->goles_visita = $partido->goles_visita;
+			$partido->fecha = strtotime($partido->fecha);
+			$p->fecha = date('d/m',$partido->fecha);
+			$p->hora = date('H:i',$partido->fecha);
+			$p->estadio = $partido->estadio->nombre;
+			$p->estado = $partido->descripcion_estado;
+			$p->estado_tiempo = $partido->estado_tiempo;
+			$p->tiempo = $partido->tiempo;
+			$p->liga = $partido->campeonato->liga->nombre;
+			$p->campeonato = $partido->campeonato;
+
+			$ligas[$ligaId]['partidos'][] = $p;
+		}
+
+		$ligasDB = [];
+		foreach($ligas as $liga){
+			$ligasDB[] = $liga;
+		}
+
+		return json_encode($ligasDB);
+	}
+
 	public function inicioLigas()
 	{
 		$configuracion = $this->configuracionRepo->find(1);

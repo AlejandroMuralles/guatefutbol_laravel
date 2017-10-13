@@ -210,6 +210,7 @@ Route::get('Jugadores-Liga/{ligaId}', ['as' => 'json_jugadores_liga', 'uses' => 
 Route::get('Arbitros-Liga/{ligaId}', ['as' => 'json_arbitros_liga', 'uses' => 'AdminController@arbitrosLiga']);
 
 /* REST APP*/
+Route::get('rest/inicio-ligas-agrupadas', ['uses' => 'RestController@inicioLigasAgrupadas']);
 Route::get('rest/inicio/', ['uses' => 'RestController@inicioLigas']);
 Route::get('rest/inicio/{ligaId}', ['uses' => 'RestController@inicio']);
 Route::get('rest/inicio/{ligaId}/{campeonatoId}', ['uses' => 'RestController@inicioConCampeonato']);
