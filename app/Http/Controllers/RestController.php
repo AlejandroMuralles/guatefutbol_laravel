@@ -657,7 +657,7 @@ class RestController extends BaseController {
 		}
 		else
 		{
-			$partidos = $this->partidoRepo->getByCampeonatoByFase($campeonato->id, 2);
+			$partidos = $this->partidoRepo->getByCampeonatoByFase($campeonato->id, [2]);
 			$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 		}
 		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
