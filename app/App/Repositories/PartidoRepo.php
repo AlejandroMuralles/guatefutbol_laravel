@@ -39,6 +39,25 @@ class PartidoRepo extends BaseRepo{
 						->get();
 	}
 
+	public function getByLigaByFaseByEstado($ligaId, $fases, $estados)
+	{
+		$partidos = Partido::whereHas('campeonato', function($q) use ($ligaId){
+							$q->where('liga_id',$ligaId);
+						})
+						//->whereRaw('(equipo_local_id = 38 or equipo_visita_id = 38)')
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('arbitro_central')
+						->whereHas('jornada',function($q) use ($fases)
+							{
+								$q->whereIn('fase',$fases);
+							})
+						->whereIn('estado',$estados)
+						->orderBy('fecha')
+						->get();
+		return $partidos;
+	}
+
 	public function getByCampeonato($campeonatoId)
 	{
 		$partidos = Partido::where('campeonato_id','=',$campeonatoId)
@@ -126,6 +145,21 @@ class PartidoRepo extends BaseRepo{
 						->whereIn('estado', [2,3])
 						->WhereRaw('( ( equipo_local_id = '.$equipo1Id.' AND equipo_visita_id = '.$equipo2Id.' ) OR ( 
 										equipo_local_id = '.$equipo2Id.' AND equipo_visita_id = '.$equipo1Id.') )')
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('jornada')
+						->with('campeonato')
+						->orderBy('fecha','DESC')
+						->get();
+	}
+
+	public function getByLigaByEquipo($ligaId, $equipo1Id)
+	{
+		return Partido::whereHas('campeonato',function($q) use($ligaId){
+							$q->where('liga_id',$ligaId);
+						})
+						->whereIn('estado', [2,3])
+						->WhereRaw('( equipo_local_id = '.$equipo1Id.' OR equipo_visita_id = '.$equipo1Id.' )')
 						->with('equipo_local')
 						->with('equipo_visita')
 						->with('jornada')

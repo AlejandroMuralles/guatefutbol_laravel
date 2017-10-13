@@ -5,7 +5,7 @@
 @section('content')
 	
 		{!! Field::select('equipo', $equipos, $equipo1Id, ['data-required'=> 'true', 'id'=>'equipo1Id']) !!}
-		{!! Field::select('rival', $equipos, $equipo2Id, ['data-required'=> 'true', 'id'=>'equipo2Id']) !!}
+		{!! Field::selectAll('rival', $equipos, $equipo2Id, ['data-required'=> 'true', 'id'=>'equipo2Id']) !!}
         <p>
             <a href="#" onclick="consultar(); return false;" class="btn btn-primary btn-flat">Buscar</a>
         </p>

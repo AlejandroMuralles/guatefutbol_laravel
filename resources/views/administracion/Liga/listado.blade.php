@@ -50,6 +50,9 @@
 					<a href="{{route('dashboard_admin_estadisticas_arbitros',$liga->id)}}" class="btn bg-green btn-flat btn-xs">
 						Arbitros
 					</a>
+					<a href="{{route('posiciones_liga',$liga->id)}}" class="btn bg-green btn-flat btn-xs">
+						Posiciones
+					</a>
 				</td>
 			</tr>
 			@endforeach

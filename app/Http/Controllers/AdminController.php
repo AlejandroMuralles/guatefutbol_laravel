@@ -11,6 +11,10 @@ use App\App\Repositories\PartidoRepo;
 use App\App\Repositories\PersonaRepo;
 use App\App\Repositories\AlineacionRepo;
 use App\App\Repositories\EventoPartidoRepo;
+use App\App\Repositories\PosicionesRepo;
+
+use App\App\Entities\Equipo;
+use App\App\Entities\Liga;
 
 class AdminController extends BaseController {
 
@@ -20,9 +24,10 @@ class AdminController extends BaseController {
 	protected $campeonatoEquipoRepo;
 	protected $alineacionRepo;
 	protected $eventoPartidoRepo;
+	protected $posicionesRepo;
 
 	public function __construct(EquipoRepo $equipoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, PlantillaRepo $plantillaRepo,
-								PartidoRepo $partidoRepo, PersonaRepo $personaRepo, AlineacionRepo $alineacionRepo, EventoPartidoRepo $eventoPartidoRepo)
+								PartidoRepo $partidoRepo, PersonaRepo $personaRepo, AlineacionRepo $alineacionRepo, EventoPartidoRepo $eventoPartidoRepo, PosicionesRepo $posicionesRepo)
 	{
 		$this->campeonatoEquipoRepo = $campeonatoEquipoRepo;
 		$this->plantillaRepo = $plantillaRepo;
@@ -31,6 +36,7 @@ class AdminController extends BaseController {
 		$this->personaRepo = $personaRepo;
 		$this->alineacionRepo = $alineacionRepo;
 		$this->eventoPartidoRepo = $eventoPartidoRepo;
+		$this->posicionesRepo = $posicionesRepo;
 		View::composer('layouts.admin', 'App\Http\Controllers\AdminMenuController');
 	}
 
@@ -40,13 +46,25 @@ class AdminController extends BaseController {
 		$equipo2 = $this->equipoRepo->find($equipo2Id);
 		$equipos = $this->campeonatoEquipoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 
-		$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
+		if($equipo2Id == -1){
+			$partidos = $this->partidoRepo->getByLigaByEquipo($ligaId, $equipo1Id);	
+		}
+		else{
+			$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
+		}
 		
 		$estadisticas1 = new stdClass();
 		$estadisticas1->equipo = $equipo1;
 		$estadisticas1->JJ = 0; $estadisticas1->JG = 0; $estadisticas1->JE = 0; $estadisticas1->JP = 0; $estadisticas1->GF = 0; $estadisticas1->GC = 0;
+
 		$estadisticas2 = new stdClass();
-		$estadisticas2->equipo = $equipo2;
+		if($equipo2Id == -1){
+			$e = new Equipo();
+			$e->nombre = 'Todos';
+			$estadisticas2->equipo = $e;
+		}
+		else
+			$estadisticas2->equipo = $equipo2;
 		$estadisticas2->JJ = 0; $estadisticas2->JG = 0; $estadisticas2->JE = 0; $estadisticas2->JP = 0; $estadisticas2->GF = 0; $estadisticas2->GC = 0;
 
 		foreach($partidos as $partido)
@@ -391,6 +409,14 @@ class AdminController extends BaseController {
 
 
 		return view('administracion/Estadisticas/partidos_jugadores',compact('ligaId','jugadorId','equipoId','rivalId','campeonatoId','jugador','partidos','alineaciones', 'totales','totalesEquipos','equipo','rival','campeonato'));
+	}
+
+	public function mostrarPosicionesLiga(Liga $liga)
+	{
+		$partidos = $this->partidoRepo->getByLigaByFaseByEstado($liga->id, ['R'], [2,3]);
+		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosicionesByLiga($liga->id);
+		$posiciones = $this->posicionesRepo->getTablaByLiga($liga->id, 0, $partidos, $equipos);
+		return view('administracion/Estadisticas/posiciones_liga', compact('posiciones','liga'));
 	}
 
 	public function jugadoresLiga($ligaId)
