@@ -92,6 +92,10 @@ class RestController extends BaseController {
 				$ligas[$ligaId]['liga'] = $partido->campeonato->liga;
 			}
 
+			if(!isset($ligas[$ligaId]['campeonatos'][$partido->campeonato_id])){
+				$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['campeonato'] = $partido->campeonato;
+			}
+
 			$p = new \App\App\Entities\Partido;
 			$p->id = $partido->id;
 			$p->equipo_local = $partido->equipo_local;
@@ -108,15 +112,25 @@ class RestController extends BaseController {
 			$p->liga = $partido->campeonato->liga->nombre;
 			$p->campeonato = $partido->campeonato;
 
-			$ligas[$ligaId]['partidos'][] = $p;
+			$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['partidos'][] = $p;
 		}
 
 		$ligasDB = [];
+		$ligasDB2 = [];
 		foreach($ligas as $liga){
 			$ligasDB[] = $liga;
 		}
+		foreach($ligasDB as $index => $liga)
+		{
+			$ligasDB2[$index]['liga'] = $liga['liga'];
+			foreach($liga['campeonatos'] as $campeonato)
+			{
+				$ligasDB2[$index]['campeonatos'][] = $campeonato;
 
-		return json_encode($ligasDB);
+			}
+		}
+
+		return json_encode($ligasDB2);
 	}
 
 	public function inicioLigas()
