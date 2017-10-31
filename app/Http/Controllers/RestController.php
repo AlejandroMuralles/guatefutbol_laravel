@@ -79,6 +79,8 @@ class RestController extends BaseController {
 		//$fechaInicio = '2017-05-01';
 		$fechaFin = $this->getFecha($diasFin . ' day');
 		$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
+
+		//dd($partidos);
 		
 		$configuracion = $this->configuracionRepo->find(2);
 		$data['configuracion'] = $configuracion;

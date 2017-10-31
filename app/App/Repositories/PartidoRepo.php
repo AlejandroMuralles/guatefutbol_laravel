@@ -244,15 +244,24 @@ class PartidoRepo extends BaseRepo{
 						->with('campeonato.liga')
 						->orderBy('fecha')
 						->get();
-		$partidos = $partidos->sortBy(function ($partido) { 
-			
-		});
+		$partidos = $partidos->sortBy('campeonato.liga_id')->sortBy('fecha');	
+		return $partidos;
 	}
 
 	private function orderByJornada($partidoA, $partidoB)
 	{
 		if(  $partidoA->jornada->numero ==  $partidoB->jornada->numero ){ return 0 ; } 
   		return ($partidoA->jornada->numero < $partidoB->jornada->numero) ? -1 : 1;
+	}
+
+	function orderByLigaByFecha( $partidoA, $partidoB ) {
+
+		
+
+		if ($partidoA->campeonato->liga_id == $partidoB->campeonato->liga_id) {
+  			return strtotime($partidoA->fecha) > strtotime($partidoB->fecha) ? -1 : 1;
+   		}
+		return $partidoA->campeonato->liga_id > $partidoB->campeonato->liga_id ? -1 : 1;
 	}
 
 }
