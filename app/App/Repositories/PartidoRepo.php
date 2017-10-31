@@ -233,7 +233,7 @@ class PartidoRepo extends BaseRepo{
 
 	public function getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin)
 	{
-		return Partido::whereBetween('fecha',[$fechaInicio,$fechaFin])
+		$partidos = Partido::whereBetween('fecha',[$fechaInicio,$fechaFin])
 						->whereHas('campeonato', function($q){
 							$q->where('mostrar_app',1);
 						})
@@ -244,6 +244,9 @@ class PartidoRepo extends BaseRepo{
 						->with('campeonato.liga')
 						->orderBy('fecha')
 						->get();
+		$partidos = $partidos->sortBy(function ($partido) { 
+			
+		});
 	}
 
 	private function orderByJornada($partidoA, $partidoB)
