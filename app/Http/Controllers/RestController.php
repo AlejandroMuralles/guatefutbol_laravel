@@ -132,7 +132,13 @@ class RestController extends BaseController {
 			}
 		}
 
+		usort($ligasDB2, array('App\Http\Controllers\RestController','orderByLigaByFecha'));
+
 		return json_encode($ligasDB2);
+	}
+
+	function orderByLigaByFecha( $ligaA, $ligaB ) {
+		return $ligaA['liga']->id < $ligaB['liga']->id ? -1 : 1;
 	}
 
 	public function inicioLigas()
