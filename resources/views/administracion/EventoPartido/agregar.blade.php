@@ -7,7 +7,8 @@
 	{!! Form::open(['route' => array('agregar_evento_partido',$partido->id, $evento->id, $equipoId), 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
 
 		{!! Field::checkbox('facebook') !!}
-	
+		{!! Field::checkbox('twitter', null, null, null, $twitterChecked) !!}
+
 		{!! Field::number('minuto') !!}
 
 		@if($evento->id != 12)
@@ -32,7 +33,7 @@
 @section('js')
 
 <script>
-	
+
 $(function(){
 	$('input[name="facebook"').attr('checked','checked');
 })
