@@ -113,7 +113,7 @@ class EventoPartidoManager extends BaseManager
 			throw new SaveDataException('¡Error!', $ex);
 		}
 
-		
+
 	}
 
 	function finalizarPartido($partido)
@@ -139,13 +139,13 @@ class EventoPartidoManager extends BaseManager
 				}
         		$partido->save();
 
-				
+
 
 				/* Componer minutos jugados */
 				$minutoFinPartido = $this->data['minuto'];
-				
+
 				$personasConEventos = $eventoPartidoRepo->getPersonasWithEventoByPartido(array(9,11),$partido->id);
-				
+
 				$personaId = 0;
 				foreach($personasConEventos as $persona)
 				{
@@ -276,7 +276,7 @@ class EventoPartidoManager extends BaseManager
 		{
 			throw new SaveDataException('¡Error!', $ex);
 		}
-		
+
 	}
 
 	function agregarPersona($partido,$equipoId)
@@ -318,7 +318,7 @@ class EventoPartidoManager extends BaseManager
 
 					$eventoEncajaGol->equipo_id = $equipoContrarioId;
 
-					$eventoEncajaGol->comentario = $this->getComentario($partido, $eventoEncajaGol->evento_id, 
+					$eventoEncajaGol->comentario = $this->getComentario($partido, $eventoEncajaGol->evento_id,
 														$equipoContrarioId, $personaRepo->find($eventoEncajaGol->jugador1_id));
 					$eventoEncajaGol->save();
 
@@ -344,7 +344,7 @@ class EventoPartidoManager extends BaseManager
 				}
 				/*Si es cambio se actualizan los minutos jugados*/
 				if($this->entity->evento_id == 9)
-				{					
+				{
 					$alineacion = $alineacionRepo->getJugadorByPartido($partido->id, $this->entity->jugador1_id);
 					$alineacion->minutos_jugados = $this->entity->minuto;
 					$alineacion->save();
@@ -360,19 +360,19 @@ class EventoPartidoManager extends BaseManager
 					//* si es cambio  *//
 					if($this->entity->evento_id == 9)
 					{
-						$this->entity->comentario = $this->getComentario($partido, $this->entity->evento_id, 
-														$this->entity->equipo_id, $personaRepo->find($this->entity->jugador1_id), 
+						$this->entity->comentario = $this->getComentario($partido, $this->entity->evento_id,
+														$this->entity->equipo_id, $personaRepo->find($this->entity->jugador1_id),
 														$personaRepo->find($this->entity->jugador2_id));
 					}
 					else{
-						$this->entity->comentario = $this->getComentario($partido, $this->entity->evento_id, 
+						$this->entity->comentario = $this->getComentario($partido, $this->entity->evento_id,
 														$this->entity->equipo_id, $personaRepo->find($this->entity->jugador1_id));
 					}
 				}
-				
+
 
 				$this->entity->save();
-				
+
 
 			\DB::commit();
 
@@ -391,7 +391,7 @@ class EventoPartidoManager extends BaseManager
 				}
 				else
 					$this->postFacebook($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
-				
+
 			}
 			//dd(isset($this->data['twitter']));
 			if(isset($this->data['twitter'])){
@@ -405,7 +405,11 @@ class EventoPartidoManager extends BaseManager
 					else{
 						$this->postTwitter($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 					}
-					
+
+				}
+				else
+				{
+					$this->postTwitter($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 				}
 			}
 		}
@@ -414,8 +418,8 @@ class EventoPartidoManager extends BaseManager
 			//dd($ex);
 			throw new SaveDataException('¡Error!', $ex);
 		}
-		
-		
+
+
 	}
 
 	public function eliminarEvento($partido)
@@ -535,8 +539,8 @@ class EventoPartidoManager extends BaseManager
 
 	private function getResultado($partido)
 	{
-		return $partido->equipo_local->nombre . ' ' . 
-					$partido->goles_local . '-' . $partido->goles_visita . ' ' . 
+		return $partido->equipo_local->nombre . ' ' .
+					$partido->goles_local . '-' . $partido->goles_visita . ' ' .
 				$partido->equipo_visita->nombre;
 	}
 
@@ -555,17 +559,17 @@ class EventoPartidoManager extends BaseManager
 	public function postFacebook($mensaje)
 	{
 		try{
-			$config = array(
-	 			'app_id' => env('FB_API_KEY'),
-	         	'app_secret' => env('FB_API_SECRET'),
-	        	'allowSignedRequest' => false
+				$config = array(
+		 					'app_id' => env('FB_API_KEY'),
+		         	'app_secret' => env('FB_API_SECRET'),
+		        	'allowSignedRequest' => false
 	    	);
 
 	    	$facebook = new Facebook($config);
-			$fanPageId = env('FB_FANPAGE_ID');
-			$accessToken = \Session::get('access_token');
-			$data['message'] = $mensaje;
-    		$post_url = '/'.$fanPageId.'/feed';            		
+				$fanPageId = env('FB_FANPAGE_ID');
+				$accessToken = \Session::get('access_token');
+				$data['message'] = $mensaje;
+    		$post_url = '/'.$fanPageId.'/feed';
     		$facebook->post($post_url, $data, $accessToken);
     		\Session::flash('fb-success', 'Se posteó en facebook correctamente.');
 		}
@@ -591,7 +595,7 @@ class EventoPartidoManager extends BaseManager
 			$data['caption'] = $mensaje;
 			$data['url'] = $imagen;
 			//dd($data);
-    		$post_url = '/'.$fanPageId.'/photos';            		
+    		$post_url = '/'.$fanPageId.'/photos';
     		$facebook->post($post_url, $data, $accessToken);
     		\Session::flash('fb-success', 'Se posteó en facebook correctamente.');
 		}
@@ -610,7 +614,7 @@ class EventoPartidoManager extends BaseManager
 	public function postImageTwitter($urlImagen, $mensaje)
 	{
 		$uploaded_media = Twitter::uploadMedia(['media' => file_get_contents($urlImagen)]);
-  		return Twitter::postTweet(['status' => $mensaje, 'media_ids' =>  $uploaded_media->media_id_string]);
+  	return Twitter::postTweet(['status' => $mensaje, 'media_ids' =>  $uploaded_media->media_id_string]);
 	}
 
 }
