@@ -395,6 +395,7 @@ class EventoPartidoManager extends BaseManager
 			}
 			//dd(isset($this->data['twitter']));
 			if(isset($this->data['twitter'])){
+				dd("check tw");
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
 					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
