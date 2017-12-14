@@ -393,7 +393,7 @@ class EventoPartidoManager extends BaseManager
 					$this->postFacebook($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 
 			}
-			//dd(isset($this->data['twitter']));
+			dd($this->data['twitter']);
 			if(isset($this->data['twitter'])){
 				dd("check tw");
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
