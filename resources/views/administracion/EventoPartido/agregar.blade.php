@@ -7,7 +7,7 @@
 	{!! Form::open(['route' => array('agregar_evento_partido',$partido->id, $evento->id, $equipoId), 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
 
 		{!! Field::checkbox('facebook') !!}
-		{!! Field::checkbox('twitter', null, null, null, $twitterChecked) !!}
+		{!! Field::checkbox('twitter', null, null, null, true) !!}
 
 		{!! Field::number('minuto') !!}
 
