@@ -107,6 +107,12 @@ class EventoPartidoManager extends BaseManager
 				else
 					$this->postFacebook($this->entity->comentario. ' ' . $partido->campeonato->hashtag);
 			}
+			if(isset($this->data['twitter'])){
+				if($this->entity->evento_id == 12)
+					$this->postTwitter($this->entity->comentario . ' Minuto ' . $this->entity->minuto. ' ' . $partido->campeonato->hashtag);
+				else
+					$this->postTwitter($this->entity->comentario. ' ' . $partido->campeonato->hashtag);
+			}
 		}
 		catch(\Exception $ex)
 		{
@@ -271,6 +277,9 @@ class EventoPartidoManager extends BaseManager
 			if(isset($this->data['facebook'])){
 				$this->postFacebook($this->entity->comentario. ' ' . $partido->campeonato->hashtag);
 			}
+			if(isset($this->data['twitter'])){
+				$this->postTwitter($this->entity->comentario. ' ' . $partido->campeonato->hashtag);
+			}
 		}
 		catch(\Exception $ex)
 		{
@@ -393,9 +402,9 @@ class EventoPartidoManager extends BaseManager
 					$this->postFacebook($this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 
 			}
-			dd($this->data['twitter']);
+			//dd($this->data['twitter']);
 			if(isset($this->data['twitter'])){
-				dd("check tw");
+				//dd("check tw");
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
 					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
