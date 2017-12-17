@@ -8,7 +8,7 @@ class AuthController extends BaseController {
 
 	public function __construct()
 	{
-		
+
 	}
 
 	public function mostrarLogin()
@@ -35,7 +35,7 @@ class AuthController extends BaseController {
 			}
 			return Redirect::route('administracion');
 		}
-		
+
 		Session::flash('error','Credenciales no válidas');
 		return Redirect::back();
 	}
@@ -49,6 +49,14 @@ class AuthController extends BaseController {
 	public function mostrarDashboard()
 	{
 		return Redirect::route('posiciones',[21,0]);
+	}
+
+	public function info()
+	{
+		$data['post_max_size'] = ini_get('post_max_size');
+		$data['memory_limit'] = ini_get('memory_limit');
+		$data['WP_MEMORY_LIMIT'] = ini_get('WP_MEMORY_LIMIT');
+		dd($data);
 	}
 
 	public function logout()
