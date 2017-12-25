@@ -41,6 +41,7 @@ class tablaAcumuladaController extends BaseController {
 	public function agregar($ligaId)
 	{
 		$data = Input::all();
+		$data['estado'] = 'A';
 		$manager = new tablaAcumuladaManager(new tablaAcumulada(), $data);
 		$manager->save();
 		Session::flash('success', 'Se agregó la tabla acumulada con éxito.');
@@ -51,7 +52,7 @@ class tablaAcumuladaController extends BaseController {
 	{
 		$tablaAcumulada = $this->tablaAcumuladaRepo->find($id);
 		$liga = $this->ligaRepo->find($tablaAcumulada->campeonato1->liga_id);
-		$campeonatos = $this->campeonatoRepo->getByLiga($liga->id)->pluck('nombre','id')->toArray();		
+		$campeonatos = $this->campeonatoRepo->getByLiga($liga->id)->pluck('nombre','id')->toArray();
 		return view('administracion/TablaAcumulada/editar', compact('tablaAcumulada','liga','campeonatos'));
 	}
 
@@ -59,10 +60,10 @@ class tablaAcumuladaController extends BaseController {
 	{
 		$tablaAcumulada = $this->tablaAcumuladaRepo->find($id);
 		$data = Input::all();
+		$data['estado'] = 'A';
 		$manager = new tablaAcumuladaManager($tablaAcumulada, $data);
 		$manager->save();
 		Session::flash('success', 'Se editó la tabla acumulada con éxito.');
 		return Redirect::route('tablas_acumuladas', $tablaAcumulada->liga_id);
 	}
 }
-
