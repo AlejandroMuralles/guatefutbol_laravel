@@ -1,7 +1,6 @@
 @extends('layouts.publico')
 @section('title') Tabla de Posiciones - {{$campeonato->nombre}} @stop
 @section('css')
-<link href="{{ asset('assets/public/css/plugins/datatables/datatables.css') }}" rel="stylesheet" type="text/css" />
 @stop
 @section('header')
 <section class="page-title">
@@ -48,7 +47,7 @@
 			<a href="{{route('porteros',[$ligaId, $campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla de Guardametas</a>
 			@if($campeonato->liga_id == 21)
-			<a href="{{route('campeones',[$campeonato->liga_id,$campeonato->id])}}" 
+			<a href="{{route('campeones',[$campeonato->liga_id,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Campeones</a>
 			@endif
 
@@ -102,9 +101,6 @@
 @stop
 
 @section('js')
-
-<script src="{{ asset('assets/public/js/plugins/datatables/jquery.dataTables.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/public/js/plugins/datatables/datatables-bs3.js') }}" type="text/javascript"></script>
 <script>
 
 	var segundos = 0;
@@ -115,15 +111,6 @@
 			segundos = {{$configuracion->parametro1}};
  			actualizar();
 		@endif
-
-
-		$('.table').dataTable({
-			"bSort" : false,
-			"bPaginate": false,
-			"bFilter": false,
-			"bInfo": false,
-   			"iDisplayLength" : 25,
-		});
 
 		$('select').on('change', function () {
           var url = '{{route("inicio")}}/posiciones/{{$ligaId}}/'+ $(this).val();
