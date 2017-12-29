@@ -15,6 +15,8 @@ Route::get('login', ['as' => 'login', 'uses' => 'AuthController@mostrarLogin']);
 Route::post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
 Route::get('/', ['as' => 'inicio', 'uses' => 'AuthController@mostrarDashboard']);
 
+Route::get('info', ['as' => 'info', 'uses' => 'AuthController@info']);
+
 Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'AuthController@mostrarDashboard']);
@@ -134,17 +136,17 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('CampeonatoEquipo/agregar/{id}', ['as' => 'agregar_equipo_campeonato', 'uses' => 'CampeonatoEquipoController@agregar']);
 	Route::get('CampeonatoEquipo/editar/{id}', ['as' => 'editar_equipos_campeonato', 'uses' => 'CampeonatoEquipoController@mostrarEditar']);
 	Route::post('CampeonatoEquipo/editar/{id}', ['as' => 'editar_equipos_campeonato', 'uses' => 'CampeonatoEquipoController@editar']);
-	Route::get('CampeonatoEquipo/trasladar-equipos/{campeonatoNuevo}/{campeonatoAntiguo}', ['as' => 'trasladar_equipos_campeonato', 
+	Route::get('CampeonatoEquipo/trasladar-equipos/{campeonatoNuevo}/{campeonatoAntiguo}', ['as' => 'trasladar_equipos_campeonato',
 			'uses' => 'CampeonatoEquipoController@mostrarTrasladarEquipos']);
-	Route::post('CampeonatoEquipo/trasladar-equipos/{campeonatoNuevo}/{campeonatoAntiguo}', ['as' => 'trasladar_equipos_campeonato', 
-			'uses' => 'CampeonatoEquipoController@trasladarEquipos']);	
+	Route::post('CampeonatoEquipo/trasladar-equipos/{campeonatoNuevo}/{campeonatoAntiguo}', ['as' => 'trasladar_equipos_campeonato',
+			'uses' => 'CampeonatoEquipoController@trasladarEquipos']);
 
 
 	Route::get('EquipoPersona/agregar/{campeonatoEquipoId}/', ['as' => 'agregar_personas_equipo', 'uses' => 'PlantillaController@mostrarAgregar']);
 	Route::post('EquipoPersona/agregar/{campeonatoEquipoId}/', ['as' => 'agregar_personas_equipo', 'uses' => 'PlantillaController@agregar']);
 	Route::get('EquipoPersona/editar/{campeonatoEquipoId}', ['as' => 'editar_personas_equipo', 'uses' => 'PlantillaController@mostrarEditar']);
-	Route::post('EquipoPersona/editar/{campeonatoEquipoId}', ['as' => 'editar_personas_equipo', 'uses' => 'PlantillaController@editar']);	
-	
+	Route::post('EquipoPersona/editar/{campeonatoEquipoId}', ['as' => 'editar_personas_equipo', 'uses' => 'PlantillaController@editar']);
+
 	Route::get('Administracion/dashboard', ['as' => 'administracion', 'uses' => 'AuthController@mostrarAdminDashboard']);
 	Route::get('monitorear-jornada/{ligaId}/{campeonatoId}/{jornadaId}/{partidoId}/{equipoId}', ['as' => 'monitorear_jornada', 'uses' => 'PartidoController@mostrarMonitorearJornada']);
 
@@ -205,7 +207,7 @@ Route::get('json-mini-calendario/{ligaId}/{campeonatoId}/{completo}', ['as' => '
 
 
 
-	
+
 /*REST ESTADISTICAS ADMIN */
 Route::get('Jugadores-Liga/{ligaId}', ['as' => 'json_jugadores_liga', 'uses' => 'AdminController@jugadoresLiga']);
 Route::get('Arbitros-Liga/{ligaId}', ['as' => 'json_arbitros_liga', 'uses' => 'AdminController@arbitrosLiga']);
