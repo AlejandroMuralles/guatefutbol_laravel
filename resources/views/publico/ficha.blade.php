@@ -7,9 +7,9 @@
 		<div class="eq-local">
 			<a class="nom-equip" href="#">
 				<span class="escudo">
-					<img height="50px" src="{{$partido->equipo_local->logo}}" >
+					<img height="50px" src="{{$equipoLocal->logo}}" >
 				</span>
-				<span class="nom" itemprop="name">{{$partido->equipo_local->nombre}} </span>
+				<span class="nom" itemprop="name">{{$equipoLocal->nombre}} </span>
 			</a>
 		</div>
 		<div class="marcador cf">
@@ -21,9 +21,9 @@
 		<div class="eq-visit">
 			<a class="nom-equip" href="#">
 				<span class="escudo">
-					<img height="50px" src="{{$partido->equipo_visita->logo}}" >
+					<img height="50px" src="{{$equipoVisita->logo}}" >
 				</span>
-				<span class="nom">{{$partido->equipo_visita->nombre}} </span>
+				<span class="nom">{{$equipoVisita->nombre}} </span>
 			</a>
 		</div>
 	</div>
@@ -48,14 +48,14 @@
 						</tr>
 						<tr>
 							<td style="font-weight: bold; padding: 5px" class="bg-primary">Estadio: &nbsp;&nbsp;</td>
-							<td style="padding: 5px; background-color: #B7E3F9">@if($partido->estadio) {{$partido->estadio->nombre}} @endif</td>
+							<td style="padding: 5px; background-color: #B7E3F9">@if($estadio) {{$estadio->nombre}} @endif</td>
 						</tr>
 						<tr>
 							<td style="font-weight: bold; padding: 5px" class="bg-primary">Árbitro: &nbsp;&nbsp;</td>
 							<td style="padding: 5px; background-color: #B7E3F9">
 
-								@if(!is_null($partido->arbitro_central))
-									{{$partido->arbitro_central->nombre_completo}} 
+								@if(!is_null($arbitroCentral))
+									{{$arbitroCentral->nombre_completo}}
 								@endif
 							</td>
 						</tr>
@@ -87,12 +87,12 @@
 							<tr><td colspan="3">Alineaciones por anunciar</td></tr>
 						@endif
 						<tr class="bg-primary">
-							<td colspan="3" class="text-center"> 
+							<td colspan="3" class="text-center">
 								@if($ficha->dtLocal)	DT. {{$ficha->dtLocal->nombreCompleto}} @endif
 							</td>
 						</tr>
 					</tbody>
-				</table>	
+				</table>
 			</div>
 			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0;">
 				<table class="table watermark">
@@ -118,11 +118,11 @@
 						<tr class="bg-primary">
 							<td colspan="3" class="text-center">
 								@if($ficha->dtVisita)	DT. {{$ficha->dtVisita->nombreCompleto}} @endif
-								
+
 							</td>
 						</tr>
 					</tbody>
-				</table>	
+				</table>
 			</div>
 		</div>
 		<br/>
@@ -151,7 +151,7 @@
 							<tr><td colspan="2">Sin goles</td></tr>
 						@endif
 					</tbody>
-				</table>	
+				</table>
 			</div>
 			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
 				<table class="table">
@@ -177,7 +177,7 @@
 							<tr><td colspan="2">Sin goles</td></tr>
 						@endif
 					</tbody>
-				</table>	
+				</table>
 			</div>
 		</div>
 		<div class="row">
@@ -205,7 +205,7 @@
 							<tr><td colspan="4">Sin tarjetas</td></tr>
 						@endif
 					</tbody>
-				</table>	
+				</table>
 			</div>
 			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
 				<table class="table">
@@ -231,7 +231,7 @@
 							<tr><td colspan="4">Sin tarjetas</td></tr>
 						@endif
 					</tbody>
-				</table>	
+				</table>
 			</div>
 		</div>
 		</div>
@@ -248,7 +248,7 @@
 	$(function(){
 		@if($configuracion->parametro3 && $partido->estado != 3)
 			segundos = {{$configuracion->parametro1}};
- 			actualizar(); 
+ 			actualizar();
 		@endif
 	});
 	function redirect(){
@@ -258,14 +258,14 @@
     	if(segundos > 0){
     		segundos = segundos - 1;
     		$('#txtActualizar').text(segundos);
-    		setTimeout("actualizar()",1000) 
+    		setTimeout("actualizar()",1000)
         }
         else{
         	window.location.reload();
         }
-    } 
+    }
 </script>
-<script> 
+<script>
 
 	var minuto = 0;
 	var segundo = 0;
@@ -282,12 +282,12 @@
         if(txtSeg<10) txtSeg = "0"+txtSeg;
         if(txtMin<10) txtMin = "0"+txtMin;
 
-        tiempoPartido = txtMin + " : " + txtSeg; 
+        tiempoPartido = txtMin + " : " + txtSeg;
 
         $('#tiempoPartido').text(tiempoPartido);
 
-        setTimeout("mueveReloj()",1000) 
-    } 
+        setTimeout("mueveReloj()",1000)
+    }
 
     $(document).ready(function()
     {

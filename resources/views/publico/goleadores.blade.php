@@ -13,7 +13,7 @@ Tabla de Goleadores - {{$campeonato->nombre}}
         <header>
             <h2>Tabla de Goleadores - {{$campeonato->nombre}}</h2>
         </header>
-    </div>          
+    </div>
 </section>
 <div class="orange ribbon"></div>
 @stop
@@ -38,24 +38,24 @@ Tabla de Goleadores - {{$campeonato->nombre}}
 			</div>
 		</div>
 		<center>
-			<a href="{{route('posiciones',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla General</a>
-			<a href="{{route('posiciones_local',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones_local',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Local</a>
-			<a href="{{route('posiciones_visita',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones_visita',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Visita</a>
-			<a href="{{route('tabla_acumulada',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('tabla_acumulada',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Acumulada</a>
 			<br/>
 			<br/>
 			<a href="{{route('porteros',[$ligaId, $campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla de Guardametas</a>
 			@if($campeonato->liga_id == 21)
-			<a href="{{route('campeones',[$campeonato->liga,$campeonato->id])}}" 
+			<a href="{{route('campeones',[$campeonato->liga_id,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Campeones</a>
 			@endif
-			
-			
+
+
 		</center>
 		<br/><br/>
 		<div class="row row2">
@@ -104,15 +104,15 @@ Tabla de Goleadores - {{$campeonato->nombre}}
 
 		@if($configuracion->parametro3)
 			segundos = {{$configuracion->parametro1}};
- 			actualizar(); 			
+ 			actualizar();
 		@endif
 
-		$('table').dataTable({
+    $('.table').dataTable({
 			"bSort" : false,
-			"bPaginate": true,
-			"bFilter": true, 
-			"bInfo": true,
-   			"iDisplayLength" : 10,
+			"bPaginate": false,
+			"bFilter": false,
+			"bInfo": false,
+   			"iDisplayLength" : 20,
 		});
 
 		$('select').on('change', function () {
@@ -129,12 +129,12 @@ Tabla de Goleadores - {{$campeonato->nombre}}
     	if(segundos > 0){
     		segundos = segundos - 1;
     		$('#txtActualizar').text(segundos);
-    		setTimeout("actualizar()",1000) 
+    		setTimeout("actualizar()",1000)
         }
         else{
         	window.location.reload();
         }
-    } 
+    }
 </script>
 
 @stop

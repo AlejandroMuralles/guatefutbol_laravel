@@ -77,13 +77,13 @@
 
 		@if($configuracion->parametro3)
 			segundos = {{$configuracion->parametro1}};
- 			actualizar(); 			
+ 			actualizar();
 		@endif
 
 		$('.table').dataTable({
 			"bSort" : false,
 			"bPaginate": false,
-			"bFilter": false, 
+			"bFilter": false,
 			"bInfo": false,
    			"iDisplayLength" : 20,
 		});
@@ -102,7 +102,7 @@
     	if(segundos > 0){
     		segundos = segundos - 1;
     		$('#txtActualizar').text(segundos);
-    		setTimeout("actualizar()",1000) 
+    		setTimeout("actualizar()",1000)
         }
         else{
         	window.location.reload();

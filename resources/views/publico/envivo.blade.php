@@ -1,20 +1,15 @@
 @extends('layouts.publico')
-
 @section('css')
-
-
 @stop
-
 @section('content')
-
 <div class="dir-result">
 	<div class="container">
 		<div class="eq-local">
 			<a class="nom-equip" href="#">
 				<span class="escudo">
-					<img height="50px" src="{{$partido->equipo_local->logo}}" >
+					<img height="50px" src="{{$equipoLocal->logo}}" >
 				</span>
-				<span class="nom" itemprop="name">{{$partido->equipo_local->nombre}} </span>
+				<span class="nom" itemprop="name">{{$equipoLocal->nombre}} </span>
 			</a>
 		</div>
 		<div class="marcador cf">
@@ -26,9 +21,9 @@
 		<div class="eq-visit">
 			<a class="nom-equip" href="#">
 				<span class="escudo">
-					<img height="50px" src="{{$partido->equipo_visita->logo}}" >
+					<img height="50px" src="{{$equipoVisita->logo}}" >
 				</span>
-				<span class="nom">{{$partido->equipo_visita->nombre}} </span>
+				<span class="nom">{{$equipoVisita->nombre}} </span>
 			</a>
 		</div>
 	</div>
@@ -86,7 +81,7 @@
 	$(function(){
 		@if($configuracion->parametro3)
 			segundos = {{$configuracion->parametro1}};
- 			actualizar(); 
+ 			actualizar();
 		@endif
 	});
 
@@ -98,15 +93,15 @@
     	if(segundos > 0){
     		segundos = segundos - 1;
     		$('#txtActualizar').text(segundos);
-    		setTimeout("actualizar()",1000) 
+    		setTimeout("actualizar()",1000)
         }
         else{
         	window.location.reload();
         }
-    } 
+    }
 </script>
 
-<script> 
+<script>
 
 	var minuto = 0;
 	var segundo = 0;
@@ -123,12 +118,12 @@
         if(txtSeg<10) txtSeg = "0"+txtSeg;
         if(txtMin<10) txtMin = "0"+txtMin;
 
-        tiempoPartido = txtMin + " : " + txtSeg; 
+        tiempoPartido = txtMin + " : " + txtSeg;
 
         $('#tiempoPartido').text(tiempoPartido);
 
-        setTimeout("mueveReloj()",1000) 
-    } 
+        setTimeout("mueveReloj()",1000)
+    }
 
     $(document).ready(function()
     {

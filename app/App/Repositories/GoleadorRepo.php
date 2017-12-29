@@ -11,12 +11,12 @@ class GoleadorRepo {
 	protected $goleadores;
 
 	public function getGoleadores($campeonato)
-	{		
+	{
 		$this->goleadores = array();
 		$eventoPartidoRepo = new EventoPartidoRepo();
 
 		$goles = $eventoPartidoRepo->getByCampeonatoByFase($campeonato->id, array(6,8), array('R'));
-		
+
 		foreach($goles as $gol)
 		{
 			$goleador = $this->getGoleador($gol->jugador1, $gol->equipo);
@@ -27,12 +27,12 @@ class GoleadorRepo {
 		foreach($this->goleadores as $goleador){
 			if(strtotime($campeonato->fecha_fin) > strtotime(date('Y-m-d H:i:s')))
 			{
-				$diff = abs(strtotime($campeonato->fecha_fin) - strtotime($goleador->jugador->fecha_nacimiento));	
+				$diff = abs(strtotime($campeonato->fecha_fin) - strtotime($goleador->jugador->fecha_nacimiento));
 				$goleador->jugador->fecha_nacimiento = intval($diff/60/60/24/365);
 			}
 			else
 			{
-				$diff = abs(strtotime(date("Y-m-d H:i:s")) - strtotime($goleador->jugador->fecha_nacimiento));	
+				$diff = abs(strtotime(date("Y-m-d H:i:s")) - strtotime($goleador->jugador->fecha_nacimiento));
 				$goleador->jugador->fecha_nacimiento = intval($diff/60/60/24/365);
 			}
 			$ids[] = $goleador->jugador->id;
@@ -50,8 +50,8 @@ class GoleadorRepo {
 				}
 			}
 		}
-		usort($this->goleadores, array('App\App\Repositories\GoleadorRepo','cmp'));		
-		
+		usort($this->goleadores, array('App\App\Repositories\GoleadorRepo','cmp'));
+
 		return $this->goleadores;
 	}
 
