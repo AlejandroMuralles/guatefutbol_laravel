@@ -18,7 +18,7 @@ use App\App\Repositories\HistorialCampeonRepo;
 
 use App\App\ExtraEntities\FichaPartido;
 
-use View;
+use View, Cache;
 
 class PublicController extends BaseController {
 
@@ -36,7 +36,7 @@ class PublicController extends BaseController {
 	protected $equipoRepo;
 	protected $historialCampeonRepo;
 
-	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo, 
+	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,EstadioRepo $estadioRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, PorteroRepo $porteroRepo, PlantillaRepo $plantillaRepo,EquipoRepo $equipoRepo, HistorialCampeonRepo $historialCampeonRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
@@ -57,19 +57,33 @@ class PublicController extends BaseController {
 
 	public function posiciones($ligaId, $campeonatoId)
 	{
-		$configuracion = $this->configuracionRepo->find(5);
-		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
-		if($campeonatoId == 0)
-		{
-			$campeonato = $this->campeonatoRepo->getActual($ligaId);
-		}
-		else
-		{
-			$campeonato = $this->campeonatoRepo->find($campeonatoId);
-		}
-		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
-		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+		$data = Cache::remember('publico.posiciones'.$ligaId.'-'.$campeonatoId, 1, function() use($ligaId, $campeonatoId) {
+				$configuracion = $this->configuracionRepo->find(5);
+				$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
+				if($campeonatoId == 0)
+				{
+					$campeonato = $this->campeonatoRepo->getActual($ligaId);
+				}
+				else
+				{
+					$campeonato = $this->campeonatoRepo->find($campeonatoId);
+				}
+				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+
+				$data['configuracion'] = $configuracion;
+				$data['campeonatos'] = $campeonatos;
+				$data['campeonato'] = $campeonato;
+				$data['posiciones'] = $posiciones;
+				return $data;
+		});
+
+		$configuracion = $data['configuracion'];
+		$campeonatos = $data['campeonatos'];
+		$campeonato = $data['campeonato'];
+		$posiciones = $data['posiciones'];
+
 		return view('publico/posiciones', compact('posiciones','campeonato','ligaId','campeonatos','configuracion'));
 	}
 
@@ -221,12 +235,12 @@ class PublicController extends BaseController {
 		}
 		else
 		{
-			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);			
+			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
 		}
 
 		foreach($partidos as $partido){
 			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada;
-			$jornadas[$partido->jornada_id]['partidos'][] = $partido;	
+			$jornadas[$partido->jornada_id]['partidos'][] = $partido;
 		}
 
 		$configuracion = $this->configuracionRepo->find(2);
@@ -245,12 +259,12 @@ class PublicController extends BaseController {
 		{
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
-		
+
 		$partidos = $this->partidoRepo->getByCampeonatoByEquipo($campeonato->id, $equipoId);
 
 		/*foreach($partidos as $partido){
 			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada;
-			$jornadas[$partido->jornada_id]['partidos'][] = $partido;	
+			$jornadas[$partido->jornada_id]['partidos'][] = $partido;
 		}*/
 		$ligaId = $campeonato->liga;
 		$configuracion = $this->configuracionRepo->find(2);
@@ -280,19 +294,33 @@ class PublicController extends BaseController {
 
 	public function miniPosiciones($ligaId, $campeonatoId)
 	{
-		$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
-		if($campeonatoId == 0)
-		{
-			$campeonato = $this->campeonatoRepo->getActual($ligaId);
-		}
-		else
-		{
-			$campeonato = $this->campeonatoRepo->find($campeonatoId);
-		}
-		$configuracion = $this->configuracionRepo->find(5);
-		$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
-		$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-		$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+		$data = Cache::remember('publico.miniPosiciones'.$ligaId.'-'.$campeonatoId, 1, function() use($ligaId, $campeonatoId) {
+			$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$configuracion = $this->configuracionRepo->find(5);
+			$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+			$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+			$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
+
+			$data['configuracion'] = $configuracion;
+			$data['campeonato'] = $campeonato;
+			$data['campeonatos'] = $campeonatos;
+			$data['posiciones'] = $posiciones;
+			return $data;
+
+		});
+
+		$configuracion = $data['configuracion'];
+		$campeonato = $data['campeonato'];
+		$campeonatos = $data['campeonatos'];
+		$posiciones = $data['posiciones'];
 		return View::make('publico/mini_posiciones', compact('campeonato','ligaId','campeonatos','configuracion','posiciones'));
 	}
 
@@ -324,7 +352,7 @@ class PublicController extends BaseController {
 		{
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
-		
+
 		$jornadas = array();
 
 		if($completo == 0)
@@ -342,13 +370,13 @@ class PublicController extends BaseController {
 		else
 		{
 			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
-			
+
 		}
 
 		foreach($partidos as $partido){
 			$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada;
 
-			$jornadas[$partido->jornada_id]['partidos'][] = $partido;	
+			$jornadas[$partido->jornada_id]['partidos'][] = $partido;
 		}
 		//dd($jornadas);
 		$configuracion = $this->configuracionRepo->find(2);
@@ -366,7 +394,7 @@ class PublicController extends BaseController {
 		{
 			$campeonato = $this->campeonatoRepo->find($campeonatoId);
 		}
-		
+
 		$jornadas = array();
 
 		if($completo == 0)
@@ -384,7 +412,7 @@ class PublicController extends BaseController {
 		else
 		{
 			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
-			
+
 		}
 
 		foreach($partidos as $partido){
@@ -400,7 +428,7 @@ class PublicController extends BaseController {
 			$p['fecha'] = date('d/m/Y', strtotime($partido->fecha));
 			$p['hora'] = date('H:i', strtotime($partido->fecha));
 
-			$jornadas[$partido->jornada_id]['partidos'][] = $p;	
+			$jornadas[$partido->jornada_id]['partidos'][] = $p;
 		}
 		$configuracion = $this->configuracionRepo->find(2);
 		return json_encode($jornadas);
@@ -418,7 +446,7 @@ class PublicController extends BaseController {
 		}
 		$campeones = $this->historialCampeonRepo->all('fecha');
 		return View::make('publico/campeones', compact('campeones','ligaId','campeonato'));
-	}	
+	}
 
 	public function dashboard($ligaId, $campeonatoId)
 	{
@@ -448,7 +476,7 @@ class PublicController extends BaseController {
 		foreach($partidosDB as $partido)
 		{
 			$eventosDB = $this->eventoPartidoRepo->getByEventos($partido->id, array(6,7,8));
-		
+
 			$i = 0;
 			$golesLocal = 0;
 			$golesVisita = 0;
@@ -483,14 +511,14 @@ class PublicController extends BaseController {
 					if($evento->evento_id == 7)
 						$es[$i]['nombre_visita'] = '(ag) ' . $es[$i]['nombre_visita'];
 					$es[$i]['imagen_visita'] = $evento->evento->imagen;
-				}				
+				}
 				$i++;
 			}
 
 			$dato['partido'] = $partido;
 			$dato['eventos'] = $es;
 
-			$partidos[] = $dato; 
+			$partidos[] = $dato;
 
 		}
 
@@ -512,7 +540,7 @@ class PublicController extends BaseController {
 		return View::make('publico/partidos_scroll',compact('partidos'));
 	}
 
-	
+
 	function getFecha($extraDays){
 		$fecha = date('Y-m-d');
 		$nuevafecha = strtotime ( $extraDays , strtotime ( $fecha ) ) ;

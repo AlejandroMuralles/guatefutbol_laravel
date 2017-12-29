@@ -9,7 +9,7 @@
         <header>
             <h2>Tabla de Posiciones - {{$campeonato->nombre}}</h2>
         </header>
-    </div>          
+    </div>
 </section>
 <div class="gradient-gray ribbon"></div>
 @stop
@@ -33,26 +33,26 @@
 			</div>
 		</div>
 		<center>
-			<a href="{{route('posiciones',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla General</a>
-			<a href="{{route('posiciones_local',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones_local',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Local</a>
-			<a href="{{route('posiciones_visita',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('posiciones_visita',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Visita</a>
-			<a href="{{route('tabla_acumulada',[$ligaId,$campeonato->id])}}" 
+			<a href="{{route('tabla_acumulada',[$ligaId,$campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla Acumulada</a>
 			<br/>
 			<br/>
-			<a href="{{route('goleadores',[$ligaId, $campeonato->id])}}" 
+			<a href="{{route('goleadores',[$ligaId, $campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla de Goleadores</a>
 			<a href="{{route('porteros',[$ligaId, $campeonato->id])}}"
 				class="btn btn-gray btn-sm gray-gradient round-border">Tabla de Guardametas</a>
 			@if($campeonato->liga_id == 21)
-			<a href="{{route('campeones',[$campeonato->liga,$campeonato->id])}}" 
+			<a href="{{route('campeones',[$campeonato->liga_id,$campeonato->id])}}" 
 				class="btn btn-gray btn-sm gray-gradient round-border">Campeones</a>
 			@endif
-			
-			
+
+
 		</center>
 		<br/><br/>
 		<div class="row">
@@ -76,9 +76,9 @@
 						@foreach($posiciones as $posicion)
 						<tr>
 							<td class="text-center">{{$posicion->POS}}</td>
-							<td style="text-align: left"> 
+							<td style="text-align: left">
 								<a href="{{route('calendario_equipo',[$ligaId,$campeonato->id,$posicion->equipo->id])}}" class="" style="text-decoration: none">
-									<img src="{{$posicion->equipo->logo}}" style="height: 25px; width: 25px"> 
+									<img src="{{$posicion->equipo->logo}}" style="height: 25px; width: 25px">
 									{{$posicion->equipo->nombre}}
 								</a>
 							</td>
@@ -113,14 +113,14 @@
 
 		@if($configuracion->parametro3)
 			segundos = {{$configuracion->parametro1}};
- 			actualizar(); 			
+ 			actualizar();
 		@endif
-		
+
 
 		$('.table').dataTable({
 			"bSort" : false,
 			"bPaginate": false,
-			"bFilter": false, 
+			"bFilter": false,
 			"bInfo": false,
    			"iDisplayLength" : 25,
 		});
@@ -139,7 +139,7 @@
     	if(segundos > 0){
     		segundos = segundos - 1;
     		$('#txtActualizar').text(segundos);
-    		setTimeout("actualizar()",1000) 
+    		setTimeout("actualizar()",1000)
         }
         else{
         	window.location.reload();
