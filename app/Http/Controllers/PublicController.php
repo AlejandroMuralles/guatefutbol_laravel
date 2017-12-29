@@ -492,7 +492,7 @@ class PublicController extends BaseController {
 
 	public function miniCalendario($ligaId, $campeonatoId, $completo)
 	{
-		$data = Cache::remember('publico.miniCalendario'.$ligaId.'-'.$campeonatoId.'-'.$completo, 1, function() use($ligaId, $campeonatoId) {
+		$data = Cache::remember('publico.miniCalendario'.$ligaId.'-'.$campeonatoId.'-'.$completo, 1, function() use($ligaId, $campeonatoId, $completo) {
 			$campeonatos = $this->campeonatoRepo->getByEstado($ligaId, ['A'])->pluck('nombre','id')->toArray();
 			if($campeonatoId == 0)
 			{
