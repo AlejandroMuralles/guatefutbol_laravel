@@ -29,21 +29,18 @@
             <div class="page-content">
 
                 <!-- begin PAGE TITLE ROW -->
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-lg-12">
                         <div class="page-title">
-                            <h1>
-                            </h1>
+                            <h1></h1>
                             <div class="menu">
                                 <a href="{{route('posiciones',[$ligaId,0])}}">POSICIONES</a>
                                 <a href="{{route('calendario',[$ligaId,0,0])}}">CALENDARIO</a>
                                 <a href="{{route('plantilla',[$ligaId,0,0])}}">PLANTILLAS</a>
-                            </ol>
+                            </div>
                         </div>
                     </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
+                </div>-->
                 <!-- end PAGE TITLE ROW -->
                 <div class="row">
                   <div class="col-lg-12">
