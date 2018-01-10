@@ -1,5 +1,10 @@
 @extends('layouts.publico')
 @section('css')
+	<style media="screen">
+	td{
+		white-space: initial;
+	}
+	</style>
 @stop
 @section('content')
 <div class="dir-result">
