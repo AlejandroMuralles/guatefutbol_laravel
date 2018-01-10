@@ -2,7 +2,7 @@
 @section('css')
 	<style media="screen">
 	td{
-		white-space: initial;
+		white-space: initial !important;
 	}
 	</style>
 @stop
