@@ -90,7 +90,7 @@ class PosicionesRepo {
         }
 
 				/* Quitar puntos a chiantla */
-        if($campeonatoId == 69 && $esAcumulada == 1){
+        if(($campeonatoId == 69 || $campeonatoId == 65) && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
                 if($equipo->equipo->id == 69){
