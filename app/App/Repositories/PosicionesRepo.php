@@ -27,7 +27,7 @@ class PosicionesRepo {
                 // tipoTabla = 0 -> tabla general ---- tipoTabla = 1 -> tabla local
                 $equipoLocal->GV = 0;
                 $equipoVisita->GV = 0;
-                if($tipoTabla == 0 || $tipoTabla == 1) 
+                if($tipoTabla == 0 || $tipoTabla == 1)
                 {
                     $equipoLocal->JJ += 1;
 
@@ -69,7 +69,7 @@ class PosicionesRepo {
             }
 		}
 
-        /* Quitar puntos a chiantla */
+        /* Quitar puntos a siquinalá */
         if($campeonatoId == 53 && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
@@ -85,6 +85,16 @@ class PosicionesRepo {
             {
                 if($equipo->equipo->id == 69){
                     $equipo->PTS -= 3;
+                }
+            }
+        }
+
+				/* Quitar puntos a chiantla */
+        if($campeonatoId == 69 && $esAcumulada == 1){
+            foreach($equipos as $index => $equipo)
+            {
+                if($equipo->equipo->id == 69){
+                    $equipo->PTS -= 6;
                 }
             }
         }
@@ -115,7 +125,7 @@ class PosicionesRepo {
                 // tipoTabla = 0 -> tabla general ---- tipoTabla = 1 -> tabla local
                 $equipoLocal->GV = 0;
                 $equipoVisita->GV = 0;
-                if($tipoTabla == 0 || $tipoTabla == 1) 
+                if($tipoTabla == 0 || $tipoTabla == 1)
                 {
                     $equipoLocal->JJ += 1;
 
@@ -157,7 +167,7 @@ class PosicionesRepo {
             }
         }
 
-        
+
         if($ligaId == 23){
             foreach($equipos as $index => $equipo)
             {
@@ -208,6 +218,6 @@ class PosicionesRepo {
 		}
 	}
 
-	
+
 
 }
