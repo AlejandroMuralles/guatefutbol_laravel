@@ -68,7 +68,7 @@ class EventoPartidoRepo extends BaseRepo{
 	{
 		return EventoPartido::whereHas('partido', function($q) use ($campeonatoId)
 					{
-						$q->where('campeonato_id','=',$campeonatoId);	
+						$q->where('campeonato_id','=',$campeonatoId);
 					})
 					->whereIn('evento_id',$eventos)
 					->where('jugador1_id','=',$jugadorId)
@@ -79,7 +79,7 @@ class EventoPartidoRepo extends BaseRepo{
 	{
 		return EventoPartido::whereHas('partido', function($q) use ($campeonatoId)
 					{
-						$q->where('campeonato_id','=',$campeonatoId);	
+						$q->where('campeonato_id','=',$campeonatoId);
 					})
 					->whereIn('evento_id',$eventos)
 					->whereIn('jugador1_id',$jugadoresIds)
@@ -88,8 +88,9 @@ class EventoPartidoRepo extends BaseRepo{
 
 	public function getByEventos($partidoId, $eventos)
 	{
-		return EventoPartido::where('partido_id','=',$partidoId)
+		return EventoPartido::where('partido_id',$partidoId)
 							->with('jugador1')
+							->with('evento')
 							->whereIn('evento_id',$eventos)
 							->orderBy('minuto','ASC')
 							->get();
@@ -106,6 +107,8 @@ class EventoPartidoRepo extends BaseRepo{
 	{
 		return EventoPartido::where('partido_id','=',$partidoId)
 							->whereIn('evento_id',$eventos)
+							->with('jugador1')
+							->with('jugador2')
 							->where('equipo_id','=',$equipoId)
 							->orderBy('minuto','ASC')
 							->get();
@@ -117,7 +120,7 @@ class EventoPartidoRepo extends BaseRepo{
 		$jugadores1 = EventoPartido::whereIn('evento_id',$eventos)
 									->where('partido_id','=',$partidoId)
 									->get();
-									
+
 		$jugadores2 = EventoPartido::whereIn('evento_id',$eventos)
 									->where('partido_id','=',$partidoId)
 									->get();
@@ -172,7 +175,7 @@ class EventoPartidoRepo extends BaseRepo{
 									->whereNotIn('persona_id',$jugadoresExpulsados)
 									->whereNotIn('persona_id',$jugadoresSalieronDeCambio)
 									->where('minutos_jugados','!=',0)->pluck('persona_id');
-		
+
 		$personas = Persona::whereIn('id', $alineacion)
 				->orderBy('primer_nombre')
     			->orderBy('segundo_nombre')
@@ -207,9 +210,9 @@ class EventoPartidoRepo extends BaseRepo{
     			->orderBy('segundo_nombre')
     			->orderBy('primer_apellido')
     			->orderBy('segundo_apellido')->get();
-    	
+
     	return $personas;
-		
+
 	}
 
 }

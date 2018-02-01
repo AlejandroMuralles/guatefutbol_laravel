@@ -36,7 +36,7 @@ class AlineacionRepo extends BaseRepo{
 							{
 								$q->where('rol','J');
 							})
-							->get();							
+							->get();
 		$alineacion = $alineacion->sortBy(function ($jugador) { return strtolower(utf8_encode($jugador->persona->nombreCompletoApellidos)); });
 		return $alineacion;
 	}
@@ -47,13 +47,16 @@ class AlineacionRepo extends BaseRepo{
 		$alineacion = Alineacion::where('partido_id','=',$partidoId)
 							->where('equipo_id','=',$equipoId)
 							->where('es_titular','=',$esTitular)
+							->with('persona')
 							->whereHas('persona',function($q)
 							{
 								$q->where('rol','J');
 							})
 							->get();
 
-		$alineacion = $alineacion->sortBy(function ($jugador) { return strtolower(utf8_encode($jugador->persona->nombreCompletoApellidos)); });
+		$alineacion = $alineacion->sortBy(function ($jugador) {
+			return strtolower(utf8_encode($jugador->persona->nombreCompletoApellidos));
+		});
 		return $alineacion;
 	}
 
@@ -71,7 +74,7 @@ class AlineacionRepo extends BaseRepo{
 							->orderBy('es_titular', 'DESC')
 							->orderBy('persona.primer_apellido')
 							->orderBy('minutos_jugados','DESC')
-							->get();	
+							->get();
 
 
 		$cambios = Alineacion::where('partido_id','=',$partidoId)
@@ -118,7 +121,7 @@ class AlineacionRepo extends BaseRepo{
     			->orderBy('primer_apellido')
     			->orderBy('segundo_apellido')
     			->orderBy('primer_nombre')
-    			->orderBy('segundo_nombre')    			
+    			->orderBy('segundo_nombre')
     			->get();
 	}
 
