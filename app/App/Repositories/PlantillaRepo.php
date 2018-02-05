@@ -173,6 +173,7 @@ class PlantillaRepo extends BaseRepo{
 						->take(10)
 						->select(\DB::raw('distinct persona.id, CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",segundo_apellido) as value'))
 						->get();
+		dd($personas);
 		return $personas;
 	}
 

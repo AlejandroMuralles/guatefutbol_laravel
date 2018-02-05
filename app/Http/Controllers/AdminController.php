@@ -423,7 +423,6 @@ class AdminController extends BaseController {
 	{
 		$nombre = Input::get('term');
 		$personas = $this->plantillaRepo->getAutocompletePersonas($ligaId, $nombre, ['J']);
-		dd($personas);
 		return json_encode($personas);
 	}
 
