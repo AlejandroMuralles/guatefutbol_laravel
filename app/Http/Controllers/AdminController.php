@@ -47,12 +47,12 @@ class AdminController extends BaseController {
 		$equipos = $this->campeonatoEquipoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 
 		if($equipo2Id == -1){
-			$partidos = $this->partidoRepo->getByLigaByEquipo($ligaId, $equipo1Id);	
+			$partidos = $this->partidoRepo->getByLigaByEquipo($ligaId, $equipo1Id);
 		}
 		else{
 			$partidos = $this->partidoRepo->getBetweenEquipos($ligaId, $equipo1Id, $equipo2Id);
 		}
-		
+
 		$estadisticas1 = new stdClass();
 		$estadisticas1->equipo = $equipo1;
 		$estadisticas1->JJ = 0; $estadisticas1->JG = 0; $estadisticas1->JE = 0; $estadisticas1->JP = 0; $estadisticas1->GF = 0; $estadisticas1->GC = 0;
@@ -137,8 +137,8 @@ class AdminController extends BaseController {
 			$alineaciones = $this->alineacionRepo->getPartidosByJugadorByCampeonato($campeonatoId, $jugadorId);
 		}
 		else {
-			$alineaciones = $this->alineacionRepo->getPartidosByJugadorByLiga($ligaId, $jugadorId);	
-		}		
+			$alineaciones = $this->alineacionRepo->getPartidosByJugadorByLiga($ligaId, $jugadorId);
+		}
 
 		$alineaciones = $alineaciones->sortBy(function ($alineacion, $key) {
 		    return $alineacion->partido->fecha;
@@ -156,11 +156,11 @@ class AdminController extends BaseController {
 	    $totales = new stdClass();
 
 	    $totalesEquipos = [];
-	    
+
 	    foreach($alineaciones as $alineacion)
 	    {
-	    	$apariciones++; 								 	
-	    	$alineacion->AP = $apariciones;	    	
+	    	$apariciones++;
+	    	$alineacion->AP = $apariciones;
 	    	$minutosJugados += $alineacion->minutos_jugados;
 	    	$campeonato = $alineacion->partido->campeonato->nombre;
 	    	$equipo = $alineacion->equipo->nombre;
@@ -181,7 +181,7 @@ class AdminController extends BaseController {
 
 
 	    	$totalesEquipos[$alineacion->equipo_id]->equipo = $alineacion->equipo;
-	    	$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;	
+	    	$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;
 	    	$totalesEquipos[$alineacion->equipo_id]->apariciones++;
 
 	    	if($alineacion->equipo_id == $alineacion->partido->equipo_local_id){
@@ -189,28 +189,28 @@ class AdminController extends BaseController {
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita){
 	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
-	    		} 
+	    		}
 	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
 	    		else {
-	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
 	    	}
 	    	else{
 	    		$alineacion->rival = $alineacion->partido->equipo_local;
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
 	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
 	    		}
 	    		else {
-	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
 	    	}
@@ -228,27 +228,27 @@ class AdminController extends BaseController {
 	    		if($evento->evento_id == 6 || $evento->evento_id == 8){
 	    			$goles++;
 	    			$alineacion->goles++;
-	    			$totalesEquipos[$alineacion->equipo_id]->goles++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->goles++;
 	    		}
 	    		if($evento->evento_id == 10){
 	    			$amarillas++;
-	    			$alineacion->amarillas++;	
-	    			$totalesEquipos[$alineacion->equipo_id]->amarillas++;	
-	    		} 
+	    			$alineacion->amarillas++;
+	    			$totalesEquipos[$alineacion->equipo_id]->amarillas++;
+	    		}
 	    		if($evento->evento_id == 11)
 	    			if($evento->doble_amarilla == 1) {
 	    				$doblesamarillas++;
 	    				$alineacion->doblesamarillas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;	
+	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;
 
 	    				$alineacion->amarillas--;
 	    				$totalesEquipos[$alineacion->equipo_id]->amarillas--;
 	    			}
 	    			else{
-	    				$rojas++;	
+	    				$rojas++;
 	    				$alineacion->rojas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->rojas++;	
-	    			} 
+	    				$totalesEquipos[$alineacion->equipo_id]->rojas++;
+	    			}
 	    	}
 	    	$alineacion->goles_acumulados = $goles;
 
@@ -280,8 +280,8 @@ class AdminController extends BaseController {
 			$partidos = $this->partidoRepo->getPartidosByArbitroByCampeonato($campeonatoId, $arbitroId);
 		}
 		else {
-			$partidos = $this->partidoRepo->getPartidosByArbitroByLiga($ligaId, $arbitroId);	
-		}		
+			$partidos = $this->partidoRepo->getPartidosByArbitroByLiga($ligaId, $arbitroId);
+		}
 
 		$partidos = $partidos->sortBy(function ($partido, $key) {
 		    return $partido->fecha;
@@ -299,11 +299,11 @@ class AdminController extends BaseController {
 	    $totales = new stdClass();
 
 	    $totalesEquipos = [];
-	    
+
 	    foreach($alineaciones as $alineacion)
 	    {
-	    	$apariciones++; 								 	
-	    	$alineacion->AP = $apariciones;	    	
+	    	$apariciones++;
+	    	$alineacion->AP = $apariciones;
 	    	$minutosJugados += $alineacion->minutos_jugados;
 	    	$campeonato = $alineacion->partido->campeonato->nombre;
 	    	$equipo = $alineacion->equipo->nombre;
@@ -324,7 +324,7 @@ class AdminController extends BaseController {
 
 
 	    	$totalesEquipos[$alineacion->equipo_id]->equipo = $alineacion->equipo;
-	    	$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;	
+	    	$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;
 	    	$totalesEquipos[$alineacion->equipo_id]->apariciones++;
 
 	    	if($alineacion->equipo_id == $alineacion->partido->equipo_local_id){
@@ -332,28 +332,28 @@ class AdminController extends BaseController {
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita){
 	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
-	    		} 
+	    		}
 	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
 	    		else {
-	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
 	    	}
 	    	else{
 	    		$alineacion->rival = $alineacion->partido->equipoLocal;
 	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
 	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
-	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
 	    		}
 	    		else {
-	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
 	    	}
@@ -371,27 +371,27 @@ class AdminController extends BaseController {
 	    		if($evento->evento_id == 6 || $evento->evento_id == 8){
 	    			$goles++;
 	    			$alineacion->goles++;
-	    			$totalesEquipos[$alineacion->equipo_id]->goles++;	
+	    			$totalesEquipos[$alineacion->equipo_id]->goles++;
 	    		}
 	    		if($evento->evento_id == 10){
 	    			$amarillas++;
-	    			$alineacion->amarillas++;	
-	    			$totalesEquipos[$alineacion->equipo_id]->amarillas++;	
-	    		} 
+	    			$alineacion->amarillas++;
+	    			$totalesEquipos[$alineacion->equipo_id]->amarillas++;
+	    		}
 	    		if($evento->evento_id == 11)
 	    			if($evento->doble_amarilla == 1) {
 	    				$doblesamarillas++;
 	    				$alineacion->doblesamarillas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;	
+	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;
 
-	    				$alineacion->amarillas--;	
-	    				$totalesEquipos[$alineacion->equipo_id]->amarillas--;	
+	    				$alineacion->amarillas--;
+	    				$totalesEquipos[$alineacion->equipo_id]->amarillas--;
 	    			}
 	    			else{
-	    				$rojas++;	
+	    				$rojas++;
 	    				$alineacion->rojas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->rojas++;	
-	    			} 
+	    				$totalesEquipos[$alineacion->equipo_id]->rojas++;
+	    			}
 	    	}
 	    	$alineacion->goles_acumulados = $goles;
 
@@ -423,6 +423,7 @@ class AdminController extends BaseController {
 	{
 		$nombre = Input::get('term');
 		$personas = $this->plantillaRepo->getAutocompletePersonas($ligaId, $nombre, ['J']);
+		//dd($personas);
 		return json_encode($personas);
 	}
 
@@ -434,4 +435,3 @@ class AdminController extends BaseController {
 	}
 
 }
-
