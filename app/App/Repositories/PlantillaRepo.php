@@ -167,11 +167,12 @@ class PlantillaRepo extends BaseRepo{
 		$personas = \DB::table('plantilla')
 						->join('persona','persona.id','plantilla.persona_id')
 						->join('campeonato','campeonato.id','plantilla.campeonato_id')
-						//->whereIn('persona.rol',$roles)
+						->whereIn('persona.rol',$roles)
 						->where('campeonato.liga_id',$ligaId)
 						->whereRaw('CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",segundo_apellido) LIKE \'%'.$nombre.'%\'')
-						->take(10)
+						//->take(10)
 						->select(\DB::raw('distinct persona.id, CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",segundo_apellido) as value'))
+						->orderBy('value')
 						->get();
 		dd($personas);
 		return $personas;
