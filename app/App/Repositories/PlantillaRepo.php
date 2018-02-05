@@ -163,6 +163,7 @@ class PlantillaRepo extends BaseRepo{
 
 	public function getAutocompletePersonas($ligaId, $nombre, $roles)
 	{
+		dd($nombre);
 		$nombre = str_replace("+"," ",$nombre);
 		$personas = \DB::table('plantilla')
 						->join('persona','persona.id','plantilla.persona_id')
