@@ -31,7 +31,7 @@ class PlantillaRepo extends BaseRepo{
 	}
 
 	public function getPersonasByRol($campeonatoId, $equipoId, $roles)
-	{	
+	{
 		$ids = Plantilla::where('campeonato_id',$campeonatoId)
 						->where('equipo_id',$equipoId)
 						->pluck('persona_id');
@@ -163,7 +163,7 @@ class PlantillaRepo extends BaseRepo{
 
 	public function getAutocompletePersonas($ligaId, $nombre, $roles)
 	{
-
+		$nombre = str_replace("+"," ",$nombre);
 		$personas = \DB::table('plantilla')
 						->join('persona','persona.id','plantilla.persona_id')
 						->join('campeonato','campeonato.id','plantilla.campeonato_id')
