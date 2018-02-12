@@ -164,12 +164,13 @@ class PlantillaRepo extends BaseRepo{
 	public function getAutocompletePersonas($ligaId, $nombre, $roles)
 	{
 		//$nombre = str_replace("+"," ",$nombre);
+
 		$personas = \DB::table('plantilla')
 						->join('persona','persona.id','plantilla.persona_id')
 						->join('campeonato','campeonato.id','plantilla.campeonato_id')
 						->whereIn('persona.rol',$roles)
 						->where('campeonato.liga_id',$ligaId)
-						->whereRaw('CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",IFNULL(segundo_apellido,"")) LIKE \'%'.$nombre.'%\'')
+						->whereRaw('CONCAT(primer_nombre," ",IFNULL(segundo_nombre,"")," ",primer_apellido," ",IFNULL(segundo_apellido,"")) LIKE \'%'.$nombre.'%\'')
 						->take(10)
 						->select(\DB::raw('distinct persona.id, CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",IFNULL(segundo_apellido,"")) as value'))
 						->orderBy('value')
