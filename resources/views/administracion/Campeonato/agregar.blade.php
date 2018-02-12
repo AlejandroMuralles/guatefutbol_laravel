@@ -9,12 +9,12 @@
 @section('content')
 
 	{!! Form::open(['route' => ['agregar_campeonato',$ligaId], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
-	
+
 		{!! Field::text('nombre', null, ['data-required'=> 'true']) !!}
 		{!! Field::select('liga_id',$ligas,$ligaId, null, ['data-required'=> 'true']) !!}
 		{!! Field::text('fecha_inicio', null, ['data-required'=> 'true', 'class'=>'fecha']) !!}
 		{!! Field::text('fecha_fin', null, ['data-required'=> 'true', 'class'=>'fecha']) !!}
-		{!! Field::text('hashtag') !!}
+		{!! Field::text('hashtag', null, ['data-required'=> 'true']) !!}
 		{!! Field::select('estado', $estados, null, ['data-required'=> 'true']) !!}
 		{!! Field::checkbox('actual') !!}
 		{!! Field::checkbox('mostrar_app') !!}
@@ -35,7 +35,7 @@
 <script src="{{ asset('assets/admin/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.js')}}"></script>
 <script src="{{ asset('assets/admin/plugins/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js')}}"></script>
 <script>
-	
+
 $(function()
 {
 	$('.fecha').datepicker({
@@ -44,7 +44,7 @@ $(function()
         todayHighlight: true,
         language: 'es'
     });
-    
+
 });
 
 </script>

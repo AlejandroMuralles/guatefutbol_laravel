@@ -22,6 +22,7 @@ class CampeonatoManager extends BaseManager
 			'liga_id' => 'required',
 			'fecha_inicio' => 'required|date',
 			'fecha_fin' => 'required|date',
+			'hashtag' => 'required',
 		];
 
 		return $rules;
