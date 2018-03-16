@@ -96,6 +96,16 @@ class PartidoController extends BaseController {
 		return redirect(route('partidos_campeonato',$partido->campeonato_id));
 	}
 
+	public function eliminar()
+	{
+		$id = Input::get('id_eliminar');
+		$partido = $this->partidoRepo->find($id);
+		$manager = new PartidoManager($partido, null);
+		$manager->eliminar();
+		Session::flash('success', 'Se eliminó el partido con éxito.');
+		return redirect(route('partidos_campeonato',$partido->campeonato_id));
+	}
+
 	public function monitorear($partidoId)
 	{
 		$partido = $this->partidoRepo->find($partidoId);
@@ -166,4 +176,3 @@ class PartidoController extends BaseController {
 
 
 }
-

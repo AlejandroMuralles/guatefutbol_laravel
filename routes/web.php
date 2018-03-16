@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('Partido/agregar/{campeonatoId}', ['as' => 'agregar_partido_campeonato', 'uses' => 'PartidoController@agregar']);
 	Route::get('Partido/editar/{id}', ['as' => 'editar_partido_campeonato', 'uses' => 'PartidoController@mostrarEditar']);
 	Route::post('Partido/editar/{id}', ['as' => 'editar_partido_campeonato', 'uses' => 'PartidoController@editar']);
+	Route::delete('Partido/eliminar', ['as' => 'eliminar_partido_campeonato', 'uses' => 'PartidoController@eliminar']);
 
 	Route::get('Partido/agregar-jornada/{campeonatoId}/{numeroPartidos}', ['as' => 'agregar_jornada_campeonato', 'uses' => 'PartidoController@mostrarAgregarJornada']);
 	Route::post('Partido/agregar-jornada/{campeonatoId}/{numeroPartidos}', ['as' => 'agregar_jornada_campeonato', 'uses' => 'PartidoController@agregarJornada']);

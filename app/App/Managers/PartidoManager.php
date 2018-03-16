@@ -93,4 +93,19 @@ class PartidoManager extends BaseManager
 		return true;
 	}
 
+	function eliminar()
+	{
+		\DB::beginTransaction();
+	 	try
+		{
+			$this->entity->delete();			
+			\DB::commit();
+		}
+		catch(\Exception $ex)
+		{
+			throw new SaveDataException('¡Error!', $ex);
+		}
+		return true;
+	}
+
 }
