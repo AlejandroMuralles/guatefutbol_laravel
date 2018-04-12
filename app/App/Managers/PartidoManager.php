@@ -94,11 +94,11 @@ class PartidoManager extends BaseManager
 	}
 
 	function eliminar()
-	{
-		\DB::beginTransaction();
+	{		
 	 	try
 		{
-			$this->entity->delete();			
+			\DB::beginTransaction();
+			$this->entity->delete();
 			\DB::commit();
 		}
 		catch(\Exception $ex)
