@@ -36,7 +36,7 @@ class EstadisticasArbitroController extends BaseController {
 	{
 		$arbitro = $this->personaRepo->find($arbitroId);
 		$todos = array(0=>'Todos los campeonatos');
-		$campeonatos = $this->campeonatoRepo->getListByLiga($ligaId)->toArray();
+		$campeonatos = $this->campeonatoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 		$campeonatos = $todos + $campeonatos;
 		if($campeonatoId != 0)
 		{
@@ -55,18 +55,17 @@ class EstadisticasArbitroController extends BaseController {
 		$totales = (object) array('amarillas'=>0,'dobles_amarillas'=>0,'rojas'=>0,'apariciones'=>0,'goles'=>0);
 		$totales->apariciones = count($partidos);
 
-
 		foreach($eventos as $evento)
 		{
-			if($evento->evento_id == 6) 
+			if($evento->evento_id == 6)
 			{
 				$totales->goles++;;
 			}
-			elseif($evento->evento_id == 10) 
+			elseif($evento->evento_id == 10)
 			{
 				$totales->amarillas++;;
 			}
-			elseif($evento->evento_id == 11) 
+			elseif($evento->evento_id == 11)
 			{
 				if($evento->doble_amarilla == 1){
 					$totales->dobles_amarillas++;
@@ -78,7 +77,7 @@ class EstadisticasArbitroController extends BaseController {
 		}
 
 		return view('administracion/EstadisticasArbitros/arbitro_campeonato',compact('totales','arbitro','campeonatoId','ligaId','arbitroId','partidos','campeonatos','campeonato'));
-		
+
 
 	}
 
