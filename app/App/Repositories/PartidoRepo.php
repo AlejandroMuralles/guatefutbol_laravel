@@ -70,7 +70,7 @@ class PartidoRepo extends BaseRepo{
 		$partidos = $partidos->sortBy(function($partido){
 			return $partido->jornada->numero . strtotime($partido->fecha);
 		});
-		
+
 		return $partidos;
 
 	}
@@ -143,7 +143,7 @@ class PartidoRepo extends BaseRepo{
 							$q->where('liga_id',$ligaId);
 						})
 						->whereIn('estado', [2,3])
-						->WhereRaw('( ( equipo_local_id = '.$equipo1Id.' AND equipo_visita_id = '.$equipo2Id.' ) OR ( 
+						->WhereRaw('( ( equipo_local_id = '.$equipo1Id.' AND equipo_visita_id = '.$equipo2Id.' ) OR (
 										equipo_local_id = '.$equipo2Id.' AND equipo_visita_id = '.$equipo1Id.') )')
 						->with('equipo_local')
 						->with('equipo_visita')
@@ -182,6 +182,9 @@ class PartidoRepo extends BaseRepo{
 		return Partido::whereIn('estado',[2,3])
 						->where('arbitro_central_id','=',$arbitroId)
 						->where('campeonato_id','=',$campeonatoId)
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('campeonato')
 						->orderBy('fecha','DESC')
 						->get();
 	}
@@ -202,6 +205,9 @@ class PartidoRepo extends BaseRepo{
 						})
 						->whereIn('estado',[2,3])
 						->where('arbitro_central_id','=',$arbitroId)
+						->with('equipo_local')
+						->with('equipo_visita')
+						->with('campeonato')
 						->orderBy('fecha','DESC')
 						->get();
 	}
@@ -223,13 +229,15 @@ class PartidoRepo extends BaseRepo{
 										$q->where('liga_id','=',$ligaId);
 									})
 								->pluck('arbitro_central_id')->toArray();
-		$personas = Persona::whereIn('id',$ids)->whereIn('rol_id',$roles)
-							->Select(\DB::raw('id, CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",segundo_apellido) as value'))
-							->whereRaw('CONCAT(primer_nombre," ",segundo_nombre," ",primer_apellido," ",segundo_apellido) LIKE \'%'.$nombre.'%\'')
+		$personas = Persona::whereIn('id',$ids)->whereIn('rol',$roles)
+							->select(\DB::raw('distinct persona.id, CONCAT(primer_nombre," ",IFNULL(segundo_nombre,"")," ",primer_apellido," ",IFNULL(segundo_apellido,"")) as value'))
+							->whereRaw('CONCAT(primer_nombre," ",IFNULL(segundo_nombre,"")," ",primer_apellido," ",IFNULL(segundo_apellido,"")) LIKE \'%'.$nombre.'%\'')
 							->take(10)
 							->get();
 		return $personas;
+
 	}
+
 
 	public function getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin)
 	{
@@ -243,12 +251,12 @@ class PartidoRepo extends BaseRepo{
 						->with('estadio')
 						->with('campeonato.liga')
 						->orderBy('fecha')
-						->get();	
+						->get();
 	}
 
 	private function orderByJornada($partidoA, $partidoB)
 	{
-		if(  $partidoA->jornada->numero ==  $partidoB->jornada->numero ){ return 0 ; } 
+		if(  $partidoA->jornada->numero ==  $partidoB->jornada->numero ){ return 0 ; }
   		return ($partidoA->jornada->numero < $partidoB->jornada->numero) ? -1 : 1;
 	}
 

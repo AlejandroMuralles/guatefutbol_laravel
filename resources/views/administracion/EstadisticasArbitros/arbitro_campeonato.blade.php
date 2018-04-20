@@ -7,13 +7,13 @@
 @stop
 @section('content')
 
-	{!! Form::open(['route' => ['estadistica_arbitro_campeonato',$ligaId,0], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form', 'id'=>'form']) !!}
-	
+	{!! Form::open(['route' => ['estadistica_arbitro_campeonato',$ligaId,0,0], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form', 'id'=>'form']) !!}
+
 
 		{!! Field::select('campeonato_id',$campeonatos,$campeonatoId,['id'=>'campeonatoId']) !!}
 
 		@if(!is_null($arbitro))
-			{!! Field::text('arbitro', $arbitro->nombreCompleto , ['id'=>'arbitro']) !!}
+			{!! Field::text('arbitro', $arbitro->nombre_completo , ['id'=>'arbitro']) !!}
 		@else
 			{!! Field::text('arbitro', null, ['id'=>'arbitro']) !!}
 		@endif
@@ -22,14 +22,14 @@
         <p>
             <a href="#" onclick="consultar(); return false;" class="btn btn-primary btn-flat">Buscar</a>
         </p>
-		
+
 
 	{!! Form::close() !!}
 
 	<hr>
 
 	@if($campeonatoId != 0)
-		<h3>{{$arbitro->nombreCompleto}} en el Campeonato {{$campeonato->nombre}}</h3>
+		<h3>{{$arbitro->nombre_completo}} en el Campeonato {{$campeonato->nombre}}</h3>
 		<hr>
 	@endif
 
@@ -48,7 +48,7 @@
 			<tbody>
 				<tr>
 				@if(!is_null($arbitro))
-					<td>{{$arbitro->nombreCompleto}}</td>
+					<td>{{$arbitro->nombre_completo}}</td>
 					<td>{{$totales->apariciones}}</td>
 					<td>{{$totales->goles}}</td>
 					<td>{{$totales->amarillas}}</td>
@@ -78,9 +78,9 @@
 					<tr>
 						<td>{{ date('d-m-Y',strtotime($partido->fecha)) }}</td>
 						<td>{{ date('H:i',strtotime($partido->fecha)) }}</td>
-						<td>{{ $partido->equipoLocal->nombre }}</td>
+						<td>{{ $partido->equipo_local->nombre }}</td>
 						<td>{{ $partido->goles_local }} - {{ $partido->goles_visita }}</td>
-						<td>{{ $partido->equipoVisita->nombre }}</td>
+						<td>{{ $partido->equipo_visita->nombre }}</td>
 						<td>{{ $partido->campeonato->nombre }}</td>
 					</tr>
 					@endforeach
@@ -88,16 +88,14 @@
 			</tbody>
 		</table>
 	</div>
-     
+
     <hr>
 
     <ul>
-        <li><b>AP:</b> Apariciones | 
-            <b>A:</b> Amarillas | 
-            <b>AA:</b> Dobles Amarillas | 
-            <b>G:</b> Goles | 
-            <b>GA:</b> Goles Acumulados | 
-            <b>MJ:</b> Minutos Jugados |
+        <li><b>AP:</b> Apariciones |
+            <b>A:</b> Amarillas |
+            <b>AA:</b> Dobles Amarillas |
+            <b>G:</b> Goles |
             <b>R:</b> Rojas .
         </li>
         <li>Haga click sobre el resultado para ver la ficha del partido.</li>
@@ -157,4 +155,3 @@
 </script>
 
 @stop
-
