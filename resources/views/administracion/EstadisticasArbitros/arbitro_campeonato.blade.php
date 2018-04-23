@@ -4,6 +4,9 @@
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link href="{{asset('assets/admin/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">
+<style media="screen">
+	tr:nth-child(even) {background: rgba(51, 122, 183, 0.3); }
+</style>
 @stop
 @section('content')
 
@@ -87,6 +90,36 @@
 				@endif
 			</tbody>
 		</table>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-4">
+			<h3 style="padding: 5px 5px; color: white; background: #337ab7;">RESUMEN POR EQUIPO</h3>
+			<div class="table-responsive">
+				<table class="table table-responsive" id="equipos">
+					<thead>
+						<tr>
+							<th>EQUIPO</th>
+							<th>GANADOS</th>
+							<th>PERDIDOS</th>
+							<th>EMPATADOS</th>
+						</tr>
+					</thead>
+					<tbody>
+						@if( count($equipos) > 0 )
+							@foreach($equipos as $equipo)
+							<tr>
+								<td class="text-center">{{ $equipo['equipo']->nombre }}</td>
+								<td class="text-center">{{ $equipo['ganados'] }}</td>
+								<td class="text-center">{{ $equipo['perdidos'] }}</td>
+								<td class="text-center">{{ $equipo['empatados'] }}</td>
+							</tr>
+							@endforeach
+						@endif
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 
     <hr>

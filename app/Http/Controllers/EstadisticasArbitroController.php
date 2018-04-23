@@ -76,7 +76,41 @@ class EstadisticasArbitroController extends BaseController {
 			}
 		}
 
-		return view('administracion/EstadisticasArbitros/arbitro_campeonato',compact('totales','arbitro','campeonatoId','ligaId','arbitroId','partidos','campeonatos','campeonato'));
+		$equipos = [];
+		foreach($partidos as $partido)
+		{
+
+			if(!isset($equipos[$partido->equipo_local_id]))
+			{
+				$equipos[$partido->equipo_local_id]['equipo'] = $partido->equipo_local;
+				$equipos[$partido->equipo_local_id]['ganados'] = 0;
+				$equipos[$partido->equipo_local_id]['perdidos'] = 0;
+				$equipos[$partido->equipo_local_id]['empatados'] = 0;
+			}
+			if(!isset($equipos[$partido->equipo_visita_id]))
+			{
+				$equipos[$partido->equipo_visita_id]['equipo'] = $partido->equipo_visita;
+				$equipos[$partido->equipo_visita_id]['ganados'] = 0;
+				$equipos[$partido->equipo_visita_id]['perdidos'] = 0;
+				$equipos[$partido->equipo_visita_id]['empatados'] = 0;
+			}
+
+			if($partido->goles_local > $partido->goles_visita){
+				$equipos[$partido->equipo_local_id]['ganados']++;
+				$equipos[$partido->equipo_visita_id]['perdidos']++;
+			}
+			if($partido->goles_local < $partido->goles_visita){
+				$equipos[$partido->equipo_local_id]['perdidos']++;
+				$equipos[$partido->equipo_visita_id]['ganados']++;
+			}
+			if($partido->goles_local == $partido->goles_visita){
+				$equipos[$partido->equipo_local_id]['empatados']++;
+				$equipos[$partido->equipo_visita_id]['empatados']++;
+			}
+
+		}
+
+		return view('administracion/EstadisticasArbitros/arbitro_campeonato',compact('totales','arbitro','campeonatoId','ligaId','arbitroId','partidos','campeonatos','campeonato','equipos'));
 
 
 	}
