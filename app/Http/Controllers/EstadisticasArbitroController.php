@@ -110,6 +110,11 @@ class EstadisticasArbitroController extends BaseController {
 
 		}
 
+		usort($equipos, function($a, $b)
+		{
+			return strcmp($a['equipo']->nombre,$b['equipo']->nombre);
+		});
+
 		return view('administracion/EstadisticasArbitros/arbitro_campeonato',compact('totales','arbitro','campeonatoId','ligaId','arbitroId','partidos','campeonatos','campeonato','equipos'));
 
 
