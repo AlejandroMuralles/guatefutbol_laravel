@@ -173,6 +173,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Thujohn\Twitter\TwitterServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Spatie\ResponseCache\ResponseCacheServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -241,6 +242,7 @@ return [
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'ResponseCache' => Spatie\ResponseCache\ResponseCacheFacade::class,
 
     ],
 

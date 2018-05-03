@@ -34,6 +34,7 @@ class Kernel extends HttpKernel {
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Spatie\ResponseCache\Middlewares\ResponseCacheMiddleware::class,
         ],
         'api' => [
             'throttle:60,1',
@@ -57,6 +58,7 @@ class Kernel extends HttpKernel {
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cacheafter' => \App\Http\Middleware\CacheAfterMiddleware::class,
         'cachebefore' => \App\Http\Middleware\CacheBeforeMiddleware::class,
+        'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
     ];
 
 }
