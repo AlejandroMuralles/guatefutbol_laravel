@@ -17,7 +17,7 @@ Route::get('/', ['as' => 'inicio', 'uses' => 'AuthController@mostrarDashboard'])
 
 Route::get('info', ['as' => 'info', 'uses' => 'AuthController@info']);
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth','doNotCacheResponse']], function(){
 
 	Route::get('dashboard', ['as' => 'dashboard', 'uses' => 'AuthController@mostrarDashboard']);
 
