@@ -11,8 +11,8 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 	    exit(0);
 	}*/
 
-Route::get('login', ['middleware' => 'doNotCacheResponse','as' => 'login', 'uses' => 'AuthController@mostrarLogin']);
-Route::post('login', ['middleware' => 'doNotCacheResponse','as' => 'login', 'uses' => 'AuthController@login']);
+Route::get('login','as' => 'login', 'uses' => 'AuthController@mostrarLogin'])->middleware('doNotCacheResponse');;
+Route::post('login','as' => 'login', 'uses' => 'AuthController@login'])->middleware('doNotCacheResponse');;
 Route::get('/', ['as' => 'inicio', 'uses' => 'AuthController@mostrarDashboard']);
 
 Route::get('info', ['as' => 'info', 'uses' => 'AuthController@info']);
