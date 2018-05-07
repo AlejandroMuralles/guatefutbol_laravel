@@ -12,7 +12,6 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "spatie/laravel-responsecache": "^2.0",
         "thujohn/twitter": "^2.2"
     },
     "require-dev": {
