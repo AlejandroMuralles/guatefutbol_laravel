@@ -140,7 +140,7 @@ class RestController extends BaseController {
 	}
 
 	function orderByLigaByFecha( $ligaA, $ligaB ) {
-		return $ligaA['liga']->id < $ligaB['liga']->id ? -1 : 1;
+		return $ligaA['liga']->orden < $ligaB['liga']->orden ? -1 : 1;
 	}
 
 	public function inicioLigas()
