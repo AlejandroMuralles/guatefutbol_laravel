@@ -390,9 +390,15 @@ class EventoPartidoManager extends BaseManager
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
 					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
+					$imagenJPG ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.jpg';
 					if(file_exists($imagen))
 					{
 						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
+						$this->postImageFacebook($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					}
+					elseif(file_exists($imagenJPG))
+					{
+						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.jpg';
 						$this->postImageFacebook($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 					}
 					else
@@ -408,8 +414,13 @@ class EventoPartidoManager extends BaseManager
 				if($this->entity->evento_id == 6 || $this->entity->evento_id == 7){
 					$equipoGol = $this->getEquipo($partido, $equipoId);
 					$imagen ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.png';
+					$imagenJPG ='assets/imagenes/goles_equipos/' . $equipoGol->id . '.jpg';
 					if(file_exists($imagen)){
 						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.png';
+						$this->postImageTwitter($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
+					}
+					elseif(file_exists($imagenJPG)){
+						$imagen = \URL::asset('assets/imagenes/goles_equipos/') . '/' . $equipoGol->id . '.jpg';
 						$this->postImageTwitter($imagen, $this->entity->comentario . '. Minuto ' . $this->entity->minuto . ' ' . $partido->campeonato->hashtag);
 					}
 					else{
