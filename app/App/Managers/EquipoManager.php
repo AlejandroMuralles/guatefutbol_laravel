@@ -42,6 +42,9 @@ class EquipoManager extends BaseManager
 		try{
 			\DB::beginTransaction();
 			$this->entity->fill($this->prepareData($this->data));
+
+			$setLogo = is_null($this->entity->id);
+
 			$this->entity->save();
 			if(\Input::hasFile('logo'))
 			{
@@ -55,8 +58,10 @@ class EquipoManager extends BaseManager
 			}
 			else
 			{
-				$this->entity->logo = 'imagenes/equipos/equipo.png';
-				$this->entity->save();
+				if($setLogo){
+					$this->entity->logo = 'imagenes/equipos/equipo.png';
+					$this->entity->save();
+				}
 			}
 
 			\DB::commit();
@@ -64,7 +69,6 @@ class EquipoManager extends BaseManager
 		}
 		catch(\Exception $ex)
 		{
-			dd($ex);
 			throw new SaveDataException("Error!", $ex);			
 		}
 	}
