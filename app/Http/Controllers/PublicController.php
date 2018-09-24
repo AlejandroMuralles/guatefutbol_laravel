@@ -626,7 +626,7 @@ class PublicController extends BaseController {
 
 			$jornadas = array();
 
-			$configuracion = $this->configuracionRepo->find(1);
+			$configuracion = $this->configuracionRepo->find(3);
 			$diasInicio = $configuracion->parametro1;
 			$diasFin = $configuracion->parametro2;
 			$fechaInicio = $this->getFecha($diasInicio . ' day');
@@ -706,7 +706,7 @@ class PublicController extends BaseController {
 	public function partidosScroll()
 	{
 		$partidos = Cache::remember('publico.partidoScroll', 1, function(){
-			$configuracion = $this->configuracionRepo->find(1);
+			$configuracion = $this->configuracionRepo->find(7);
 			$diasInicio = $configuracion->parametro1;
 			$diasFin = $configuracion->parametro2;
 
