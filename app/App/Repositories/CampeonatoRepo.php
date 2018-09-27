@@ -42,6 +42,9 @@ class CampeonatoRepo extends BaseRepo{
 	public function getMostrarApp()
 	{
 		return Campeonato::where('mostrar_app',1)
+							->whereHas('liga',function($q){
+								$q->where('mostrar_app',1);
+							})
 							->orderBy('liga_id')
 							->orderBy('fecha_inicio','ASC')
 							->get();
