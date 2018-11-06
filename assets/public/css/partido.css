@@ -1,0 +1,276 @@
+body{
+    background-color: #f2f2f2;
+}
+ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+a:hover{
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: #101010;
+}
+p{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    background: transparent;
+}
+.col-lg-12{
+    padding: 0;
+}
+.menu-partido{
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dcdcdc;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .1);
+    position: relative;
+    background: #fff;
+}
+.container{
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 992px;
+    min-width: 320px;
+}
+
+.menu-partido ul{
+    text-align: center;
+    position: relative;
+}
+.menu-partido li{
+    display: inline-block;
+    position: relative;
+    min-width: 100px;
+}
+.menu-partido li.active:after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    background: #FFB632;
+}
+.menu-partido li a{
+    display: block;
+    position: relative;
+    font: 13px 'lucida sans', arial, helvetica;
+    color: #333;
+    padding: 4px 10px;
+}
+.menu-partido li .cont-icon-dir{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 34px;
+    text-align: center;
+}
+.menu-partido li .cont-icon-dir span {
+    font-size: 26px;
+    line-height: 34px;
+    color: #323232;
+}
+
+.datos-partido{
+    padding: 30px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #069;
+}
+.datos-partido .dato-partido{
+    height: 60px;
+    line-height: 60px;
+    background: white;
+    vertical-align: middle;
+    position: relative;
+}
+.dato-partido .icono{
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    font-size: 30px;
+    border-radius: 50%;
+    border: 2px solid #069;
+    text-align: center;
+    vertical-align: middle;
+    color: #069;
+}
+.dato-partido .dato{
+    position: absolute;
+    top: 0;
+    left: 70px;
+}
+.titulo, .sub-titulo{
+    height: 20px;
+    line-height: 40px;
+}
+.titulo{
+    color: gray;
+}
+
+
+
+.narracion-directo{
+    max-height: 800px;
+    overflow-y: auto;
+}
+
+.narracion-directo .cnt-comentario {
+    position: relative;
+    border-left: 1px solid #ddd;
+    float: left;
+    margin-left: 59px;
+    padding: 10px 10px 10px 21px;
+    width: 90%;
+}
+.narracion-directo .minuto-comentario {
+    color: #666;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    width: 50px;
+    line-height: 25px;
+    margin-left: -89px;
+    margin-top: -2px;
+    min-height: 1px;
+    padding-left: 0;
+    text-align: right;
+}
+.narracion-directo .bullet-comentario {
+    background: #069;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    float: left;
+    height: 13px;
+    margin-left: -28px;
+    margin-top: 4px;
+    padding: 4px;
+    position: relative;
+    width: 13px;
+    z-index: 10;
+}
+.narracion-directo .bullet-comentario.con-icono.icono {
+    color: black;
+    float: left;
+    font-size: 16px;
+    line-height: 20px;
+    margin-left: -37px;
+    text-align: center;
+}
+.narracion-directo .bullet-comentario.con-icono {
+    height: 32px;
+    margin-left: -37px;
+    margin-top: -5px;
+    width: 32px;
+}
+.cont-marcador-narracion{ width: 100%; margin-top: 10px; display: block; }
+.narracion-directo .cont-nombre-equipo {padding: inherit; } 
+.cont-marcador-narracion .col-equipo-local{ width: 50%; float: left; background: #069; position: relative; }
+.cont-marcador-narracion .col-equipo-visitante{ width: 50%; float: left; background: #069;  }
+.cont-marcador-narracion .marcador{ margin: 0}
+.cont-marcador-narracion .col-equipo-local .marcador{ background: #043147; width: 18%; float: right; color: #fff; font: 28px "sourceblack",arial,helvetica; text-align: center; padding: 5px;}
+.cont-marcador-narracion .col-equipo-visitante .marcador{    background: #043147; width: 18%; float:left; color: #fff; font: 28px"sourceblack",arial,helvetica; text-align: center; padding: 5px;}
+.cont-marcador-narracion .col-equipo-local .cont-nombre-equipo{  display: inline-block; position: absolute; right: 18%;  padding: 11px; text-align: right; line-height: 19px;  }
+.cont-marcador-narracion .col-equipo-visitante .cont-nombre-equipo{ display: inline-block; text-align: left;  padding: 11px; line-height: 19px;}
+.cont-marcador-narracion .col-equipo-local .escudo-equipo{ float: left;     }
+.cont-marcador-narracion .col-equipo-visitante .escudo-equipo{ text-align: right;   float: right; }
+.cont-marcador-narracion .col-equipo-local .marcador.activo, .cont-marcador-narracion .col-equipo-visitante .marcador.activo{ background: #ffb632; }
+.cont-marcador-narracion.escudo .col-equipo-local .escudo-equipo span, .cont-marcador-narracion.bandera .col-equipo-local .escudo-equipo span{ float: left; padding: 5px; }
+.cont-marcador-narracion.escudo .col-equipo-visitante .escudo-equipo span, .cont-marcador-narracion.bandera .col-equipo-visitante .escudo-equipo span{ float: right; padding: 5px; }
+.cont-marcador-narracion.bandera .col-equipo-local .escudo-equipo span, .cont-marcador-narracion.bandera .col-equipo-visitante .escudo-equipo span{     padding:12px 10px 0 10px }
+.cont-marcador-narracion.bandera > .col-equipo-visitante > .escudo-equipo > span > img, .cont-marcador-narracion.bandera > .col-equipo-local > .escudo-equipo > span > img { border: 0; margin: 0}
+.cont-marcador-narracion .col-equipo-local .cont-nombre-equipo .nombre-equipo, 
+.cont-marcador-narracion .col-equipo-visitante .cont-nombre-equipo .nombre-equipo { color: #fff; font-size: 13px; font-weight: bold;   float: left; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: auto; text-decoration: none;}
+.cont-marcador-narracion .escudo-equipo img { width: 30px; height: 30px;}
+/* Narracion */
+.cont-marcador-narracion .col-equipo-local .cont-nombre-equipo .nombre-equipo, 	
+.cont-marcador-narracion .col-equipo-visitante .cont-nombre-equipo .nombre-equipo{ float: none;  }
+.cont-marcador-narracion .col-equipo-local .cont-nombre-equipo .nombre-equipo:hover, 
+.cont-marcador-narracion .col-equipo-visitante .cont-nombre-equipo .nombre-equipo:hover { text-decoration: none; color: #efefef; }
+.cont-botones-modulo.sin-pestanas{ margin-bottom: 6px; }
+
+@media (max-width: 480px){
+    .narracion-directo .cnt-comentario {
+        border-left: 1px solid #ddd;
+        float: left;
+        padding: 10px 10px 10px 21px;
+        width: 80%;
+    }
+    .cont-marcador-narracion .col-equipo-local .escudo-equipo, .cont-marcador-narracion .col-equipo-visitante .escudo-equipo {
+        text-align: center;
+    }
+    .cont-marcador-narracion .col-equipo-local .cont-nombre-equipo, .cont-marcador-narracion .col-equipo-visitante .cont-nombre-equipo {
+        padding-left: 0;
+        text-align: left;
+        width: 54%;
+    }
+    .cont-marcador-narracion .col-equipo-local .marcador, .cont-marcador-narracion .col-equipo-visitante .marcador {
+        float: right;
+    }
+    .cont-marcador-narracion .col-equipo-local, .cont-marcador-narracion .col-equipo-visitante {
+        width: 100%;
+    }
+    .cont-marcador-narracion .col-equipo-local .escudo-equipo, .cont-marcador-narracion .col-equipo-visitante .escudo-equipo {
+        text-align: center;
+    }
+    .cont-marcador-narracion .col-equipo-visitante .escudo-equipo {
+        float: left;
+        text-align: left;
+    }
+}
+
+.racha{
+    position: relative;
+    height: 200px;
+    line-height: 200px;
+    vertical-align: middle;
+}
+.racha_logo{
+    position: absolute;
+    left: 10px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+}
+.racha_logo img{
+    width: 100px;
+    height: 100px;
+}
+.racha_estadistica{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    top: 25px;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 30px;
+    font-weight: bold;
+}
+.racha_ganados{
+    position: absolute;
+    left: 150px;
+    border: 3px solid #069;    
+}
+.racha_empatados{
+    position: absolute;
+    left: 225px;
+    border: 3px solid gray;
+}
+.racha_perdidos{
+    position: absolute;
+    left: 300px;
+    border: 3px solid red;
+}

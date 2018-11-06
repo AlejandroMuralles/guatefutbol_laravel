@@ -8,7 +8,7 @@
 @section('content')
 
 	{!! Form::open(['route' => ['partidos_arbitro_campeonato',$ligaId,0], 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form', 'id'=>'form']) !!}
-	
+
 	if($campeonatoId != 0)
 		<h3>{{$arbitro->nombreCompleto}} en el Campeonato {{$campeonato}}</h3>
 		<hr>
@@ -27,7 +27,7 @@
 
 	@endif
 
-		
+
 
 	{!! Form::close() !!}
 
@@ -88,31 +88,31 @@
 					<td>{{$alineacion->amarillas}}</td>
 					<td>{{$alineacion->doblesamarillas}}</td>
 					<td>{{$alineacion->rojas}}</td>
-					<td>{{$alineacion->partido->equipoLocal->nombre}}</td>
+					<td>{{$alineacion->partido->equipo_local->nombre}}</td>
 					<td>
 						<a href="{{route('ficha',$alineacion->partido->id)}}">{{$alineacion->partido->goles_local}} - {{$alineacion->partido->goles_visita}}</a>
 					</td>
-					<td>{{$alineacion->partido->equipoVisita->nombre}}</td>
+					<td>{{$alineacion->partido->equipo_visita->nombre}}</td>
 					<td>
-						<a href="{{route('partidos_arbitroes',[$ligaId,$arbitroId,0,$alineacion->rival->id,0])}}">{{$alineacion->rival->nombre}}</a>
+						<a href="{{route('partidos_arbitros',[$ligaId,$arbitroId,0,$alineacion->rival->id,0])}}">{{$alineacion->rival->nombre}}</a>
 					</td>
 					<td>
-						<a href="{{route('partidos_arbitroes',[$ligaId,$arbitroId,0,0,$alineacion->partido->campeonato_id])}}">{{$alineacion->partido->campeonato->nombre}}</a>
+						<a href="{{route('partidos_arbitros',[$ligaId,$arbitroId,0,0,$alineacion->partido->campeonato_id])}}">{{$alineacion->partido->campeonato->nombre}}</a>
 					</td>
 				</tr>
 				@endforeach
 			</tbody>
 		</table>
 	</div>
-     
+
     <hr>
 
     <ul>
-        <li><b>AP:</b> Apariciones | 
-            <b>A:</b> Amarillas | 
-            <b>AA:</b> Dobles Amarillas | 
-            <b>G:</b> Goles | 
-            <b>GA:</b> Goles Acumulados | 
+        <li><b>AP:</b> Apariciones |
+            <b>A:</b> Amarillas |
+            <b>AA:</b> Dobles Amarillas |
+            <b>G:</b> Goles |
+            <b>GA:</b> Goles Acumulados |
             <b>MJ:</b> Minutos Jugados |
             <b>R:</b> Rojas .
         </li>
@@ -169,4 +169,3 @@
 </script>
 
 @stop
-

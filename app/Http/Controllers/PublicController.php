@@ -17,6 +17,7 @@ use App\App\Repositories\EquipoRepo;
 use App\App\Repositories\HistorialCampeonRepo;
 
 use App\App\ExtraEntities\FichaPartido;
+use App\App\ExtraEntities\RachaEquipo;
 
 use View, Cache;
 
@@ -409,6 +410,57 @@ class PublicController extends BaseController {
 		$arbitroCentral = $data['arbitro'];
 		$estadio = $data['estadio'];
 		return View::make('publico/ficha', compact('partido','ficha','ligaId','configuracion','arbitroCentral','estadio','equipoLocal','equipoVisita'));
+	}
+
+	public function previa($partidoId)
+	{
+		$configuracion = $this->configuracionRepo->find(5);
+		$partido = $this->partidoRepo->find($partidoId);
+		$partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','ASC',10);
+		$partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','ASC',10);
+		$ficha = new FichaPartido();
+		$eventos = array();
+		$ficha->generarEventos($partido, $eventos);
+		$ligaId = $partido->campeonato->liga_id;
+		
+		$rachaLocal = $this->getRacha($partidosLocal, $partido->equipo_local);
+		$rachaVisita = $this->getRacha($partidosVisita, $partido->equipo_visita);
+		return View::make('publico/previa', compact('partido','ficha','ligaId','configuracion','rachaLocal','rachaVisita'));
+	}
+
+	private function getRacha($partidos, $equipo)
+	{
+		$racha = new RachaEquipo($equipo);
+		foreach($partidos as $partido)
+		{
+			if($partido->equipo_local_id == $equipo->id)
+			{
+				if($partido->goles_local > $partido->goles_visita){ $racha->ganados++; $racha->racha[] = 'G'; }
+				if($partido->goles_local < $partido->goles_visita){ $racha->perdidos++; $racha->racha[] = 'P'; }
+				if($partido->goles_local == $partido->goles_visita){ $racha->empatados++; $racha->racha[] = 'E'; }
+				$racha->goles_favor += $partido->goles_local;
+				$racha->goles_contra += $partido->goles_visita;
+			}
+			elseif($partido->equipo_visita_id == $equipo->id)
+			{
+				if($partido->goles_visita > $partido->goles_local){ $racha->ganados++; $racha->racha[] = 'G'; }
+				if($partido->goles_visita < $partido->goles_local){ $racha->perdidos++; $racha->racha[] = 'P'; }
+				if($partido->goles_visita == $partido->goles_local){ $racha->empatados++; $racha->racha[] = 'E'; }
+				$racha->goles_favor += $partido->goles_visita;
+				$racha->goles_contra += $partido->goles_local;
+			}
+		}
+		return $racha;
+	}
+
+	public function narracion($partidoId)
+	{
+		$configuracion = $this->configuracionRepo->find(5);
+		$partido = $this->partidoRepo->find($partidoId);
+		$eventos = array();
+		$eventos = $this->eventoPartidoRepo->getEnVivo($partidoId);
+		$ligaId = $partido->campeonato->liga_id;
+		return View::make('publico/narracion', compact('partido','eventos','ligaId','configuracion','arbitroCentral','estadio','equipoLocal','equipoVisita'));
 	}
 
 	public function enVivo($partidoId)

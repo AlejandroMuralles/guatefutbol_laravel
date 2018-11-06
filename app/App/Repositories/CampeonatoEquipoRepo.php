@@ -30,6 +30,17 @@ class CampeonatoEquipoRepo extends BaseRepo{
     	return null;
 	}
 
+	public function getEquiposInLiga($ligaId)
+	{
+	 	$ids = CampeonatoEquipo::whereHas('campeonato',function($q) use ($ligaId){
+											$q->where('liga_id',$ligaId);
+									})
+									->select(\DB::raw('distinct campeonato_id'))
+									->pluck('campeonato_id')
+									->get();
+		return Equipo::whereIn('id',$ids)->get();
+	}
+
 	public function getEquiposByCampeonato($campeonatoId)
 	{
 		$ids = \DB::table('campeonato_equipo')
@@ -54,7 +65,7 @@ class CampeonatoEquipoRepo extends BaseRepo{
 		 {
 		 	$e = new EquipoPosicion($equipo->equipo);
 		 	$equipos[] = $e;
-		 }		 
+		 }
 		 return $equipos;
 	}
 
@@ -70,7 +81,7 @@ class CampeonatoEquipoRepo extends BaseRepo{
 		 {
 		 	$e = new EquipoPosicion($equipo->equipo);
 		 	$equipos[$e->equipo->id] = $e;
-		 }		 
+		 }
 		 return $equipos;
 	}
 

@@ -9,6 +9,7 @@
         <link href="{{ asset('assets/public/css/style-blue.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="{{ asset('assets/public/icons/flaticon/flaticon.css') }}" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
