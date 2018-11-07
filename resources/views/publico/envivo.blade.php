@@ -75,7 +75,7 @@
 		</div>
 	</div>
 </div>
-
+<a href="{{route('previa',$partido->id)}}" style="color: white">Previa</a>
 
 @stop
 
