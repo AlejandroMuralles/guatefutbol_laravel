@@ -32,7 +32,7 @@ class FichaPartido
 	public function generarEventos($partido, $eventoss)
 	{
 		$this->partido = $partido;
-		$this->partido->fecha = $this->getFecha($this->partido->fecha);
+		$this->partido->fecha = $this->getFecha2($this->partido->fecha);
 		$this->alineacionRepo = new AlineacionRepo();
 		$this->equipoRepo = new EquipoRepo();
 		$this->eventoRepo = new EventoRepo();
@@ -216,6 +216,42 @@ class FichaPartido
             case 10: $mes = "Octubre"; break;
             case 11:$mes = "Noviembre"; break;
             case 12:$mes = "Diciembre";
+        }
+        return $diaSemana . " " . $dia . " de " . $mes . " de " . $ano . "; " . $hora . " horas";
+	}
+	
+	public function getFecha2($fecha) {
+		$time = strtotime($fecha);
+        $dia = date('w',$time);
+        $diaSemana = "";
+        $ano = date('Y',$time);
+        $mes = date('m',$time);
+        $hora = date('H:i',$time);
+        
+        switch ($dia) { 
+            case 0: $diaSemana = "Domingo"; break;
+            case 1: $diaSemana = "Lunes"; break;
+            case 2: $diaSemana = "Martes"; break;
+            case 3: $diaSemana = "Miercoles"; break;
+            case 4: $diaSemana = "Jueves"; break;
+            case 5: $diaSemana = "Viernes"; break;
+            case 6: $diaSemana = "Sabado";
+        }
+        $dia = date('d',$time);
+
+        switch ($mes) { 
+            case 1: $mes = "Ene."; break;
+            case 2: $mes = "Feb."; break;
+            case 3: $mes = "Mar."; break;
+            case 4: $mes = "Abr."; break;
+            case 5: $mes = "May."; break;
+            case 6: $mes = "Jun."; break;
+            case 7: $mes = "Jul."; break;
+            case 8: $mes = "Ago."; break;
+            case 9: $mes = "Sep."; break;
+            case 10: $mes = "Oct."; break;
+            case 11:$mes = "Nov."; break;
+            case 12:$mes = "Dic.";
         }
         return $diaSemana . " " . $dia . " de " . $mes . " de " . $ano . "; " . $hora . " horas";
     }
