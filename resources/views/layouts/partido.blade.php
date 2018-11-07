@@ -60,7 +60,7 @@
                                     <li class="previa">
                                         <a href="{{route('previa',$partido->id)}}">
                                             <span class="cont-icon-dir">
-                                                <span class="fa fa-trophy"></span>
+                                                <span class="fa fa-futbol"></span>
                                             </span>
                                             <p>Previa</p>
                                         </a>                        

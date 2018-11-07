@@ -7,7 +7,7 @@
     <div class="col-lg-12">
         <div class="datos-partido">
             <div class="row">
-                <div class="col-lg-6 col-sm-6">
+                <div class="col-lg-6 col-xs-5">
                     <div class="dato-partido">
                         <div class="icono"><i class="fa fa-trophy"></i></div>
                         <div class="dato">
@@ -16,7 +16,7 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="col-lg-6 col-sm-6">
+                <div class="col-lg-6 col-xs-7">
                     <div class="dato-partido">
                         <div class="icono"><i class="fa fa-calendar"></i></div>
                         <div class="dato">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-sm-6">
+                <div class="col-lg-6 col-xs-5">
                     <div class="dato-partido">
                         <div class="icono"><i class="flaticon flaticon-whistle"></i></div>
                         <div class="dato">
@@ -36,7 +36,7 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="col-lg-6 col-sm-6">
+                <div class="col-lg-6 col-xs-7">
                     <div class="dato-partido">
                         <div class="icono"><i class="flaticon flaticon-soccer-field"></i></div>
                         <div class="dato">
