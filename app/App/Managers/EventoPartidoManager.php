@@ -99,8 +99,8 @@ class EventoPartidoManager extends BaseManager
 
 				$this->entity->comentario = $this->getComentario($partido, $this->entity->evento_id,null, null);
 				$this->entity->save();
-			\DB::commit();
-
+			//\DB::commit();
+				dd($this->data);
 			if(isset($this->data['facebook'])){
 				if($this->entity->evento_id == 12)
 					$this->postFacebook($this->entity->comentario . ' Minuto ' . $this->entity->minuto. ' ' . $partido->campeonato->hashtag);

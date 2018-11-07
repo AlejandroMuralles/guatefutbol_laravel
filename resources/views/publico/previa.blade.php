@@ -57,8 +57,22 @@
                 <div class="racha_logo"><img src="{{$partido->equipo_local->logo}}"></div>
                 <div class="racha_estadisticas">
                     <div class="racha_estadistica racha_ganados">{{$rachaLocal->ganados}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
                     <div class="racha_estadistica racha_empatados">{{$rachaLocal->perdidos}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
                     <div class="racha_estadistica racha_perdidos">{{$rachaLocal->empatados}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
+                </div>
+            </div>
+            <div class="racha">
+                <div class="racha_logo"><img src="{{$partido->equipo_visita->logo}}"></div>
+                <div class="racha_estadisticas">
+                    <div class="racha_estadistica racha_ganados">{{$rachaVisita->ganados}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
+                    <div class="racha_estadistica racha_empatados">{{$rachaVisita->perdidos}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
+                    <div class="racha_estadistica racha_perdidos">{{$rachaVisita->empatados}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
                 </div>
             </div>
         </div>

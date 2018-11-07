@@ -266,11 +266,30 @@ p{
 }
 .racha_empatados{
     position: absolute;
-    left: 225px;
+    left: 250px;
     border: 3px solid gray;
 }
 .racha_perdidos{
     position: absolute;
-    left: 300px;
+    left: 350px;
     border: 3px solid red;
+}
+
+.descripcion_racha_estadistica{
+    position: absolute;
+    line-height: 50px;
+    top: 65px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 15px;
+    font-weight: bold;
+}
+.desc_racha_ganados{
+    left: 142px;
+}
+.desc_racha_empatados{
+    left: 236px;
+}
+.desc_racha_perdidos{
+    left: 342px;
 }
