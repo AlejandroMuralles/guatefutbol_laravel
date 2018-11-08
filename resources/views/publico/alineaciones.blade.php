@@ -16,6 +16,28 @@ table{
     background-color: #dddddd;
     color: #666;
 }
+.alineaciones-equipo{
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+    margin-bottom: 5px;
+}
+.alineaciones-equipo img{
+    height: 50px;
+    position: absolute;
+}
+.alineaciones-equipo h3{
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
+    color: #069;
+    display: inline-block;
+    margin: 0;
+    top: 5px;
+    left: 60px;;
+}
 </style>
 @endsection
 @section('content')
@@ -23,7 +45,10 @@ table{
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-6 col-xs-6" style="padding-right:0;">
-                <h3><img src="{{$partido->equipo_local->logo}}" alt=""> {{$partido->equipo_local->nombre}}</h3>
+                <div class="alineaciones-equipo">
+                    <img src="{{$partido->equipo_local->logo}}" alt=""> 
+                    <h3>{{$partido->equipo_local->nombre}}</h3>
+                </div>
                 <table class="table">
                     <tbody>
                     @foreach($titularesLocales as $ev)
@@ -84,7 +109,10 @@ table{
                 </table>
             </div>
             <div class="col-lg-6 col-xs-6" style="padding-left:0;">
-                <h3><img src="{{$partido->equipo_visita->logo}}" alt=""> {{$partido->equipo_visita->nombre}}</h3>
+                <div class="alineaciones-equipo">
+                    <img src="{{$partido->equipo_visita->logo}}" alt=""> 
+                    <h3>{{$partido->equipo_visita->nombre}}</h3>
+                </div>
                 <table class="table">
                         <tbody>
                         @foreach($titularesVisita as $ev)
