@@ -18,12 +18,12 @@ table, tr td{
                     @foreach($titularesLocales as $tl)
                         <tr>
                             <td>{{$tl->jugador->nombre_corto_apellidos}}</td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 @if($tl->cambio)
                                 <i class="fa fa-exchange-alt" style="color: red;"></i>
                                 @endif
                             </td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 @if($tl->expulsado && count($tl->amarillas)==2)
                                     <i class="fa fa-clone" style="color: yellow"></i>
                                 @elseif($tl->expulsado)
@@ -32,7 +32,7 @@ table, tr td{
                                     <i class="fa fa-square" style="color: yellow"></i>
                                 @endif
                             </td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 @if(count($tl->goles)>0)
                                 <i class="fa fa-futbol"></i>
                                 @endif
@@ -42,15 +42,15 @@ table, tr td{
                     @foreach($suplentesLocales as $sl)
                         <tr>
                             <td>{{$sl->jugador->nombre_corto_apellidos}}</td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 @if($sl->cambio)
                                 <i class="fa fa-exchange-alt" style="color: green;"></i>
                                 @endif
                             </td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 
                             </td>
-                            <td width="50px">
+                            <td width="50px" class="text-center">
                                 @if(count($sl->goles)>0)
                                 <i class="fa fa-futbol"></i> @if(count($sl->goles)>1) x{{count($sl->goles)}} @endif
                                 @endif
@@ -67,12 +67,12 @@ table, tr td{
                         @foreach($titularesVisita as $tl)
                             <tr>
                                 <td>{{$tl->jugador->nombre_corto_apellidos}}</td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     @if($tl->cambio)
                                     <i class="fa fa-exchange-alt" style="color: red;"></i>
                                     @endif
                                 </td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     @if($tl->expulsado && count($tl->amarillas)==2)
                                         <i class="fa fa-clone" style="color: yellow"></i>
                                     @elseif($tl->expulsado)
@@ -81,7 +81,7 @@ table, tr td{
                                         <i class="fa fa-square" style="color: yellow"></i>
                                     @endif
                                 </td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     @if(count($tl->goles)>0)
                                     <i class="fa fa-futbol"></i>
                                     @endif
@@ -91,15 +91,15 @@ table, tr td{
                         @foreach($suplentesVisita as $sl)
                             <tr>
                                 <td>{{$sl->jugador->nombre_corto_apellidos}}</td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     @if($sl->cambio)
                                     <i class="fa fa-exchange-alt" style="color: green;"></i>
                                     @endif
                                 </td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     
                                 </td>
-                                <td width="50px">
+                                <td width="50px" class="text-center">
                                     @if(count($sl->goles)>0)
                                     <i class="fa fa-futbol"></i> @if(count($sl->goles)>1) x{{count($sl->goles)}} @endif
                                     @endif
