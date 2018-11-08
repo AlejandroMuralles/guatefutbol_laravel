@@ -2,8 +2,13 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('assets/public/css/partido.css')}}">
 <style>
-table, tr td{
+tr td{
     border: none !important;
+    background-color: white;
+}
+table{
+    border: 1px solid #dddddd !important;
+    background-color: white;
 }
 </style>
 @endsection
@@ -39,6 +44,9 @@ table, tr td{
                             </td>
                         </tr>
                     @endforeach
+                    <tr>
+                        <td colspan="4" style="background-color: #f2f2f2;">Banquillo</td>
+                    </tr>
                     @foreach($suplentesLocales as $ev)
                         <tr>
                             <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
@@ -94,6 +102,9 @@ table, tr td{
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="4" style="background-color: #f2f2f2;">Banquillo</td>
+                        </tr>
                         @foreach($suplentesVisita as $ev)
                             <tr>
                                 <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
