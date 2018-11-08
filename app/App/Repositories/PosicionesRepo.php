@@ -109,12 +109,28 @@ class PosicionesRepo {
                 }
             }
         }
-        if($esAcumulada == 1 && ($tablaAcumulada[0]->campeonato1_id == 74 || $tablaAcumulada[0]->campeonato2_id == 74))
+        if($esAcumulada == 1)
         {
-            foreach($equipos as $index => $equipo)
-            {
-                if($equipo->equipo->id == 73){
-                    $equipo->PTS -= 3;
+            if(is_null($tablaAcumulada)){
+                if($campeonatoId == 74)
+                {
+                    foreach($equipos as $index => $equipo)
+                    {
+                        if($equipo->equipo->id == 73){
+                            $equipo->PTS -= 3;
+                        }
+                    }
+                }
+            }
+            else{
+                if($tablaAcumulada[0]->campeonato1_id == 74 || $tablaAcumulada[0]->campeonato2_id == 74)
+                {
+                    foreach($equipos as $index => $equipo)
+                    {
+                        if($equipo->equipo->id == 73){
+                            $equipo->PTS -= 3;
+                        }
+                    }
                 }
             }
         }
