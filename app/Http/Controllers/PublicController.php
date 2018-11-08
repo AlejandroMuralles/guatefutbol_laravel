@@ -549,7 +549,7 @@ class PublicController extends BaseController {
 				}
 			}
 		}		
-		return View::make('publico/alineaciones', compact('partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion'));
+		return View::make('publico/alineaciones', compact('partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion','dtLocal','dtVisita'));
 	}
 
 	private function getRacha($partidos, $equipo)

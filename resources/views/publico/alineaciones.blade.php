@@ -5,10 +5,16 @@
 tr td{
     border: none !important;
     background-color: white;
+    font-weight: bold;
+    color: black;
 }
 table{
     border: 1px solid #dddddd !important;
     background-color: white;
+}
+.banquillo{
+    background-color: #dddddd;
+    color: #666;
 }
 </style>
 @endsection
@@ -16,8 +22,8 @@ table{
 <div class="row">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-6 col-xs-6">
-                <h3>{{$partido->equipo_local->nombre}}</h3>
+            <div class="col-lg-6 col-xs-6" style="padding-right:0;">
+                <h3><img src="{{$partido->equipo_local->logo}}" alt=""> {{$partido->equipo_local->nombre}}</h3>
                 <table class="table">
                     <tbody>
                     @foreach($titularesLocales as $ev)
@@ -45,7 +51,7 @@ table{
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="4" style="background-color: #f2f2f2;">Banquillo</td>
+                        <td colspan="4" class="banquillo" >Banquillo</td>
                     </tr>
                     @foreach($suplentesLocales as $ev)
                         <tr>
@@ -71,11 +77,14 @@ table{
                             </td>
                         </tr>
                     @endforeach
+                    <tr>
+                        <td colspan="4" class="banquillo" >DT. {{$dtLocal->nombre_completo}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-6 col-xs-6">
-                <h3>{{$partido->equipo_visita->nombre}}</h3>
+            <div class="col-lg-6 col-xs-6" style="padding-left:0;">
+                <h3><img src="{{$partido->equipo_visita->logo}}" alt=""> {{$partido->equipo_visita->nombre}}</h3>
                 <table class="table">
                         <tbody>
                         @foreach($titularesVisita as $ev)
@@ -103,7 +112,7 @@ table{
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" style="background-color: #f2f2f2;">Banquillo</td>
+                            <td colspan="4" class="banquillo" >Banquillo</td>
                         </tr>
                         @foreach($suplentesVisita as $ev)
                             <tr>
@@ -129,6 +138,9 @@ table{
                                 </td>
                             </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="4" class="banquillo" >DT. {{$dtVisita->nombre_completo}}</td>
+                        </tr>
                         </tbody>
                     </table>
             </div>
