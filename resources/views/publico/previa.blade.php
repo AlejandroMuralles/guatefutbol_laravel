@@ -16,12 +16,12 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="col-lg-6 col-xs-7">
+                <div class="col-lg-6 col-xs-6">
                     <div class="dato-partido">
                         <div class="icono"><i class="fa fa-calendar"></i></div>
                         <div class="dato">
                             <div class="titulo">FECHA</div>
-                            <div class="sub-titulo">{{$partido->fecha}} </div>
+                            <div class="sub-titulo" style="font-size: 13px;">{{$partido->fecha}} </div>
                         </div>
                     </div> 
                 </div>
@@ -36,7 +36,7 @@
                         </div>
                     </div>                    
                 </div>
-                <div class="col-lg-6 col-xs-7">
+                <div class="col-lg-6 col-xs-6">
                     <div class="dato-partido">
                         <div class="icono"><i class="flaticon flaticon-soccer-field"></i></div>
                         <div class="dato">
