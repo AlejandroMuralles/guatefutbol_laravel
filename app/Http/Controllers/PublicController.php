@@ -177,13 +177,13 @@ class PublicController extends BaseController {
 				$partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
 				$partidos = $partidosC1->merge($partidosC2);
 				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1);
+				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
 			}
 			else
 			{
-				$partidos = $this->partidoRepo->getByCampeonatoByFase($campeonato->id, ['R']);
+				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1);
+				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
 			}
 
 			$data['configuracion'] = $configuracion;

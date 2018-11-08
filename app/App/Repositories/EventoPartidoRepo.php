@@ -177,10 +177,10 @@ class EventoPartidoRepo extends BaseRepo{
 									->where('minutos_jugados','!=',0)->pluck('persona_id');
 
 		$personas = Persona::whereIn('id', $alineacion)
-				->orderBy('primer_nombre')
-    			->orderBy('segundo_nombre')
-    			->orderBy('primer_apellido')
-    			->orderBy('segundo_apellido')->get();
+							->orderBy('primer_apellido')
+							->orderBy('segundo_apellido')
+							->orderBy('primer_nombre')
+							->orderBy('segundo_nombre')->get();
     	return $personas;
 	}
 
@@ -206,10 +206,10 @@ class EventoPartidoRepo extends BaseRepo{
 									->pluck('persona_id');
 
 		$personas = Persona::whereIn('id', $alineacion)
-    			->orderBy('primer_nombre')
-    			->orderBy('segundo_nombre')
     			->orderBy('primer_apellido')
-    			->orderBy('segundo_apellido')->get();
+    			->orderBy('segundo_apellido')
+    			->orderBy('primer_nombre')
+    			->orderBy('segundo_nombre')->get();
 
     	return $personas;
 

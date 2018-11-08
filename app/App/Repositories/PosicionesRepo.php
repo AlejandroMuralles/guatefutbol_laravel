@@ -11,11 +11,11 @@ class PosicionesRepo {
 		$this->partidoRepo = $partidoRepo;
 	}
 
-    public function getTabla($campeonatoId, $tipoTabla, $partidos, $equipos, $esAcumulada = 0)
+    public function getTabla($campeonatoId, $tipoTabla, $partidos, $equipos, $esAcumulada = 0, $tablaAcumulada = null)
 	{
 		foreach($partidos as $partido)
 		{
-            if($partido->estado_id != 1)
+            if($partido->estado != 1)
             {
                 $goles_local = $partido->goles_local != null ? $partido->goles_local : 0;
                 $goles_visita = $partido->goles_visita != null ? $partido->goles_visita : 0;
@@ -89,7 +89,7 @@ class PosicionesRepo {
             }
         }
 
-				/* Quitar puntos a chiantla */
+        /* Quitar puntos a chiantla */
         if(($campeonatoId == 69 || $campeonatoId == 65) && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
@@ -98,6 +98,27 @@ class PosicionesRepo {
                 }
             }
         }
+
+        /* Quitar puntos a jocotán */
+        if($campeonatoId == 74 && $esAcumulada == 0)
+        {
+            foreach($equipos as $index => $equipo)
+            {
+                if($equipo->equipo->id == 73){
+                    $equipo->PTS -= 3;
+                }
+            }
+        }
+        if($esAcumulada == 1 && ($tablaAcumulada[0]->campeonato1_id == 74 || $tablaAcumulada[0]->campeonato2_id == 74))
+        {
+            foreach($equipos as $index => $equipo)
+            {
+                if($equipo->equipo->id == 73){
+                    $equipo->PTS -= 3;
+                }
+            }
+        }
+        /*quitar puntos a jocotán*/
 
 		usort($equipos, array('App\App\Repositories\PosicionesRepo','cmp'));
 		$pos = 0;
