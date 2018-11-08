@@ -32,10 +32,22 @@ class Persona extends \Eloquent {
 		return $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido . $portero;
 	}
 
+	public function getNombreCortoAttribute()
+	{
+		$portero = $this->portero ? ' (P)' : '';
+		return $this->primer_nombre . ' ' . $this->primer_apellido . $portero;
+	}
+
 	public function getNombreCompletoApellidosAttribute()
 	{
 		$portero = $this->portero ? ' (P)' : '';
 		return $this->primer_apellido . ' ' . $this->segundo_apellido . ' ' . $this->primer_nombre . ' ' . $this->segundo_nombre . $portero;
+	}
+
+	public function getNombreCortoApellidosAttribute()
+	{
+		$portero = $this->portero ? ' (P)' : '';
+		return $this->primer_apellido . ' ' . $this->primer_nombre . $portero;
 	}
 
 	public function getLugarNacimientoAttribute()

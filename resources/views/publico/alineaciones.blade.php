@@ -17,7 +17,7 @@ table, tr td{
                     <tbody>
                     @foreach($titularesLocales as $tl)
                         <tr>
-                            <td>{{$tl->jugador->nombre_completo_apellidos}}</td>
+                            <td>{{$tl->jugador->nombre_corto_apellidos}}</td>
                             <td width="50px">
                                 @if($tl->cambio)
                                 <i class="fa fa-exchange-alt" style="color: red;"></i>
@@ -41,7 +41,7 @@ table, tr td{
                     @endforeach
                     @foreach($suplentesLocales as $sl)
                         <tr>
-                            <td>{{$sl->jugador->nombre_completo_apellidos}}</td>
+                            <td>{{$sl->jugador->nombre_corto_apellidos}}</td>
                             <td width="50px">
                                 @if($sl->cambio)
                                 <i class="fa fa-exchange-alt" style="color: green;"></i>
@@ -66,7 +66,7 @@ table, tr td{
                         <tbody>
                         @foreach($titularesVisita as $tl)
                             <tr>
-                                <td>{{$tl->jugador->nombre_completo_apellidos}}</td>
+                                <td>{{$tl->jugador->nombre_corto_apellidos}}</td>
                                 <td width="50px">
                                     @if($tl->cambio)
                                     <i class="fa fa-exchange-alt" style="color: red;"></i>
@@ -90,7 +90,7 @@ table, tr td{
                         @endforeach
                         @foreach($suplentesVisita as $sl)
                             <tr>
-                                <td>{{$sl->jugador->nombre_completo_apellidos}}</td>
+                                <td>{{$sl->jugador->nombre_corto_apellidos}}</td>
                                 <td width="50px">
                                     @if($sl->cambio)
                                     <i class="fa fa-exchange-alt" style="color: green;"></i>
