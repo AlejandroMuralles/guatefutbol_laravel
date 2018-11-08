@@ -53,7 +53,7 @@ table{
                     <tbody>
                     @foreach($titularesLocales as $ev)
                         <tr>
-                            <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
+                            <td>{{$ev->jugador->nombre_completo_apellidos}}</td>
                             <td width="50px" class="text-center">
                                 @if($ev->cambio)
                                 <i class="fa fa-exchange-alt" style="color: red;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
@@ -80,7 +80,7 @@ table{
                     </tr>
                     @foreach($suplentesLocales as $ev)
                         <tr>
-                            <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
+                            <td>{{$ev->jugador->nombre_completo_apellidos}}</td>
                             <td width="50px" class="text-center">
                                 @if($ev->cambio)
                                 <i class="fa fa-exchange-alt" style="color: green;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
