@@ -8,7 +8,7 @@
         <link href="{{ asset('assets/public/css/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/public/css/style-blue.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- Font Awesome Icons -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('assets/public/icons/font-awesome/css/all.css') }}">
         <link href="{{ asset('assets/public/icons/flaticon/flaticon.css') }}" rel="stylesheet" type="text/css" />
         <!-- Ionicons -->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -66,7 +66,7 @@
                                         </a>                        
                                     </li>
                                     <li class="alineaciones">
-                                        <a href="">
+                                        <a href="{{route('alineaciones',$partido->id)}}">
                                             <span class="cont-icon-dir">
                                                 <span class="fa fa-users"></span>
                                             </span>

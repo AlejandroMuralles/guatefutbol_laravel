@@ -15,9 +15,11 @@ use App\App\Repositories\TablaAcumuladaRepo;
 use App\App\Repositories\PlantillaRepo;
 use App\App\Repositories\EquipoRepo;
 use App\App\Repositories\HistorialCampeonRepo;
+use App\App\Repositories\AlineacionRepo;
 
 use App\App\ExtraEntities\FichaPartido;
 use App\App\ExtraEntities\RachaEquipo;
+use App\App\ExtraEntities\AlineacionPartido;
 
 use View, Cache;
 
@@ -36,9 +38,12 @@ class PublicController extends BaseController {
 	protected $plantillaRepo;
 	protected $equipoRepo;
 	protected $historialCampeonRepo;
+	protected $alineacionRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
-		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,EstadioRepo $estadioRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, PorteroRepo $porteroRepo, PlantillaRepo $plantillaRepo,EquipoRepo $equipoRepo, HistorialCampeonRepo $historialCampeonRepo)
+		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
+		EstadioRepo $estadioRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, PorteroRepo $porteroRepo, PlantillaRepo $plantillaRepo,EquipoRepo $equipoRepo, 
+		HistorialCampeonRepo $historialCampeonRepo, AlineacionRepo $alineacionRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -53,6 +58,7 @@ class PublicController extends BaseController {
 		$this->plantillaRepo = $plantillaRepo;
 		$this->equipoRepo = $equipoRepo;
 		$this->historialCampeonRepo = $historialCampeonRepo;
+		$this->alineacionRepo = $alineacionRepo;
 		View::composer('layouts.publico', 'App\Http\Controllers\PublicMenuController');
 	}
 
@@ -428,6 +434,117 @@ class PublicController extends BaseController {
 		return View::make('publico/previa', compact('partido','ficha','ligaId','configuracion','rachaLocal','rachaVisita'));
 	}
 
+	public function alineaciones($partidoId)
+	{
+		$configuracion = $this->configuracionRepo->find(5);
+		$partido = $this->partidoRepo->find($partidoId);
+
+		$alineacionLocal = $this->alineacionRepo->getJugadoresParticipantes($partido->id, $partido->equipo_local_id);
+		$titularesLocales = [];
+		$suplentesLocales = [];
+		foreach($alineacionLocal as $al)
+		{
+			if($al->es_titular == 1){
+				$titularesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
+			}
+			else
+			{
+				$suplentesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
+			}
+		}
+		$dtLocal = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_local_id);
+
+		$alineacionVisita = $this->alineacionRepo->getJugadoresParticipantes($partido->id, $partido->equipo_visita_id);
+		$titularesVisita = [];
+		$suplentesVisita = [];
+		foreach($alineacionVisita as $av)
+		{
+			if($av->es_titular == 1){
+				$titularesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
+			}
+			else
+			{
+				$suplentesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
+			}
+		}
+		$dtVisita = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_visita_id);
+
+		$eventos = $this->eventoPartidoRepo->getByEventos($partido->id, array(6,7,8,9,10,11));
+		foreach($eventos as $evento)
+		{
+			if($evento->equipo_id == $partido->equipo_local_id){
+				if($evento->evento_id == 6 || $evento->evento_id == 8)
+				{
+					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->goles[] = $evento->minuto;
+					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->goles = $evento->minuto;
+				}
+				if($evento->evento_id == 9)
+				{
+					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->cambio = true;
+					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+					if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->cambio = true;
+					if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+
+					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->cambio = true;
+					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+					if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->cambio = true;
+					if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+				}
+				if($evento->evento_id == 10)
+				{
+					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+				}
+				if($evento->evento_id == 11)
+				{
+					if($evento->doble_amarilla){
+						if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->roja = $evento->minuto;
+						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->expulsado = true;
+					}
+				}
+			}
+			if($evento->equipo_id == $partido->equipo_visita_id){
+				if($evento->evento_id == 6 || $evento->evento_id == 8)
+				{
+					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->goles[] = $evento->minuto;
+					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->goles = $evento->minuto;
+				}
+				if($evento->evento_id == 9)
+				{
+					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->cambio = true;
+					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+					if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->cambio = true;
+					if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+
+					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->cambio = true;
+					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+					if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->cambio = true;
+					if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+				}
+				if($evento->evento_id == 10)
+				{
+					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+				}
+				if($evento->evento_id == 11)
+				{
+					if($evento->doble_amarilla){
+						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
+
+						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
+					}
+				}
+			}
+		}		
+		return View::make('publico/alineaciones', compact('partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion'));
+	}
+
 	private function getRacha($partidos, $equipo)
 	{
 		$racha = new RachaEquipo($equipo);
@@ -785,3 +902,4 @@ class PublicController extends BaseController {
 
 
 }
+
