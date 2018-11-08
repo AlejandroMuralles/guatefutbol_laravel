@@ -111,7 +111,7 @@ class PosicionesRepo {
         }
         if($esAcumulada == 1)
         {
-            if(is_null($tablaAcumulada)){
+            if(count($tablaAcumulada) == 0){
                 if($campeonatoId == 74)
                 {
                     foreach($equipos as $index => $equipo)
