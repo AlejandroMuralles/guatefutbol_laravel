@@ -11,7 +11,7 @@ table, tr td{
 <div class="row">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-xs-6">
                 <h3>{{$partido->equipo_local->nombre}}</h3>
                 <table class="table">
                     <tbody>
@@ -60,7 +60,7 @@ table, tr td{
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-xs-6">
                 <h3>{{$partido->equipo_visita->nombre}}</h3>
                 <table class="table">
                         <tbody>
