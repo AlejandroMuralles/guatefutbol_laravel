@@ -102,7 +102,13 @@
 
     <!-- Bootstrap 3.3.2 JS -->
     <script src="{{ asset('assets/public/js/plugins/bootstrap/bootstrap.min.js') }}" type="text/javascript"></script>
-
+    <script>
+        $(function(){
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
+        })
+    </script>
     @yield('js')
   </body>
 </html>

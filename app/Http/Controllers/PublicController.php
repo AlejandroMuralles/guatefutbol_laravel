@@ -539,6 +539,13 @@ class PublicController extends BaseController {
 						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
 						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
 					}
+					else{
+						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
+
+						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
+					}
 				}
 			}
 		}		
