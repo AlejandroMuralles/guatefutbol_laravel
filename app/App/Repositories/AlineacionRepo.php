@@ -96,6 +96,41 @@ class AlineacionRepo extends BaseRepo{
 		return $alineacion;
 	}
 
+	public function getJugadores($partidoId, $equipoId)
+	{
+		$alineacion = Alineacion::leftJoin('persona', 'alineacion.persona_id', '=', 'persona.id')
+							->where('partido_id','=',$partidoId)
+							->where('equipo_id','=',$equipoId)
+							->where('es_titular','=',true)
+							->whereHas('persona',function($q)
+							{
+								$q->where('rol','J');
+							})
+							->with('persona')
+							->orderBy('es_titular', 'DESC')
+							->orderBy('persona.primer_apellido')
+							->orderBy('minutos_jugados','DESC')
+							->get();
+
+
+		$cambios = Alineacion::where('partido_id','=',$partidoId)
+							->where('equipo_id','=',$equipoId)
+							->whereRaw('(es_titular = false or es_titular is null)' )
+							->whereHas('persona',function($q)
+							{
+								$q->where('rol','J');
+							})
+							->with('persona')
+							->orderBy('minutos_jugados','DESC')
+							->get();
+		foreach($cambios as $cambio)
+		{
+			$alineacion->push($cambio);
+		}
+
+		return $alineacion;
+	}
+
 	public function getListAlineacion($partidoId, $equipoId)
 	{
 		$ids = \DB::table('alineacion')

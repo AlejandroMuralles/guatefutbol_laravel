@@ -439,7 +439,7 @@ class PublicController extends BaseController {
 		$configuracion = $this->configuracionRepo->find(5);
 		$partido = $this->partidoRepo->find($partidoId);
 
-		$alineacionLocal = $this->alineacionRepo->getJugadoresParticipantes($partido->id, $partido->equipo_local_id);
+		$alineacionLocal = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_local_id);
 		$titularesLocales = [];
 		$suplentesLocales = [];
 		foreach($alineacionLocal as $al)
@@ -454,7 +454,7 @@ class PublicController extends BaseController {
 		}
 		$dtLocal = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_local_id);
 
-		$alineacionVisita = $this->alineacionRepo->getJugadoresParticipantes($partido->id, $partido->equipo_visita_id);
+		$alineacionVisita = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_visita_id);
 		$titularesVisita = [];
 		$suplentesVisita = [];
 		foreach($alineacionVisita as $av)
