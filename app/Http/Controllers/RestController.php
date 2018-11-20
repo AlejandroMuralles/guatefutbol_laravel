@@ -338,7 +338,7 @@ class RestController extends BaseController {
 					$campeonato = $this->campeonatoRepo->find($campeonatoId);
 				}
 				$goleadores = $this->goleadorRepo->getGoleadores($campeonato);
-				$goleadores = array_slice($goleadores, 0, 10);
+				//$goleadores = array_slice($goleadores, 0, 10);
 				$data['goleadores'] = $goleadores;
 
 				$c = new \App\App\Entities\Campeonato;
