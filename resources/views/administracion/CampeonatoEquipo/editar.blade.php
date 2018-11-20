@@ -58,7 +58,9 @@
 	$(document).ready(function() {
    		$('table').dataTable({
    			"bSort" : true,
-   			"aaSorting" : [[1, 'asc']]
+   			"aaSorting" : [[1, 'asc']],
+			"iDisplayLength" : 20,
+		    "aLengthMenu": [[20, 50, 100, -1], [20, 50, 100, "Todos"]],
    		});
 	});
 </script>

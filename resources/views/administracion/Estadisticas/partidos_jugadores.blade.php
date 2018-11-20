@@ -74,15 +74,15 @@
 			<thead>
 				<tr>
 					<th>JUGADOR</th>
-					<th>AP</th>
-					<th>MJ</th>
-					<th>G</th>
-					<th>A</th>
-					<th>AA</th>
-					<th>R</th>					
-					<th>GANADOS</th>
-					<th>EMPATADOS</th>
-					<th>PERDIDOS</th>
+					<th width="100px">AP</th>
+					<th width="100px">MJ</th>
+					<th width="100px">G</th>
+					<th width="100px">A</th>
+					<th width="100px">AA</th>
+					<th width="100px">R</th>					
+					<th width="150px">GANADOS</th>
+					<th width="150px">EMPATADOS</th>
+					<th width="150px">PERDIDOS</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -111,15 +111,15 @@
 			<thead>
 				<tr>
 					<th>EQUIPO</th>
-					<th>AP</th>
-					<th>MJ</th>
-					<th>G</th>
-					<th>A</th>
-					<th>AA</th>
-					<th>R</th>
-					<th>GANADOS</th>
-					<th>EMPATADOS</th>
-					<th>PERDIDOS</th>
+					<th width="100px">AP</th>
+					<th width="100px">MJ</th>
+					<th width="100px">G</th>
+					<th width="100px">A</th>
+					<th width="100px">AA</th>
+					<th width="100px">R</th>
+					<th width="150px">GANADOS</th>
+					<th width="150px">EMPATADOS</th>
+					<th width="150px">PERDIDOS</th>
 				</tr>
 			</thead>
 			<tbody>

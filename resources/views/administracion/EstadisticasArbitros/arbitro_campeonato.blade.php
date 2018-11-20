@@ -101,8 +101,8 @@
 						<tr>
 							<th>EQUIPO</th>
 							<th>GANADOS</th>
-							<th>PERDIDOS</th>
 							<th>EMPATADOS</th>
+							<th>PERDIDOS</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -111,8 +111,8 @@
 							<tr>
 								<td class="text-center">{{ $equipo['equipo']->nombre }}</td>
 								<td class="text-center">{{ $equipo['ganados'] }}</td>
-								<td class="text-center">{{ $equipo['perdidos'] }}</td>
 								<td class="text-center">{{ $equipo['empatados'] }}</td>
+								<td class="text-center">{{ $equipo['perdidos'] }}</td>
 							</tr>
 							@endforeach
 						@endif

@@ -242,7 +242,8 @@ class AdminController extends BaseController {
 	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;
 
 	    				$alineacion->amarillas--;
-	    				$totalesEquipos[$alineacion->equipo_id]->amarillas--;
+						$totalesEquipos[$alineacion->equipo_id]->amarillas--;
+						$amarillas--;
 	    			}
 	    			else{
 	    				$rojas++;
