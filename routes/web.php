@@ -165,6 +165,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 
 	/*ESTADISTICAS ADMINISTRATIVAS*/
+	Route::get('Estadisticas/Jugadores/{ligaId}/{campeonato}', ['as' => 'estadisticas_jugadores', 'uses' => 'EstadisticasJugadoresController@mostrarEstadisticasJugadores']);
 	Route::get('Estadisticas/PartidosXEquipo/{ligaId}/{equipo1Id}/{equipo2Id}', ['as' => 'partidos_equipos', 'uses' => 'AdminController@mostrarPartidoPorEquipo']);
 	Route::get('Estadisticas/PartidosXJugador/{ligaId}/{jugadorId}/{equipoId}/{rivalId}/{campeonatoId}', ['as' => 'partidos_jugadores', 'uses' => 'AdminController@mostrarPartidoPorJugador']);
 	Route::get('Estadisticas/PartidosXArbitro/{ligaId}/{arbitroId}/{equipoId}/{campeonatoId}', ['as' => 'partidos_arbitros', 'uses' => 'AdminController@mostrarPartidoPorArbitro']);
