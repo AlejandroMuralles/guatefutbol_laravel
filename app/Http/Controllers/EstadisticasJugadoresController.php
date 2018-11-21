@@ -61,7 +61,7 @@ class EstadisticasJugadoresController extends BaseController {
 		$liga = $this->ligaRepo->find($ligaId);
 		$campeonatos = $this->campeonatoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
 		$campeonato = null;
-		if($campeonatoId == 0)
+		if($campeonatoId == -1)
 		{
 			$jugadores = $this->vwEstadisticaJugadorLigaRepo->getByLiga($ligaId);
 		}

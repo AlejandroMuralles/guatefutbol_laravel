@@ -47,7 +47,7 @@
 					<a href="{{route('partidos_jugadores',[$liga->id,0,0,0,0])}}" class="btn bg-green btn-flat btn-xs">
 						Jugador
 					</a>
-					<a href="{{route('estadisticas_jugadores',[$liga->id,0])}}" class="btn bg-green btn-flat btn-xs">
+					<a href="{{route('estadisticas_jugadores',[$liga->id,-1])}}" class="btn bg-green btn-flat btn-xs">
 						Jugadores
 					</a>
 					<a href="{{route('dashboard_admin_estadisticas_arbitros',$liga->id)}}" class="btn bg-green btn-flat btn-xs">
