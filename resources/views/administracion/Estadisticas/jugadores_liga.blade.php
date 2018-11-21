@@ -36,7 +36,12 @@
                 @foreach($jugadores as $jugador)
                     <tr>
                         <td class="col"></td>
-                        <td>{{$jugador->nombre_completo_apellidos}}</td>
+                        <td>
+                            @php if($campeonatoId == -1) { $campeonato = 0; } @endphp 
+                            <a href="{{route('partidos_jugadores',[$ligaId,$jugador->id,0,0,$campeonato])}}">
+                                {{$jugador->nombre_completo_apellidos}}
+                            </a>
+                        </td>
                         <td class="col">{{$jugador->apariciones}}</td>
                         <td class="col">{{$jugador->minutos_jugados}}</td>
                         <td class="col">{{$jugador->goles + 0}}</td>
