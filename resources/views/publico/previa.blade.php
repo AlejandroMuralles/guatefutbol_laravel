@@ -62,10 +62,10 @@
                 <div class="racha_estadisticas">
                     <div class="racha_estadistica racha_ganados">{{$rachaLocal->ganados}}</div>
                     <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
-                    <div class="racha_estadistica racha_empatados">{{$rachaLocal->perdidos}}</div>
-                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
-                    <div class="racha_estadistica racha_perdidos">{{$rachaLocal->empatados}}</div>
+                    <div class="racha_estadistica racha_empatados">{{$rachaLocal->empatados}}</div>
                     <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
+                    <div class="racha_estadistica racha_perdidos">{{$rachaLocal->perdidos}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
                 </div>
             </div>
             <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_visita->nombre}}</h3>
@@ -74,10 +74,10 @@
                 <div class="racha_estadisticas">
                     <div class="racha_estadistica racha_ganados">{{$rachaVisita->ganados}}</div>
                     <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
-                    <div class="racha_estadistica racha_empatados">{{$rachaVisita->perdidos}}</div>
-                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
-                    <div class="racha_estadistica racha_perdidos">{{$rachaVisita->empatados}}</div>
+                    <div class="racha_estadistica racha_empatados">{{$rachaVisita->empatados}}</div>
                     <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
+                    <div class="racha_estadistica racha_perdidos">{{$rachaVisita->perdidos}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
                 </div>
             </div>
         </div>
