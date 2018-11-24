@@ -422,8 +422,8 @@ class PublicController extends BaseController {
 	{
 		$configuracion = $this->configuracionRepo->find(5);
 		$partido = $this->partidoRepo->find($partidoId);
-		$partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','ASC',10);
-		$partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','ASC',10);
+		$partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
+		$partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
 		$ficha = new FichaPartido();
 		$eventos = array();
 		$ficha->generarEventos($partido, $eventos);
