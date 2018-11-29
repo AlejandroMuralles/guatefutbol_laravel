@@ -32,6 +32,11 @@ class StaticVariables {
 		'STE'	=> 'SEGUNDO TIEMPO EXTRA',
 	];
 
+	protected $tiposDescuentoPuntos = [
+		1 => 'SOLO TABLA ACUMULADA',
+		2 => 'CAMPEONATO Y TABLA ACUMULADA'
+	];
+
 	public function getEstadosGenerales() { return $this->estadosGenerales; }
 	public function getEstadoGeneral($key) { return $this->estadosGenerales[$key]; }
 
@@ -43,6 +48,9 @@ class StaticVariables {
 
 	public function getEstadosTiemposPartidos() { return $this->estadosTiemposPartidos; }
 	public function getEstadoTiempoPartido($key) { return $this->estadosTiemposPartidos[$key]; }
+
+	public function getTiposDescuentoPuntos() { return $this->tiposDescuentoPuntos; }
+	public function getTipoDescuentoPuntos($key) { return $this->tiposDescuentoPuntos[$key]; }
 
 	public function arrayToCommaSeparatedList($array)
 	{

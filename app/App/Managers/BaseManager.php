@@ -31,7 +31,7 @@ abstract class BaseManager
 		$this->isValid();
 		$this->entity->fill($this->prepareData($this->data));		
 		$this->entity->save();
-		return true;
+		return $this->entity;
 	}
 
 }

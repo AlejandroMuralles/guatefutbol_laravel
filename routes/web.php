@@ -73,6 +73,12 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Tabla-Acumulada/editar/{id}', ['as' => 'editar_tabla_acumulada', 'uses' => 'TablaAcumuladaController@mostrarEditar']);
 	Route::post('Tabla-Acumulada/editar/{id}', ['as' => 'editar_tabla_acumulada', 'uses' => 'TablaAcumuladaController@editar']);
 
+	Route::get('Descuento-Puntos/listado/{liga}', ['as' => 'descuento_puntos', 'uses' => 'DescuentoPuntosController@listado']);
+	Route::get('Descuento-Puntos/agregar/{liga}/{campeonatoId}', ['as' => 'agregar_descuento_puntos', 'uses' => 'DescuentoPuntosController@mostrarAgregar']);
+	Route::post('Descuento-Puntos/agregar/{liga}/{campeonatoId}', ['as' => 'agregar_descuento_puntos', 'uses' => 'DescuentoPuntosController@agregar']);
+	Route::get('Descuento-Puntos/editar/{descuento_puntos}', ['as' => 'editar_descuento_puntos', 'uses' => 'DescuentoPuntosController@mostrarEditar']);
+	Route::post('Descuento-Puntos/editar/{descuento_puntos}', ['as' => 'editar_descuento_puntos', 'uses' => 'DescuentoPuntosController@editar']);
+
 	Route::get('Perfil/listado', ['as' => 'perfiles', 'uses' => 'PerfilController@listado']);
 	Route::get('Perfil/agregar', ['as' => 'agregar_perfil', 'uses' => 'PerfilController@mostrarAgregar']);
 	Route::post('Perfil/agregar', ['as' => 'agregar_perfil', 'uses' => 'PerfilController@agregar']);

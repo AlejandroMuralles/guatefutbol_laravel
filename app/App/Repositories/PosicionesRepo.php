@@ -1,6 +1,7 @@
 <?php
 
 namespace App\App\Repositories;
+use App\App\Repositories\DescuentoPuntosRepo;
 
 class PosicionesRepo {
 
@@ -70,37 +71,84 @@ class PosicionesRepo {
 		}
 
         /* Quitar puntos a siquinalá */
-        if($campeonatoId == 53 && $esAcumulada == 1){
+        /*if($campeonatoId == 53 && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
                 if($equipo->equipo->id == 82){
                     $equipo->PTS -= 3;
                 }
             }
-        }
+        }*/
 
         /* Quitar puntos a chiantla */
-        if($campeonatoId == 60 && $esAcumulada == 1){
+        /*if($campeonatoId == 60 && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
                 if($equipo->equipo->id == 69){
                     $equipo->PTS -= 3;
                 }
             }
-        }
+        }*/
 
         /* Quitar puntos a chiantla */
-        if(($campeonatoId == 69 || $campeonatoId == 65) && $esAcumulada == 1){
+        /*if(($campeonatoId == 69 || $campeonatoId == 65) && $esAcumulada == 1){
             foreach($equipos as $index => $equipo)
             {
                 if($equipo->equipo->id == 69){
                     $equipo->PTS -= 6;
                 }
             }
+        }*/
+
+        $descuentosRepo = new DescuentoPuntosRepo();
+        if($esAcumulada == 0)
+        {
+            $descuentos = $descuentosRepo->getByCampeonatoByTipos($campeonatoId, [2]);
+            foreach($equipos as $equipo)
+            {
+                foreach($descuentos as $descuento)
+                {
+                    if($equipo->equipo->id == $descuento->equipo_id)
+                        $equipo->PTS -= 3;
+                }
+            }
+        }
+        else {
+            if(count($tablaAcumulada) == 0){
+                $descuentos = $descuentosRepo->getByCampeonatoByTipos($campeonatoId, [1,2]);
+                foreach($equipos as $equipo)
+                {
+                    foreach($descuentos as $descuento)
+                    {
+                        if($equipo->equipo->id == $descuento->equipo_id)
+                            $equipo->PTS -= 3;
+                    }
+                }
+            }
+            else {
+                $descuentos = $descuentosRepo->getByCampeonatoByTipos($tablaAcumulada[0]->campeonato1_id, [1,2]);
+                foreach($equipos as $equipo)
+                {
+                    foreach($descuentos as $descuento)
+                    {
+                        if($equipo->equipo->id == $descuento->equipo_id)
+                            $equipo->PTS -= 3;
+                    }
+                }
+                $descuentos = $descuentosRepo->getByCampeonatoByTipos($tablaAcumulada[0]->campeonato2_id, [1,2]);
+                foreach($equipos as $equipo)
+                {
+                    foreach($descuentos as $descuento)
+                    {
+                        if($equipo->equipo->id == $descuento->equipo_id)
+                            $equipo->PTS -= 3;
+                    }
+                }
+            }
         }
 
         /* Quitar puntos a jocotán */
-        if($campeonatoId == 74 && $esAcumulada == 0)
+        /*if($campeonatoId == 74 && $esAcumulada == 0)
         {
             foreach($equipos as $index => $equipo)
             {
@@ -133,7 +181,7 @@ class PosicionesRepo {
                     }
                 }
             }
-        }
+        }*/
         /*quitar puntos a jocotán*/
 
 		usort($equipos, array('App\App\Repositories\PosicionesRepo','cmp'));

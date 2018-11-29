@@ -56,6 +56,9 @@
 					<a href="{{route('posiciones_liga',$liga->id)}}" class="btn bg-green btn-flat btn-xs">
 						Posiciones
 					</a>
+					<a href="{{route('descuento_puntos',$liga->id)}}" class="btn bg-orange btn-flat btn-xs">
+						Descuento Puntos
+					</a>
 				</td>
 			</tr>
 			@endforeach
