@@ -632,7 +632,8 @@ class RestController extends BaseController {
 				{
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($al->persona->primer_nombre,0,1);
-					$jugador['nombre'] = $nombre . '. ' . $al->persona->primer_apellido;
+                    $jugador['nombre'] = $nombre . '. ' . $al->persona->primer_apellido;
+                    $jugador['nombre_completo'] = $al->persona->nombre_completo_apellidos;
 					$jugador['es_titular'] = $al->es_titular;
 
 					$alLocal[] = $jugador;
@@ -641,7 +642,8 @@ class RestController extends BaseController {
 				{
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($av->persona->primer_nombre,0,1);
-					$jugador['nombre'] = $nombre . '. ' . $av->persona->primer_apellido;
+                    $jugador['nombre'] = $nombre . '. ' . $av->persona->primer_apellido;
+                    $jugador['nombre_completo'] = $av->persona->nombre_completo_apellidos;
 					$jugador['es_titular'] = $av->es_titular;
 
 					$alVisita[] = $jugador;
@@ -654,12 +656,14 @@ class RestController extends BaseController {
 				if(!is_null($dtLocal))  {
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($dtLocal->primer_nombre,0,1);
-					$data['dtLocal']['nombre'] = $nombre . '. ' . $dtLocal->primer_apellido;
+                    $data['dtLocal']['nombre'] = $nombre . '. ' . $dtLocal->primer_apellido;
+                    $data['dtLocal']['nombre_completo'] = $dtLocal->nombre_completo_apellidos;
 				}
 				if(!is_null($dtVisita)){
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($dtVisita->primer_nombre,0,1);
-				  	$data['dtVisita']['nombre'] = $nombre . '. ' . $dtVisita->primer_apellido;
+                    $data['dtVisita']['nombre'] = $nombre . '. ' . $dtVisita->primer_apellido;
+                    $data['dtVisita']['nombre_completo'] = $dtLocal->nombre_completo_apellidos;
 				}
 
 				//* SUSTITUCIONES *///
@@ -671,9 +675,11 @@ class RestController extends BaseController {
 				{
 					mb_internal_encoding("UTF-8");
 					$nombreEntra = mb_substr($el->jugador1->primer_nombre,0,1);
-					$s['entra_nombre'] = $nombreEntra . '. ' . $el->jugador1->primer_apellido;
+                    $s['entra_nombre'] = $nombreEntra . '. ' . $el->jugador1->primer_apellido;
+                    $s['entra_nombre_completo'] = $el->jugador1->nombre_completo_apellidos;
 					$nombreSale = mb_substr($el->jugador2->primer_nombre,0,1);
-					$s['sale_nombre'] = $nombreSale . '. ' .$el->jugador2->primer_apellido;
+                    $s['sale_nombre'] = $nombreSale . '. ' .$el->jugador2->primer_apellido;
+                    $s['sale_nombre_completo'] = $el->jugador2->nombre_completo_apellidos;
 					$s['minuto'] = $el->minuto;
 					$sustitucionesLocal[] = $s;
 				}
@@ -682,9 +688,11 @@ class RestController extends BaseController {
 				{
 					mb_internal_encoding("UTF-8");
 					$nombreEntra = mb_substr($ev->jugador1->primer_nombre,0,1);
-					$s['entra_nombre'] = $nombreEntra . '. ' . $ev->jugador1->primer_apellido;
+                    $s['entra_nombre'] = $nombreEntra . '. ' . $ev->jugador1->primer_apellido;
+                    $s['entra_nombre_completo'] = $ev->jugador1->nombre_completo_apellidos;
 					$nombreSale = mb_substr($ev->jugador2->primer_nombre,0,1);
-					$s['sale_nombre'] = $nombreSale . '. ' .$ev->jugador2->primer_apellido;
+                    $s['sale_nombre'] = $nombreSale . '. ' .$ev->jugador2->primer_apellido;
+                    $s['sale_nombre_completo'] = $ev->jugador2->nombre_completo_apellidos;
 					$s['minuto'] = $ev->minuto;
 					$sustitucionesVisita[] = $s;
 				}
