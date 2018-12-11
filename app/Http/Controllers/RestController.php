@@ -596,7 +596,7 @@ class RestController extends BaseController {
                         $es[$i]['es_gol'] = $esGol;
                         $es[$i]['goles_local'] = $golesLocal;
                         $es[$i]['goles_visita'] = $golesVisita;
-                        $es[$i]['equipo_anota'] = '';
+                        $es[$i]['equipo_anota'] = $evento->equipo_id == $partido->equipo_local_id ? 'local' : 'visita';
                         if($esGol){
                             if($evento->equipo_id == $partido->equipo_local_id)
                                 $golesLocal--;
