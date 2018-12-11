@@ -588,7 +588,12 @@ class RestController extends BaseController {
 					{
 						$es[$i]['comentario'] = $evento->comentario;
 						$es[$i]['minuto'] = $evento->minuto;
-						$es[$i]['imagen'] = $evento->evento->imagen;
+                        $es[$i]['imagen'] = $evento->evento->imagen;
+                        $es[$i]['evento_id'] = $evento->evento_id;
+                        $es[$i]['es_gol'] = $evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8;
+                        $es[$i]['goles_local'] = '';
+                        $es[$i]['goles_visita'] = '';
+                        $es[$i]['equipo_anota'] = '';
 						$i++;
 					}
 				}
