@@ -583,7 +583,9 @@ class RestController extends BaseController {
 
 					$eventos = $this->eventoPartidoRepo->getEnVivo($partidoId);
 
-					$i = 0;
+                    $i = 0;
+                    $golesLocal = $partido->goles_local;
+                    $golesVisita = $partido->goles_visita;
 					foreach($eventos as $evento)
 					{
                         $esGol = $evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8;
