@@ -586,14 +586,21 @@ class RestController extends BaseController {
 					$i = 0;
 					foreach($eventos as $evento)
 					{
+                        $esGol = $evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8;
 						$es[$i]['comentario'] = $evento->comentario;
 						$es[$i]['minuto'] = $evento->minuto;
                         $es[$i]['imagen'] = $evento->evento->imagen;
                         $es[$i]['evento_id'] = $evento->evento_id;
-                        $es[$i]['es_gol'] = $evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8;
-                        $es[$i]['goles_local'] = '';
-                        $es[$i]['goles_visita'] = '';
+                        $es[$i]['es_gol'] = $esGol;
+                        $es[$i]['goles_local'] = $golesLocal;
+                        $es[$i]['goles_visita'] = $golesVisita;
                         $es[$i]['equipo_anota'] = '';
+                        if($esGol){
+                            if($evento->equipo_id == $partido->equipo_local_id)
+                                $golesLocal--;
+                            if($evento->equipo_id == $partido->equipo_visita_id)
+                                $golesVisita--;
+                        }
 						$i++;
 					}
 				}
