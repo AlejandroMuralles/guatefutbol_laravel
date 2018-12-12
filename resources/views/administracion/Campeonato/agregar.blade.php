@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-lg-3">{!! Field::checkbox('menu_app_calendario')!!}</div>
             <div class="col-lg-3">{!! Field::checkbox('menu_app_posiciones')!!}</div>
-            <div class="col-lg-3">{!! Field::checkbox('menu_app_tala_acumulada')!!}</div>
+            <div class="col-lg-3">{!! Field::checkbox('menu_app_tabla_acumulada')!!}</div>
         </div>
         <div class="row">
             <div class="col-lg-3">{!! Field::checkbox('menu_app_goleadores')!!}</div>
