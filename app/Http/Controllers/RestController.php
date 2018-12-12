@@ -198,10 +198,10 @@ class RestController extends BaseController {
 				$fechaFin = $this->getFecha($diasFin . ' day');
 				$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
 
-				$c = new \App\App\Entities\Campeonato;
+				/*$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+				$c->nombre = $campeonato->nombre;*/
+				$data['campeonato'] = $campeonato;
 				$configuracion = $this->configuracionRepo->find(2);
 				$data['configuracion'] = $configuracion;
 
@@ -286,10 +286,10 @@ class RestController extends BaseController {
 				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
 
 				$data['posiciones'] = $posiciones;
-				$c = new \App\App\Entities\Campeonato;
+				/*$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+				$c->nombre = $campeonato->nombre;*/
+				$data['campeonato'] = $campeonato;
 				return $data;
 		});
 		return json_encode($data);
@@ -316,10 +316,10 @@ class RestController extends BaseController {
 
 				$data['porteros'] = $porteros;
 
-				$c = new \App\App\Entities\Campeonato;
+				/*$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+				$c->nombre = $campeonato->nombre;*/
+				$data['campeonato'] = $campeonato;
 				return $data;
 		});
 		return json_encode($data);

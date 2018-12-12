@@ -14,11 +14,21 @@
 		{!! Field::select('liga_id',$ligas, null, ['data-required'=> 'true']) !!}
 		{!! Field::text('fecha_inicio', null, ['data-required'=> 'true', 'class'=>'fecha']) !!}
 		{!! Field::text('fecha_fin', null, ['data-required'=> 'true', 'class'=>'fecha']) !!}
-		{!! Field::text('hashtag', null, ['data-required'=> 'true']) !!}
-		{!! Field::select('estado', $estados, null, ['data-required'=> 'true']) !!}
+        {!! Field::text('hashtag', null, ['data-required'=> 'true']) !!}
+        <h3>Menu de Aplicación Movil</h3>
+        <div class="row">
+            <div class="col-lg-3">{{Field::checkbox('menu_app_calendario')}}</div>
+            <div class="col-lg-3">{{Field::checkbox('menu_app_posiciones')}}</div>
+            <div class="col-lg-3">{{Field::checkbox('menu_app_tala_acumulada')}}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">{{Field::checkbox('menu_app_goleadores')}}</div>
+            <div class="col-lg-3">{{Field::checkbox('menu_app_porteros')}}</div>
+            <div class="col-lg-3">{{Field::checkbox('menu_app_plantilla')}}</div>
+        </div>
 		{!! Field::checkbox('actual') !!}
 		{!! Field::checkbox('mostrar_app') !!}
-
+        {!! Field::select('estado', $estados, null, ['data-required'=> 'true']) !!}
 		<br/>
 
         <p>

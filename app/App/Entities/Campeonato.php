@@ -7,7 +7,9 @@ class Campeonato extends \Eloquent {
 
 	use UserStamps;
 
-	protected $fillable = ['nombre','fecha_inicio','fecha_fin','liga_id','actual','mostrar_app','hashtag','grupos','estado'];
+    protected $fillable = ['nombre','fecha_inicio','fecha_fin','liga_id','actual','mostrar_app','hashtag','grupos','estado'
+                            ,'menu_app_posiciones','menu_app_tabla_acumulada','menu_app_goleadores','menu_app_porteros',
+                            'menu_app_plantilla','menu_app_calendario'];
 
 	protected $table = 'campeonato';
 
