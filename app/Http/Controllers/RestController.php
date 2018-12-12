@@ -748,25 +748,25 @@ class RestController extends BaseController {
 				{
 					$campeonato = $this->campeonatoRepo->find($campeonatoId);
 				}
-				$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
-				if(count($ta) > 0)
-				{
-					$partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
-					$partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
-					$partidos = $partidosC1->merge($partidosC2);
-					$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-				}
-				else
-				{
-					$partidos = $this->partidoRepo->getByCampeonatoByFase($campeonato->id, [2]);
-					$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-				}
-				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos);
-
+                $ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
+                if(count($ta) > 0)
+                {
+                    $partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
+                    $partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
+                    $partidos = $partidosC1->merge($partidosC2);
+                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+                    $posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
+                }
+                else
+                {
+                    $partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+                    $posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
+                }
 				$data['posiciones'] = $posiciones;
 				return $data;
 		});
-		$posiciones = $data['posiciones'];
+        $posiciones = $data['posiciones'];
 		return json_encode($posiciones);
 	}
 
