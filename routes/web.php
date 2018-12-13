@@ -169,7 +169,9 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('HistorialCampeon/editar/{id}', ['as' => 'editar_historial_campeon', 'uses' => 'HistorialCampeonController@mostrarEditar']);
 	Route::post('HistorialCampeon/editar/{id}', ['as' => 'editar_historial_campeon', 'uses' => 'HistorialCampeonController@editar']);
 
+        //NOTIFICACIONES
     Route::get('UsersApp/listado', ['as' => 'users_app', 'uses' => 'UserAppController@listado']);
+    Route::get('NotificacionEquipo/listado/{user_app}', ['as' => 'notificaciones_equipo', 'uses' => 'NotificacionEquipoController@listado']);
 
 	/*ESTADISTICAS ADMINISTRATIVAS*/
 	Route::get('Estadisticas/Jugadores/{ligaId}/{campeonato}', ['as' => 'estadisticas_jugadores', 'uses' => 'EstadisticasJugadoresController@mostrarEstadisticasJugadores']);
@@ -288,3 +290,4 @@ Route::get('app-antigua/rest/plantilla/{campeonatoId}/{equipoId}', ['uses' => 'A
 /*FALTAN*/
 
 Route::get('campeonato/{id}', [ 'as' => 'campeonato', 'uses' => 'RestController@campeonato']);
+

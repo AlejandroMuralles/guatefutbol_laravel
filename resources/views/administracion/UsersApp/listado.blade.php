@@ -11,7 +11,8 @@
 				<th>UUID</th>
                 <th>PLATAFORMA</th>
                 <th>FABRICANTE</th>
-				<th>MODELO</th>
+                <th>MODELO</th>
+                <th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -21,6 +22,12 @@
                 <td>{{$user->plataforma}}</td>
                 <td>{{$user->fabricante}}</td>
                 <td>{{$user->modelo}}</td>
+                <td>
+                    <a href="{{route('notificaciones_equipo',$user->id)}}" class="btn btn-warning btn-flat btn-xs" data-toggle="tooltip" 
+                        data-placement="top" title="" data-original-title="Notificaciones Equipo">
+                        <i class="fa fa-bell"></i>
+                    </a>
+                </td>
 			</tr>
 			@endforeach
 		</tbody>
