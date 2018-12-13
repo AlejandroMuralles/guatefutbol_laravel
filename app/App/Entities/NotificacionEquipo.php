@@ -4,15 +4,18 @@ namespace App\App\Entities;
 
 class NotificacionEquipo extends \Eloquent {
 
-	protected $fillable = ['user_id','equipo_id'];
-
-	public $timestamps = false;
+	protected $fillable = ['user_app_id','equipo_id'];
 
 	protected $table = 'notificacion_equipo';
 
-	public function usuario()
+	public function user()
 	{
-		return $this->belongsTo(NotificacionUsuario::class,'user_id');
+		return $this->belongsTo(UserApp::class);
+    }
+    
+    public function equipo()
+	{
+		return $this->belongsTo(Equipo::class);
 	}
 
 }

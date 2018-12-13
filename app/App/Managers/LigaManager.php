@@ -26,7 +26,8 @@ class LigaManager extends BaseManager
 
 	function prepareData($data)
 	{
-		$data['mostrar_app'] = isset($data['mostrar_app']) ? 1 : 0;
+        $data['mostrar_app'] = isset($data['mostrar_app']) ? 1 : 0;
+        $data['notificaciones'] = isset($data['notificaciones']) ? 1 : 0;
 		return $data;
 	}
 

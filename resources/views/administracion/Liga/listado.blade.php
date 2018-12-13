@@ -16,7 +16,8 @@
 			<tr>
 				<th>NOMBRE</th>
 				<th>ORDEN</th>
-				<th>MOSTRAR APP</th>
+                <th>MOSTRAR APP</th>
+                <th>NOTIFICACIONES</th>
 				<th>ESTADO</th>
 				<th></th>
 			</tr>
@@ -26,7 +27,8 @@
 			<tr>
 				<td>{{$liga->nombre}}</td>
 				<td>{{$liga->orden}}</td>
-				<td>{!! $liga->descripcion_mostrar_app !!}</td>
+                <td>{!! $liga->descripcion_mostrar_app !!}</td>
+                <td>{!! $liga->descripcion_notificaciones !!}</td>
 				<td>{{$liga->descripcion_estado}}</td>
 				<td>
 					<a href="{{route('editar_liga',$liga->id)}}" class="btn btn-warning btn-flat btn-xs">

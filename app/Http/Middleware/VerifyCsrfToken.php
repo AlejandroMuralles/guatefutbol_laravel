@@ -12,6 +12,8 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        //
+        'rest/users-app/registrar',
+        'rest/notificaciones/agregar-equipo-user',
+        'rest/notificaciones/eliminar-equipo-user'
     ];
 }

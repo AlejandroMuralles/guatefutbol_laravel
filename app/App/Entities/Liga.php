@@ -7,7 +7,7 @@ class Liga extends \Eloquent {
 
 	use UserStamps;
 
-	protected $fillable = ['nombre','orden','mostrar_app','estado'];
+	protected $fillable = ['nombre','orden','mostrar_app','notificaciones','estado'];
 
 	protected $table = 'liga';
 
@@ -19,6 +19,17 @@ class Liga extends \Eloquent {
 	public function getDescripcionMostrarAppAttribute()
 	{
 		if($this->mostrar_app)
+		{
+			return '<i class="fa fa-check square bg-green white"></i>';
+		}
+		else{
+			return '<i class="fa fa-times square bg-red white"></i>';
+		}
+    }
+    
+    public function getDescripcionNotificacionesAttribute()
+	{
+		if($this->notificaciones)
 		{
 			return '<i class="fa fa-check square bg-green white"></i>';
 		}

@@ -8,7 +8,8 @@
 	
 		{!! Field::text('nombre', null, ['data-required'=> 'true']) !!}
 		{!! Field::text('orden', null, ['data-required'=> 'true']) !!}
-		{!! Field::checkbox('mostrar_app') !!}
+        {!! Field::checkbox('mostrar_app') !!}
+        {!! Field::checkbox('notificaciones') !!}
 		{!! Field::select('estado',$estados,null,['data-required'=> 'true']) !!}
 
 		<br/>

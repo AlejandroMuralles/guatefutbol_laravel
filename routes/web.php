@@ -6,10 +6,10 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 //header('Access-Control-Allow-Headers: Authorization,Content-Type');
 
-	/*if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
+	if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
 	    http_response_code(200);
 	    exit(0);
-	}*/
+	}
 
 Route::get('login',['as' => 'login', 'uses' => 'AuthController@mostrarLogin']);
 Route::post('login',['as' => 'login', 'uses' => 'AuthController@login']);
@@ -169,6 +169,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('HistorialCampeon/editar/{id}', ['as' => 'editar_historial_campeon', 'uses' => 'HistorialCampeonController@mostrarEditar']);
 	Route::post('HistorialCampeon/editar/{id}', ['as' => 'editar_historial_campeon', 'uses' => 'HistorialCampeonController@editar']);
 
+    Route::get('UsersApp/listado', ['as' => 'users_app', 'uses' => 'UserAppController@listado']);
 
 	/*ESTADISTICAS ADMINISTRATIVAS*/
 	Route::get('Estadisticas/Jugadores/{ligaId}/{campeonato}', ['as' => 'estadisticas_jugadores', 'uses' => 'EstadisticasJugadoresController@mostrarEstadisticasJugadores']);
@@ -246,11 +247,13 @@ Route::get('rest/siguiente-anuncio/{id}', ['as' => 'siguiente_anuncio', 'uses' =
 
 Route::post('rest/add-user', ['as'=>'add_user', 'uses' => 'MobileController@addUser']);
 Route::post('rest/remove-user', ['as'=>'remove_user', 'uses' => 'MobileController@removeUser']);
-Route::post('rest/add-equipo-user', ['as'=>'add_equipo_user', 'uses' => 'MobileController@addEquipoUser']);
-Route::post('rest/remove-equipo-user', ['as'=>'remove_equipo_user', 'uses' => 'MobileController@removeEquipoUser']);
 
-Route::get('rest/notificaciones-activas/{user}', ['uses' => 'MobileController@notificacionesActivas']);
-Route::get('rest/notificaciones-equipos/{user}/{ligaId}', ['uses' => 'MobileController@notificacionesEquipos']);
+Route::get('rest/notificaciones/ligas', ['uses' => 'NotificacionesController@ligas']);
+Route::get('rest/notificaciones/equipos/{user}/{ligaId}', ['uses' => 'NotificacionesController@equiposporUser']);
+Route::post('rest/notificaciones/agregar-equipo-user', ['as'=>'agregar_notificacion_equipo_app', 'uses' => 'NotificacionesController@agregarEquipoUser']);
+Route::post('rest/notificaciones/eliminar-equipo-user', ['as'=>'eliminar_notificacion_equipo_app', 'uses' => 'NotificacionesController@eliminarEquipoUser']);
+
+Route::post('rest/users-app/registrar', ['uses' => 'UserAppController@registrar']);
 
 
 // Redirect to github to authenticate

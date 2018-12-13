@@ -25,7 +25,8 @@ class AdminMenuController {
 		$menu->push((object)['title' => 'Personas', 'url' => route('personas'), 'class' => '' ,'icon' => 'fa fa-users']);
 		$menu->push((object)['title' => 'Pais', 'url' => route('paises'), 'class' => '' ,'icon' => 'fa fa-users']);
 		$menu->push((object)['title' => 'Departamentos', 'url' => route('departamentos'), 'class' => '' ,'icon' => 'fa fa-users']);
-		$menu->push((object)['title' => 'Usuarios', 'url' => route('usuarios'), 'class' => '' ,'icon' => 'fa fa-users']);
+        $menu->push((object)['title' => 'Usuarios', 'url' => route('usuarios'), 'class' => '' ,'icon' => 'fa fa-users']);
+        $menu->push((object)['title' => 'Usuarios APP', 'url' => route('users_app'), 'class' => '' ,'icon' => 'fa fa-users']);
 				
 		$view->menu = $menu;
 		/* GET USUARIO */

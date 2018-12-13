@@ -17,7 +17,7 @@ trait UserStamps
                 $username = $user->username;
             }
             else{
-                $username = "admin";
+                $username = "publico";
             }
             $model->created_by = $username;
             $model->updated_by = $username;

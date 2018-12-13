@@ -31,12 +31,13 @@ class NotificacionEquipoRepo extends BaseRepo{
 			$equiposCampeonato = $this->campeonatoEquipoRepo->getEquipos($campeonato->id);
 			foreach($equiposCampeonato as $ec)
 			{
-				$e['id'] = $ec->equipo_id;
+                $e['id'] = $ec->equipo_id;
+                $e['logo'] = $ec->equipo->logo;
 				$e['nombre'] = $ec->equipo->nombre;
 				$e['checked'] = false;
 				$equipos[$ec->equipo_id] = $e;
 			}
-			$notificaciones = NotificacionEquipo::where('user_id','=',$userId)->get();
+			$notificaciones = NotificacionEquipo::where('user_app_id','=',$userId)->get();
 			foreach($notificaciones as $n)
 			{
 				if(isset($equipos[$n->equipo_id]))
@@ -50,13 +51,13 @@ class NotificacionEquipoRepo extends BaseRepo{
 
 	public function getByUserByEquipo($userId, $equipoId)
 	{
-		return NotificacionEquipo::where('user_id','=',$userId)
+		return NotificacionEquipo::where('user_app_id','=',$userId)
 						->where('equipo_id','=',$equipoId)->get();
 	}
 
 	public function getByUser($userId)
 	{
-		return NotificacionEquipo::where('user_id','=',$userId)->get();
+		return NotificacionEquipo::where('user_app_id','=',$userId)->get();
 	}
 
 	public function getByEquipos($equipos)

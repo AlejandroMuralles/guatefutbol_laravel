@@ -18,7 +18,7 @@ class NotificacionEquipoManager extends BaseManager
 	{
 
 		$rules = [
-			'user_id'  => 'required',
+			'user_app_id'  => 'required',
 			'equipo_id'  => 'required',
 		];
 
