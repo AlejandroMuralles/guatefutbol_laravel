@@ -12,6 +12,8 @@
                 <th>PLATAFORMA</th>
                 <th>FABRICANTE</th>
                 <th>MODELO</th>
+                <th>NOTIFICACIONES</th>
+                <th>ONE SIGNAL ID</th>
                 <th></th>
 			</tr>
 		</thead>
@@ -22,6 +24,8 @@
                 <td>{{$user->plataforma}}</td>
                 <td>{{$user->fabricante}}</td>
                 <td>{{$user->modelo}}</td>
+                <td>{!!$user->descripcion_notificaciones!!}</td>
+                <td>{{$user->one_signal_id}}</td>
                 <td>
                     <a href="{{route('notificaciones_equipo',$user->id)}}" class="btn btn-warning btn-flat btn-xs" data-toggle="tooltip" 
                         data-placement="top" title="" data-original-title="Notificaciones Equipo">

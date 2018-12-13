@@ -24,7 +24,14 @@ trait UserStamps
         });
 
         static::updating(function ($model) {
-            $model->updated_by = \Auth::user()->username;
+            $user = \Auth::user();
+            if($user){
+                $username = $user->username;
+            }
+            else{
+                $username = "publico";
+            }
+            $model->updated_by = $username;
         });
     }
 

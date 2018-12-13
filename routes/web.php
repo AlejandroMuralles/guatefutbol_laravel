@@ -6,10 +6,10 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 //header('Access-Control-Allow-Headers: Authorization,Content-Type');
 
-	/*if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
+	if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
 	    http_response_code(200);
 	    exit(0);
-	}*/
+	}
 
 Route::get('login',['as' => 'login', 'uses' => 'AuthController@mostrarLogin']);
 Route::post('login',['as' => 'login', 'uses' => 'AuthController@login']);
@@ -256,6 +256,8 @@ Route::post('rest/notificaciones/agregar-equipo-user', ['as'=>'agregar_notificac
 Route::post('rest/notificaciones/eliminar-equipo-user', ['as'=>'eliminar_notificacion_equipo_app', 'uses' => 'NotificacionesController@eliminarEquipoUser']);
 
 Route::post('rest/users-app/registrar', ['uses' => 'UserAppController@registrar']);
+Route::post('rest/users-app/activar-notificaciones', ['as' => 'activar_notificaciones_users_app', 'uses' => 'UserAppController@activarNotificaciones']);
+Route::post('rest/users-app/desactivar-notificaciones', ['as' => 'desactivar_notificaciones_users_app', 'uses' => 'UserAppController@desactivarNotificaciones']);
 
 
 // Redirect to github to authenticate

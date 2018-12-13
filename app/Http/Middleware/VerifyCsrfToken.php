@@ -13,7 +13,10 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'rest/users-app/registrar',
+        'rest/users-app/activar-notificaciones',
+        'rest/users-app/desactivar-notificaciones',
         'rest/notificaciones/agregar-equipo-user',
-        'rest/notificaciones/eliminar-equipo-user'
+        'rest/notificaciones/eliminar-equipo-user',
+        
     ];
 }

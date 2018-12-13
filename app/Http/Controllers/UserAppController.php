@@ -31,11 +31,35 @@ class UserAppController extends BaseController {
             $u = new UserApp();
             $u->id = $user->id;
             $u->uuid = $user->uuid;
+            $u->one_signal_id = $user->one_signal_id;
+            $u->notificaciones = $user->notificaciones;
             return ['resultado' => true, 'mensaje' => 'Ya existe el usuario. Se obtuvo el usuario.', 'user' => $u];
         }
 		$manager = new UserAppManager(new UserApp(), $data);
         $result = $manager->save();
 		return json_encode($result);
-	}
+    }
+    
+    public function activarNotificaciones()
+    {
+        $data = Input::all();
+        $user = $this->userAppRepo->find($data['user_app_id']);
+        if($user){
+            $manager = new UserAppManager($user, $data);
+            $result = $manager->activarNotificaciones();
+        }
+		return json_encode($result);
+    }
+
+    public function desactivarNotificaciones()
+    {
+        $data = Input::all();
+        $user = $this->userAppRepo->find($data['user_app_id']);
+        if($user){
+            $manager = new UserAppManager($user, $data);
+            $result = $manager->desactivarNotificaciones();
+        }
+		return json_encode($result);
+    }
 
 }
