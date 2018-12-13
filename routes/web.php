@@ -6,10 +6,10 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 //header('Access-Control-Allow-Headers: Authorization,Content-Type');
 
-	if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
+	/*if("OPTIONS" == $_SERVER['REQUEST_METHOD']) {
 	    http_response_code(200);
 	    exit(0);
-	}
+	}*/
 
 Route::get('login',['as' => 'login', 'uses' => 'AuthController@mostrarLogin']);
 Route::post('login',['as' => 'login', 'uses' => 'AuthController@login']);
