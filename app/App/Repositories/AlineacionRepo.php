@@ -44,16 +44,15 @@ class AlineacionRepo extends BaseRepo{
 	public function getAlineacionByEstado($partidoId, $equipoId, $esTitular)
 	{
 
-		$alineacion = Alineacion::where('partido_id','=',$partidoId)
-							->where('equipo_id','=',$equipoId)
-							->where('es_titular','=',$esTitular)
+		$alineacion = Alineacion::where('partido_id',$partidoId)
+							->where('equipo_id',$equipoId)
+							->where('es_titular',$esTitular)
 							->with('persona')
 							->whereHas('persona',function($q)
 							{
 								$q->where('rol','J');
 							})
 							->get();
-
 		$alineacion = $alineacion->sortBy(function ($jugador) {
 			return strtolower(utf8_encode($jugador->persona->nombreCompletoApellidos));
 		});
