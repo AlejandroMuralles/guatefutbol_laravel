@@ -635,10 +635,10 @@ class RestController extends BaseController {
 		$minutos = 1;
 		$data = Cache::remember('rest.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
-                $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, true);
-                $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, false);
-                $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, true);
-				$suplentesVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, false);
+                $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 1);
+                $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 0);
+                $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 1);
+				$suplentesVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 0);
 				$dtLocal = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_local_id);
 				$dtVisita = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_visita_id);
 
