@@ -635,13 +635,17 @@ class RestController extends BaseController {
 		$minutos = 1;
 		$data = Cache::remember('rest.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
-				$alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, true);
-				$alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, true);
+                $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, true);
+                $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, false);
+                $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, true);
+				$suplentesVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, false);
 				$dtLocal = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_local_id);
 				$dtVisita = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_visita_id);
 
-				$alLocal = [];
-				$alVisita = [];
+                $alLocal = [];
+                $supLocal = [];
+                $alVisita = [];
+                $supVisita = [];
 				foreach($alineacionLocal as $al)
 				{
 					mb_internal_encoding("UTF-8");
@@ -651,6 +655,16 @@ class RestController extends BaseController {
 					$jugador['es_titular'] = $al->es_titular;
 
 					$alLocal[] = $jugador;
+                }
+                foreach($suplentesLocal as $sl)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($sl->persona->primer_nombre,0,1);
+                    $jugador['nombre'] = $nombre . '. ' . $sl->persona->primer_apellido;
+                    $jugador['nombre_completo'] = $sl->persona->nombre_completo_apellidos;
+					$jugador['es_titular'] = $sl->es_titular;
+
+					$supLocal[] = $jugador;
 				}
 				foreach($alineacionVisita as $av)
 				{
@@ -661,9 +675,21 @@ class RestController extends BaseController {
 					$jugador['es_titular'] = $av->es_titular;
 
 					$alVisita[] = $jugador;
+                }
+                foreach($suplentesVisita as $sv)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($sv->persona->primer_nombre,0,1);
+                    $jugador['nombre'] = $nombre . '. ' . $sv->persona->primer_apellido;
+                    $jugador['nombre_completo'] = $sv->persona->nombre_completo_apellidos;
+					$jugador['es_titular'] = $sv->es_titular;
+
+					$supVisita[] = $jugador;
 				}
-				$data['alineacionVisita'] = $alVisita;
-				$data['alineacionLocal'] = $alLocal;
+                $data['alineacionVisita'] = $alVisita;
+                $data['suplentesVisita'] = $alVisita;
+                $data['alineacionLocal'] = $alLocal;
+                $data['suplentesLocal'] = $alLocal;
 
 				$data['dtLocal'] = [];
 				$data['dtVisita'] = [];
