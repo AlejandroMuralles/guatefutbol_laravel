@@ -6,7 +6,7 @@ class UserApp extends \Eloquent {
 
 	use UserStamps;
 	
-	protected $fillable = ['uuid','fabricante','modelo','plataforma','notificaciones','one_signal_id','utlima_sesion'];
+	protected $fillable = ['uuid','fabricante','modelo','plataforma','notificaciones','one_signal_id','ultima_sesion'];
 
 	protected $table = 'users_app';
 
