@@ -18,7 +18,7 @@ class CreateTableNotificacion extends Migration
             $table->string('mensaje');
             $table->string('tipo');
             $table->integer('cantidad_usuarios');
-            $table->json('data');
+            $table->string('data');
             $table->string('estado',1);
             $table->timestamps();
             $table->string('created_by');
