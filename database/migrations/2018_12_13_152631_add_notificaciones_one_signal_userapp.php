@@ -15,6 +15,7 @@ class AddNotificacionesOneSignalUserapp extends Migration
     {
         Schema::table('users_app', function (Blueprint $table) {
             $table->tinyInteger('notificaciones')->default(0);
+            $table->datetime('ultima_sesion');
             $table->string('one_signal_id')->nullable();
         });
     }
@@ -27,7 +28,7 @@ class AddNotificacionesOneSignalUserapp extends Migration
     public function down()
     {
         Schema::table('users_app', function (Blueprint $table) {
-            $table->dropColumn(['notificaciones','one_signal_id']);
+            $table->dropColumn(['notificaciones','one_signal_id','ultima_sesion']);
         });
     }
 }

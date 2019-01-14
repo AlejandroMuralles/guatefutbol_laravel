@@ -26,8 +26,12 @@ class UserAppController extends BaseController {
 	public function registrar()
 	{
         $data = Input::all();
+        $data['ultima_sesion'] = date('Y-m-d H:i:s');
+        $data['notificaciones'] = 1;
         $user = $this->userAppRepo->getByUUID($data['uuid']);
         if($user){
+            $user->ultima_sesion = date('Y-m-d H:i:s');
+            $user->save();
             $u = new UserApp();
             $u->id = $user->id;
             $u->uuid = $user->uuid;

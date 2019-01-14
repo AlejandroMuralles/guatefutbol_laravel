@@ -65,7 +65,18 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Modulo/agregar', ['as' => 'agregar_modulo', 'uses' => 'ModuloController@mostrarAgregar']);
 	Route::post('Modulo/agregar', ['as' => 'agregar_modulo', 'uses' => 'ModuloController@agregar']);
 	Route::get('Modulo/editar/{id}', ['as' => 'editar_modulo', 'uses' => 'ModuloController@mostrarEditar']);
-	Route::post('Modulo/editar/{id}', ['as' => 'editar_modulo', 'uses' => 'ModuloController@editar']);
+    Route::post('Modulo/editar/{id}', ['as' => 'editar_modulo', 'uses' => 'ModuloController@editar']);
+    
+    /* NOTIFICACIONES */
+    Route::group(['prefix' => 'Notificacion'], function () {
+        Route::get('listado','NotificacionController@listado')->name('notificaciones');
+        Route::get('agregar-articulo','NotificacionController@mostrarAgregarArticulo')->name('agregar_notificacion_articulo');
+        Route::post('agregar-articulo','NotificacionController@agregarArticulo')->name('agregar_notificacion_articulo');
+        Route::get('agregar-tabla-posiciones/{liga}','NotificacionController@mostrarAgregarTablaPosiciones')->name('agregar_notificacion_tabla_posiciones');
+        Route::post('agregar-tabla-posiciones/{liga}','NotificacionController@agregarTablaPosiciones')->name('agregar_notificacion_tabla_posiciones');
+        Route::get('agregar-calendario/{liga}','NotificacionController@mostrarAgregarCalendario')->name('agregar_notificacion_calendario');
+        Route::post('agregar-calendario/{liga}','NotificacionController@agregarCalendario')->name('agregar_notificacion_calendario');
+    });
 
 	Route::get('Tabla-Acumulada/listado/{ligaId}', ['as' => 'tablas_acumuladas', 'uses' => 'TablaAcumuladaController@listado']);
 	Route::get('Tabla-Acumulada/agregar/{ligaId}', ['as' => 'agregar_tabla_acumulada', 'uses' => 'TablaAcumuladaController@mostrarAgregar']);
