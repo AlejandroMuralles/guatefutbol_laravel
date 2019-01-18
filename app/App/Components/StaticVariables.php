@@ -35,6 +35,13 @@ class StaticVariables {
 	protected $tiposDescuentoPuntos = [
 		1 => 'SOLO TABLA ACUMULADA',
 		2 => 'CAMPEONATO Y TABLA ACUMULADA'
+    ];
+    
+    protected $tiposNotificacion = [
+		'tabla_posiciones' => 'Tabla de Posiciones',
+		'calendario'  => 'Calendario',
+        'link' => 'Link',
+        'evento_partido' => 'Evento Partido',
 	];
 
 	public function getEstadosGenerales() { return $this->estadosGenerales; }
@@ -50,7 +57,10 @@ class StaticVariables {
 	public function getEstadoTiempoPartido($key) { return $this->estadosTiemposPartidos[$key]; }
 
 	public function getTiposDescuentoPuntos() { return $this->tiposDescuentoPuntos; }
-	public function getTipoDescuentoPuntos($key) { return $this->tiposDescuentoPuntos[$key]; }
+    public function getTipoDescuentoPuntos($key) { return $this->tiposDescuentoPuntos[$key]; }
+    
+    public function getTiposNotificacion(){ return $this->tiposNotificacion; }
+	public function getTipoNotificacion($key){ return $this->tiposNotificacion[$key]; }
 
 	public function arrayToCommaSeparatedList($array)
 	{

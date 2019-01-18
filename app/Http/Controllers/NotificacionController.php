@@ -35,13 +35,13 @@ class NotificacionController extends BaseController {
 	{
 		$notificaciones = $this->notificacionRepo->all('created_at');
 		$ligas = $this->ligaRepo->getByEstado(['A'],'descripcion');
-		return view('administracion/notificaciones/listado', compact('notificaciones','ligas'));
+		return view('administracion/Notificacion/listado', compact('notificaciones','ligas'));
 	}
 
 	public function mostrarAgregarArticulo()
 	{
         $tipos = Variable::getTiposNotificacion();
-		return view('administracion/notificaciones/agregar_articulo',compact('tipos'));
+		return view('administracion/Notificacion/agregar_articulo',compact('tipos'));
 	}
 
 	public function agregarArticulo()
@@ -62,7 +62,7 @@ class NotificacionController extends BaseController {
 
 	public function mostrarAgregarTablaPosiciones(Campeonato $campeonato)
 	{
-		return view('administracion/notificaciones/agregar_tabla_posiciones',compact('campeonato'));
+		return view('administracion/Notificacion/agregar_tabla_posiciones',compact('campeonato'));
 	}
 
 	public function agregarTablaPosiciones(Campeonato $campeonato)
@@ -94,7 +94,7 @@ class NotificacionController extends BaseController {
         {
             $campeonato = $this->campeonatoRepo->find($campeonatoId);
         }
-		return view('administracion/notificaciones/agregar_calendario',compact('liga','campeonato','ligaId','campeonatoId'));
+		return view('administracion/Notificacion/agregar_calendario',compact('liga','campeonato','ligaId','campeonatoId'));
 	}
 
 	public function agregarCalendario(Campeonato $campeonato)

@@ -56,7 +56,8 @@ class NotificacionManager extends BaseManager
 		}
 		catch(\Exception $ex)
 		{
-			throw new SaveDataException("Error: ", $ex);
+            dd($ex);
+            throw new SaveDataException("Error: ", $ex);
 		}
 	}
 
@@ -116,7 +117,7 @@ class NotificacionManager extends BaseManager
 	{
 		$data = array(
 			'include_player_ids' => $usuarios,
-			'large_icon' => 'https://futsal502.puzzlesoft.net/assets/imagenes/logos/logo_sm.png',
+			//'large_icon' => 'https://futsal502.puzzlesoft.net/assets/imagenes/logos/logo_sm.png',
 			'contents' => array('en' => $mensaje),
 			'data' => $data,
 		);
@@ -127,6 +128,7 @@ class NotificacionManager extends BaseManager
 		}
 		catch(\Exception $ex)
 		{
+            dd($ex);
 			return ['result'=> false,'error'=>$ex->getMessage()];
 		}
 	}

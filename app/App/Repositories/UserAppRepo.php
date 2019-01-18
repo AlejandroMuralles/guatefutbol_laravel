@@ -16,4 +16,9 @@ class UserAppRepo extends BaseRepo{
         return UserApp::where('uuid',$uuid)->first();
     }
 
+    function getByNotificaciones($notificaciones)
+    {
+        return UserApp::where('notificaciones',$notificaciones)->get();
+    }
+
 }
