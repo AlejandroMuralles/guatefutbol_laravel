@@ -97,12 +97,11 @@ class PorteroRepo {
 				AND persona.portero = 1
 				AND P.campeonato_id = ".$campeonatoId."
 				AND minutos_jugados != 0
-			GROUP BY persona.id, CONCAT(persona.primer_apellido,' ',persona.segundo_apellido,' ',persona.primer_nombre,' ',persona.segundo_nombre),
+			GROUP BY persona.id, CONCAT(COALESCE(persona.primer_apellido,''),' ',COALESCE(persona.segundo_apellido,''),' ',COALESCE(persona.primer_nombre,''),' ',COALESCE(persona.segundo_nombre,'')),
 				persona.primer_nombre, persona.primer_apellido,
 				E.id, E.nombre, E.logo, persona.fecha_nacimiento
 		";
         $porteros = \DB::select(\DB::raw($sql));
-        dd($porteros);
 		return $porteros;
 	}
 
