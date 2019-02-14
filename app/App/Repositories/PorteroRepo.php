@@ -83,7 +83,7 @@ class PorteroRepo {
 	{
 		$sql = "
 			SELECT persona.id as personaId, 
-				CONCAT(persona.primer_apellido,' ',persona.segundo_apellido,' ',persona.primer_nombre,' ',persona.segundo_nombre) as persona,
+            CONCAT(COALESCE(persona.primer_apellido,''),' ',COALESCE(persona.segundo_apellido,''),' ',COALESCE(persona.primer_nombre,''),' ',COALESCE(persona.segundo_nombre,'')) as persona,
 				persona.primer_nombre primernombre, persona.primer_apellido primerapellido,
 				E.id equipoId, E.nombre as equipo, E.logo as imagen_equipo, 0 as edad, persona.fecha_nacimiento,
 				SUM(A.minutos_jugados) as minutos_jugados, 0 as goles,
@@ -101,7 +101,8 @@ class PorteroRepo {
 				persona.primer_nombre, persona.primer_apellido,
 				E.id, E.nombre, E.logo, persona.fecha_nacimiento
 		";
-		$porteros = \DB::select(\DB::raw($sql));
+        $porteros = \DB::select(\DB::raw($sql));
+        dd($porteros);
 		return $porteros;
 	}
 
