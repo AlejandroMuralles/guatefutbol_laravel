@@ -69,7 +69,7 @@
                     <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
                 </div>
             </div>
-            <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_visita->nombre}}</h3>
+            <h3 style="color: #069; margin-left: 15px;" class="titulo_equipo">{{$partido->equipo_visita->nombre}}</h3>
             <div class="racha">
                 <div class="racha_logo"><img src="{{$partido->equipo_visita->logo}}"></div>
                 <div class="racha_estadisticas">
@@ -91,7 +91,7 @@
                         border-top-right-radius: 5px; color: white; text-align: center">
                 <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Últimos diez enfrentamientos
             </h3>
-            <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_local->nombre}}</h3>
+            <h3 style="color: #069; margin-left: 15px;" class="titulo_equipo">{{$partido->equipo_local->nombre}}</h3>
             <div class="racha">                
                 <div class="racha_logo"><img src="{{$partido->equipo_local->logo}}"></div>
                 <div class="racha_estadisticas">
@@ -103,7 +103,7 @@
                     <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
                 </div>
             </div>
-            <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_visita->nombre}}</h3>
+            <h3 style="color: #069; margin-left: 15px;" class="titulo_equipo">{{$partido->equipo_visita->nombre}}</h3>
             <div class="racha">
                 <div class="racha_logo"><img src="{{$partido->equipo_visita->logo}}"></div>
                 <div class="racha_estadisticas">
