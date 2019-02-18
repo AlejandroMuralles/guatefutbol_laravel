@@ -307,6 +307,9 @@ p{
     position: relative;
     display: inline-block;
 }
+.titulo_equipo{
+    text-align: center;
+}
 
 /* Tooltip text */
 .c-tooltip .tooltiptext {
