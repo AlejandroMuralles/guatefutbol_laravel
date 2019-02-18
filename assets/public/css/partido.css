@@ -235,6 +235,8 @@ p{
     height: 110px;
     line-height: 110px;
     vertical-align: middle;
+    width: 450px;
+    margin: 0 auto;
 }
 .racha_equipo{
     position: absolute;

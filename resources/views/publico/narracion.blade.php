@@ -15,7 +15,7 @@
                 <span class="minuto-comentario">{{$evento->minuto}}'</span>
                 {{$evento->comentario}}
                 @if($evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8)
-                <span class="bullet-comentario con-icono icono fa fa-futbol"></span>
+                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: white"></span>
                 <span class="cont-marcador-narracion cf escudo">
                     <span class="col-equipo-local">
                         <a class="escudo-equipo" href="#">
