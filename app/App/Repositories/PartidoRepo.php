@@ -66,6 +66,20 @@ class PartidoRepo extends BaseRepo{
 						->orderBy($orderBy,$orderType)
 						->limit($limit)
 						->get();
+    }
+    
+    public function getBetweenEquiposByFaseByEstadoBeforeFecha($equipoLocalId, $equipoVisitaId, $fases, $estados, $fecha, $orderBy='fecha',$orderType='ASC',$limit=1000000)
+	{
+		return Partido::whereHas('jornada',function($q) use ($fases)
+							{
+								$q->whereIn('fase',$fases);
+							})
+						->whereRaw('(equipo_local_id IN ('.$equipoLocalId.','.$equipoVisitaId.') AND equipo_visita_id IN ('.$equipoLocalId.','.$equipoVisitaId.'))')
+						->whereIn('estado',$estados)
+						->where('fecha','<',$fecha)
+						->orderBy($orderBy,$orderType)
+						->limit($limit)
+						->get();
 	}
 
 	public function getByLigaByFaseByEstado($ligaId, $fases, $estados)

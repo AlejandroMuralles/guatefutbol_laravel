@@ -38,6 +38,8 @@
                 </span>
                 @elseif($evento->evento_id == 9)
                 <span class="bullet-comentario con-icono icono fa fa-exchange-alt"></span>
+                @elseif($evento->evento_id == 10 || $evento->evento_id == 11 )
+                <span class="bullet-comentario con-icono icono fa fa-square"></span>
                 @else
                 <span class="bullet-comentario"></span>
                 @endif

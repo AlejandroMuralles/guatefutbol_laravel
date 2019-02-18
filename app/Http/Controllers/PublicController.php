@@ -423,15 +423,31 @@ class PublicController extends BaseController {
 		$configuracion = $this->configuracionRepo->find(5);
 		$partido = $this->partidoRepo->find($partidoId);
 		$partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
-		$partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
+        $partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
+        $partidosEntreEquipos = $this->partidoRepo->getBetweenEquiposByFaseByEstadoBeforeFecha($partido->equipo_local_id,$partido->equipo_visita_id,['R','F'],[3],$partido->fecha,'fecha','DESC',10);
 		$ficha = new FichaPartido();
 		$eventos = array();
 		$ficha->generarEventos($partido, $eventos);
 		$ligaId = $partido->campeonato->liga_id;
 		
 		$rachaLocal = $this->getRacha($partidosLocal, $partido->equipo_local);
-		$rachaVisita = $this->getRacha($partidosVisita, $partido->equipo_visita);
-		return View::make('publico/previa', compact('partido','ficha','ligaId','configuracion','rachaLocal','rachaVisita'));
+        $rachaVisita = $this->getRacha($partidosVisita, $partido->equipo_visita);
+        $rachaEntreEquipos = ['equipo_local_ganados'=>0,'equipo_visita_ganados'=>0,'empatados'=>0];
+        ///dd($partidosEntreEquipos);
+        foreach($partidosEntreEquipos as $p)
+        {
+            if($partido->equipo_local_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
+                $rachaEntreEquipos['equipo_local_ganados']++;
+            if($partido->equipo_local_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
+                $rachaEntreEquipos['equipo_local_ganados']++;
+            if($partido->equipo_visita_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
+                $rachaEntreEquipos['equipo_visita_ganados']++;
+            if($partido->equipo_visita_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
+                $rachaEntreEquipos['equipo_visita_ganados']++;
+            if($p->goles_local == $p->goles_visita)
+                $rachaEntreEquipos['empatados']++;
+        }
+		return View::make('publico/previa', compact('partido','ficha','ligaId','configuracion','rachaLocal','rachaVisita','rachaEntreEquipos'));
 	}
 
 	public function alineaciones($partidoId)

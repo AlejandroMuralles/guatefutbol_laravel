@@ -83,6 +83,39 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="datos-partido" style="padding-top: 0">
+            <h3 style="margin:0; margin-bottom: 20px; padding: 5px 15px; background: #069; border-top-left-radius: 5px; border-top-right-radius: 5px; color: white">
+                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Últimos partidos entre ambos equipos
+            </h3>
+            <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_local->nombre}}</h3>
+            <div class="racha">                
+                <div class="racha_logo"><img src="{{$partido->equipo_local->logo}}"></div>
+                <div class="racha_estadisticas">
+                    <div class="racha_estadistica racha_ganados">{{$rachaEntreEquipos['equipo_local_ganados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
+                    <div class="racha_estadistica racha_empatados">{{$rachaEntreEquipos['empatados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
+                    <div class="racha_estadistica racha_perdidos">{{$rachaEntreEquipos['equipo_visita_ganados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
+                </div>
+            </div>
+            <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_visita->nombre}}</h3>
+            <div class="racha">
+                <div class="racha_logo"><img src="{{$partido->equipo_visita->logo}}"></div>
+                <div class="racha_estadisticas">
+                    <div class="racha_estadistica racha_ganados">{{$rachaEntreEquipos['equipo_visita_ganados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_ganados">Ganados</div>
+                    <div class="racha_estadistica racha_empatados">{{$rachaEntreEquipos['empatados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_empatados">Empatados</div>
+                    <div class="racha_estadistica racha_perdidos">{{$rachaEntreEquipos['equipo_local_ganados']}}</div>
+                    <div class="descripcion_racha_estadistica desc_racha_perdidos">Perdidos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @if($configuracion->parametro3 && $partido->estado != 3)
 	<h2 style="margin-top: 10px; float:right"><i class="fa fa-refresh"></i> <span id="txtActualizar"></span></h2>
 @endif

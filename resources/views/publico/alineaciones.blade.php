@@ -125,7 +125,7 @@ td.goles
                         <tbody>
                         @foreach($titularesVisita as $ev)
                             <tr>
-                                <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
+                                <td>{{$ev->jugador->nombre_completo_apellidos}}</td>
                                 <td class="text-center cambios">
                                     @if($ev->cambio)
                                     <i class="fa fa-exchange-alt" style="color: red;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
@@ -152,7 +152,7 @@ td.goles
                         </tr>
                         @foreach($suplentesVisita as $ev)
                             <tr>
-                                <td>{{$ev->jugador->nombre_corto_apellidos}}</td>
+                                <td>{{$ev->jugador->nombre_completo_apellidos}}</td>
                                 <td class="text-center cambios">
                                     @if($ev->cambio)
                                     <i class="fa fa-exchange-alt" style="color: green;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
