@@ -53,8 +53,9 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="datos-partido" style="padding-top: 0">
-            <h3 style="margin:0; margin-bottom: 20px; padding: 5px 15px; background: #069; border-top-left-radius: 5px; border-top-right-radius: 5px; color: white">
-                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Como llegan los equipos
+            <h3 style="margin:0; margin-bottom: 20px; padding: 5px 15px; background: #069; border-top-left-radius: 5px; 
+            border-top-right-radius: 5px; color: white; text-align: center">
+                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Cómo llegan los equipos
             </h3>
             <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_local->nombre}}</h3>
             <div class="racha">                
@@ -86,8 +87,9 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="datos-partido" style="padding-top: 0">
-            <h3 style="margin:0; margin-bottom: 20px; padding: 5px 15px; background: #069; border-top-left-radius: 5px; border-top-right-radius: 5px; color: white">
-                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Últimos partidos entre ambos equipos
+            <h3 style="margin:0; margin-bottom: 20px; padding: 5px 15px; background: #069; border-top-left-radius: 5px; 
+                        border-top-right-radius: 5px; color: white; text-align: center">
+                <span class="bullet-comentario con-icono icono fa fa-futbol" style="color: black"></span> Últimos diez enfrentamientos
             </h3>
             <h3 style="color: #069; margin-left: 15px;">{{$partido->equipo_local->nombre}}</h3>
             <div class="racha">                
