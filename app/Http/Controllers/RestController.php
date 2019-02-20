@@ -145,13 +145,13 @@ class RestController extends BaseController {
 			return $data;
 		});
 		$ligasDB2 = $data['ligasDB2'];
-		return json_encode($data);
+		return json_encode($ligasDB2);
     }
     
     public function inicioLigasAgrupadasV2()
 	{
 		$minutos = 1;
-		$data = Cache::remember('rest.inicioLigasAgrupadas', $minutos, function(){
+		$data = Cache::remember('rest.inicioLigasAgrupadasV2', $minutos, function(){
 			$configuracion = $this->configuracionRepo->find(1);
 			$diasInicio = $configuracion->parametro1;
 			$diasFin = $configuracion->parametro2;
