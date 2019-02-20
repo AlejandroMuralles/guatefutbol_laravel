@@ -407,7 +407,11 @@ class RestController extends BaseController {
 				/*$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
 				$c->nombre = $campeonato->nombre;*/
-				$data['campeonato'] = $campeonato;
+                $data['campeonato'] = $campeonato;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
 		return json_encode($data);
@@ -432,7 +436,11 @@ class RestController extends BaseController {
 				$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
 				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+                $data['campeonato'] = $c;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
 		return json_encode($data);
@@ -485,7 +493,11 @@ class RestController extends BaseController {
 				$c->nombre = $campeonato->nombre;
 				$data['campeonato'] = $c;
 
-				$data['equipo'] = $equipo;
+                $data['equipo'] = $equipo;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
 
@@ -516,7 +528,11 @@ class RestController extends BaseController {
 				$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
 				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+                $data['campeonato'] = $c;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
 
@@ -842,7 +858,12 @@ class RestController extends BaseController {
 				$p->minuto_jugado = $partido->tiempo;
 				if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
 
-				$data['partido'] = $p;
+                $data['partido'] = $p;
+                
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 
 				return $data;
 		});
