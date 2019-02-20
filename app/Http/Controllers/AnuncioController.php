@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\App\Repositories\AnuncioRepo;
 use App\App\Managers\AnuncioManager;
 use App\App\Entities\Anuncio;
-use Controller, Redirect, Input, View, Session;
+use Controller, Redirect, Input, View, Session,Variable;
 
 class AnuncioController extends BaseController {
 
@@ -19,13 +19,15 @@ class AnuncioController extends BaseController {
 
 	public function listado()
 	{
-		$anuncios = $this->anuncioRepo->all('nombre');
+		$anuncios = $this->anuncioRepo->all('anunciante');
 		return view('administracion/Anuncio/listado', compact('anuncios'));
 	}
 
 	public function mostrarAgregar()
 	{
-		return view('administracion/Anuncio/agregar');
+        $pantallas = Variable::getPantallasApp();
+        $estados = Variable::getEstadosGenerales();
+		return view('administracion/Anuncio/agregar',compact('pantallas','estados'));
 	}
 
 	public function agregar()
@@ -34,30 +36,23 @@ class AnuncioController extends BaseController {
 		$manager = new AnuncioManager(new Anuncio(), $data);
 		$manager->save();
 		Session::flash('success', 'Se agregó el anuncio con éxito.');
-		return redirect(route('anuncios'));
+		return redirect()->route('anuncios');
 	}
 
-	public function mostrarEditar($id)
+	public function mostrarEditar(Anuncio $anuncio)
 	{
-		$anuncio = $this->anuncioRepo->find($id);
+        $pantallas = Variable::getPantallasApp();
+        $estados = Variable::getEstadosGenerales();
 		return view('administracion/Anuncio/editar', compact('anuncio'));
 	}
 
-	public function editar($id)
+	public function editar(Anuncio $anuncio)
 	{
-		$anuncio = $this->anuncioRepo->find($id);
 		$data = Input::all();
 		$manager = new AnuncioManager($anuncio, $data);
 		$manager->save();
 		Session::flash('success', 'Se editó el anuncio con éxito.');
-		return redirect(route('anuncios'));
-	}
-
-	public function siguiente($anuncioId)
-	{
-		$anuncio = $this->anuncioRepo->getSiguiente($anuncioId,'I',['A']);
-		$anuncio->imagen = asset('assets/imagenes/anuncios').'/'.$anuncio->imagen;
-		return json_encode($anuncio);
+		return redirect()->route('anuncios');
 	}
 
 

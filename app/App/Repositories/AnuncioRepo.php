@@ -11,36 +11,23 @@ class AnuncioRepo extends BaseRepo{
 		return new Anuncio;
 	}
 
-	public function getSiguiente($anuncioId, $tipo, $estado)
-	{
-		$index = 0;
-		$anuncios = Anuncio::where('tipo',$tipo)->get();
-		foreach($anuncios as $anuncio)
-		{
-			if($anuncio->id == $anuncioId)
-			{
-				break;
-			}
-			$index++;
-		}
-		$nextIndex = $index + 1;
-		if(isset($anuncios[$nextIndex]) && $anuncios[$nextIndex]->estado == 'A'){
-			return $anuncios[$nextIndex];
-		}
-		else
-		{
-			$anuncios = Anuncio::where('tipo',$tipo)->whereIn('estado',$estado)->get();
-			foreach($anuncios as $anuncio)
-			{
-				if(count($anuncios) > 0){
-					return $anuncios[0];
-				}
-				else{
-					return null;
-				}
-			}
-		}
-		return null;
-	}
+    public function getByPantallaAppByEstado($pantalla,$estados)
+    {
+        return Anuncio::where('pantalla_app',$pantalla)->whereIn('estado',$estados)->get();
+    }
+
+    public function getAnuncioForPantallaApp($pantalla)
+    {
+        $anuncios = $this->getByPantallaAppByEstado($pantalla,['A']);
+        $data = [];
+        if(count($anuncios) > 0){
+            $data['mostrar_anuncio'] = true;
+            $data['anuncio'] = $anuncios[0];
+        }else{
+            $data['mostrar_anuncio'] = false;
+            $data['anuncio'] = null;
+        }
+        return $data;        
+    }
 
 }

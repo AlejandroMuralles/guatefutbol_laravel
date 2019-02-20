@@ -16,6 +16,7 @@ use App\App\Repositories\LigaRepo;
 use App\App\Repositories\EstadioRepo;
 use App\App\Repositories\EquipoRepo;
 use App\App\Repositories\TablaAcumuladaRepo;
+use App\App\Repositories\AnuncioRepo;
 
 use App\App\ExtraEntities\FichaPartido;
 
@@ -37,12 +38,13 @@ class RestController extends BaseController {
 	protected $ligaRepo;
 	protected $estadioRepo;
 	protected $equipoRepo;
-	protected $tablaAcumuladaRepo;
+    protected $tablaAcumuladaRepo;
+    protected $anuncioRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, PlantillaRepo $plantillaRepo,
-		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo)
+		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, AnuncioRepo $anuncioRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -57,7 +59,8 @@ class RestController extends BaseController {
 		$this->estadioRepo = $estadioRepo;
 		$this->equipoRepo = $equipoRepo;
 		$this->porteroRepo = $porteroRepo;
-		$this->tablaAcumuladaRepo = $tablaAcumuladaRepo;
+        $this->tablaAcumuladaRepo = $tablaAcumuladaRepo;
+        $this->anuncioRepo = $anuncioRepo;
 
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
@@ -132,11 +135,92 @@ class RestController extends BaseController {
 			}
 
 			usort($ligasDB2, array('App\Http\Controllers\RestController','orderByLigaByFecha'));
-			$data['ligasDB2'] = $ligasDB2;
+            $data['ligasDB2'] = $ligasDB2;
+            
+            /*Anuncios*/
+            $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+            $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+            $data['anuncio'] = $anuncios['anuncio'];
+
 			return $data;
 		});
 		$ligasDB2 = $data['ligasDB2'];
-		return json_encode($ligasDB2);
+		return json_encode($data);
+    }
+    
+    public function inicioLigasAgrupadasV2()
+	{
+		$minutos = 1;
+		$data = Cache::remember('rest.inicioLigasAgrupadas', $minutos, function(){
+			$configuracion = $this->configuracionRepo->find(1);
+			$diasInicio = $configuracion->parametro1;
+			$diasFin = $configuracion->parametro2;
+
+			$fechaInicio = $this->getFecha($diasInicio . ' day');
+			$fechaFin = $this->getFecha($diasFin . ' day');
+			$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
+
+			$configuracion = $this->configuracionRepo->find(2);
+			$data['configuracion'] = $configuracion;
+
+			$ligas = [];
+
+			foreach($partidos as $partido)
+			{
+				$ligaId = $partido->campeonato->liga_id;
+				if(!isset($ligas[$ligaId])){
+					$ligas[$ligaId]['liga'] = $partido->campeonato->liga;
+				}
+
+				if(!isset($ligas[$ligaId]['campeonatos'][$partido->campeonato_id])){
+					$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['campeonato'] = $partido->campeonato;
+				}
+
+				$p = new \App\App\Entities\Partido;
+				$p->id = $partido->id;
+				$p->equipo_local = $partido->equipo_local;
+				$p->equipo_visita = $partido->equipo_visita;
+				$p->goles_local = $partido->goles_local;
+				$p->goles_visita = $partido->goles_visita;
+				$partido->fecha = strtotime($partido->fecha);
+				$p->fecha = date('d/m',$partido->fecha);
+				$p->hora = date('H:i',$partido->fecha);
+				$p->estadio = $partido->estadio->nombre;
+				$p->estado = $partido->descripcion_estado;
+				$p->estado_tiempo = $partido->estado_tiempo;
+				$p->tiempo = $partido->tiempo;
+				$p->liga = $partido->campeonato->liga->nombre;
+				$p->campeonato = $partido->campeonato;
+
+				$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['partidos'][] = $p;
+			}
+
+			$ligasDB = [];
+			$ligasDB2 = [];
+			foreach($ligas as $liga){
+				$ligasDB[] = $liga;
+			}
+			foreach($ligasDB as $index => $liga)
+			{
+				$ligasDB2[$index]['liga'] = $liga['liga'];
+				foreach($liga['campeonatos'] as $campeonato)
+				{
+					$ligasDB2[$index]['campeonatos'][] = $campeonato;
+
+				}
+			}
+
+			usort($ligasDB2, array('App\Http\Controllers\RestController','orderByLigaByFecha'));
+            $data['ligas'] = $ligasDB2;
+            
+            /*Anuncios*/
+            $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+            $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+            $data['anuncio'] = $anuncios['anuncio'];
+
+			return $data;
+		});
+		return json_encode($data);
 	}
 
 	function orderByLigaByFecha( $ligaA, $ligaB ) {

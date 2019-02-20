@@ -42,7 +42,20 @@ class StaticVariables {
 		'calendario'  => 'Calendario',
         'link' => 'Link',
         'evento_partido' => 'Evento Partido',
-	];
+    ];
+    
+    protected $pantallasApp = [
+		1 => 'Inicio',
+        2 => 'Calendario',
+        3 => 'Posiciones',
+        4 => 'Goleadores',
+        6 => 'Porteros',
+        7 => 'Partido',
+        8 => 'Equipos',
+        9 => 'Plantilla',
+        10 => 'Tabla Acumulada',
+        11 => 'Noticias'
+    ];
 
 	public function getEstadosGenerales() { return $this->estadosGenerales; }
 	public function getEstadoGeneral($key) { return $this->estadosGenerales[$key]; }
@@ -60,7 +73,10 @@ class StaticVariables {
     public function getTipoDescuentoPuntos($key) { return $this->tiposDescuentoPuntos[$key]; }
     
     public function getTiposNotificacion(){ return $this->tiposNotificacion; }
-	public function getTipoNotificacion($key){ return $this->tiposNotificacion[$key]; }
+    public function getTipoNotificacion($key){ return $this->tiposNotificacion[$key]; }
+    
+    public function getPantallasApp() { return $this->pantallasApp; }
+	public function getPantallaApp($key) { return $this->pantallasApp[$key]; }
 
 	public function arrayToCommaSeparatedList($array)
 	{

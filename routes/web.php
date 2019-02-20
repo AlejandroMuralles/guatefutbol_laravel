@@ -24,8 +24,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Anuncio/listado', ['as' => 'anuncios', 'uses' => 'AnuncioController@listado']);
 	Route::get('Anuncio/agregar', ['as' => 'agregar_anuncio', 'uses' => 'AnuncioController@mostrarAgregar']);
 	Route::post('Anuncio/agregar', ['as' => 'agregar_anuncio', 'uses' => 'AnuncioController@agregar']);
-	Route::get('Anuncio/editar/{id}', ['as' => 'editar_anuncio', 'uses' => 'AnuncioController@mostrarEditar']);
-	Route::post('Anuncio/editar/{id}', ['as' => 'editar_anuncio', 'uses' => 'AnuncioController@editar']);
+	Route::get('Anuncio/editar/{anuncio}', ['as' => 'editar_anuncio', 'uses' => 'AnuncioController@mostrarEditar']);
+	Route::post('Anuncio/editar/{anuncio}', ['as' => 'editar_anuncio', 'uses' => 'AnuncioController@editar']);
 
 	Route::get('Configuracion/listado', ['as' => 'configuraciones', 'uses' => 'ConfiguracionController@listado']);
 	Route::get('Configuracion/agregar', ['as' => 'agregar_configuracion', 'uses' => 'ConfiguracionController@mostrarAgregar']);
@@ -239,6 +239,7 @@ Route::get('Arbitros-Liga/{ligaId}', ['as' => 'json_arbitros_liga', 'uses' => 'A
 
 /* REST APP*/
 Route::get('rest/inicio-ligas-agrupadas', ['uses' => 'RestController@inicioLigasAgrupadas']);
+Route::get('rest/inicio-ligas-agrupadas-v2', ['uses' => 'RestController@inicioLigasAgrupadasV2']);
 Route::get('rest/inicio/', ['uses' => 'RestController@inicioLigas']);
 Route::get('rest/inicio/{ligaId}', ['uses' => 'RestController@inicio']);
 Route::get('rest/inicio/{ligaId}/{campeonatoId}', ['uses' => 'RestController@inicioConCampeonato']);

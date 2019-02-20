@@ -14,7 +14,8 @@ class AdminMenuController {
 
         $menu = new Collection();
 
-		$menu->push((object)['title' => 'Dashboard', 'url' => route('dashboard'), 'class' => '' ,'icon' => 'fa fa-dashboard']);
+        $menu->push((object)['title' => 'Dashboard', 'url' => route('dashboard'), 'class' => '' ,'icon' => 'fa fa-dashboard']);
+        $menu->push((object)['title' => 'Anuncios', 'url' => route('anuncios'), 'class' => '' ,'icon' => 'fa fa-file']);
 		$menu->push((object)['title' => 'Monitorear', 'url' => route('monitorear_jornada',[21,0,0,0,0]), 'class' => '' ,'icon' => 'fa fa-dashboard']);
 		$menu->push((object)['title' => 'Configuracion', 'url' => route('configuraciones'), 'class' => '' ,'icon' => 'fa fa-location-arrow']);
 		$menu->push((object)['title' => 'Estadios', 'url' => route('estadios'), 'class' => '' ,'icon' => 'fa fa-location-arrow']);
