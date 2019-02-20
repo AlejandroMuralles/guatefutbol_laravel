@@ -19,6 +19,7 @@ class CreateTableAnuncio extends Migration
             $table->integer('pantalla_app');
             $table->integer('segundos_mostrandose');
             $table->integer('minutos_espera');
+            $table->string('link');
             $table->string('imagen');
             $table->string('estado');
             $table->timestamps();

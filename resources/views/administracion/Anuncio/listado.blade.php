@@ -15,6 +15,7 @@
 				<th>SEGUNDOS MOSTRANDOSE</th>
                 <th>MINUTOS ESPERA</th>
                 <th>IMAGEN</th>
+                <th>LINK</th>
                 <th>ESTADO</th>
 				<th></th>
 			</tr>
@@ -27,6 +28,7 @@
                 <td>{{$anuncio->segundos_mostrandose}}</td>
                 <td>{{$anuncio->minutos_espera}}</td>
                 <td><img src="{{$anuncio->imagen}}" style="width: 25px; height: 25px"></td>
+                <td>{{$anuncio->link}}</td>
                 <td>{{$anuncio->descripcion_estado}}</td>
 				<td>
 					<a href="{{route('editar_anuncio',$anuncio->id)}}" class="btn btn-warning btn-flat btn-xs">

@@ -45,6 +45,7 @@ class AnuncioManager extends BaseManager
 
 	function prepareData($data)
 	{
+        if($data['link'] == '') $data['link'] = null;
 		return $data;
 	}
 

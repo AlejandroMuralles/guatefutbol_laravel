@@ -8,6 +8,7 @@
         {!! Field::select('pantalla_app',$pantallas, null, ['data-required'=> 'true']) !!}
         {!! Field::number('segundos_mostrandose', null, ['data-required'=> 'true']) !!}
         {!! Field::number('minutos_espera', null, ['data-required'=> 'true']) !!}
+        {!! Field::text('link', null, ['data-required'=> 'false']) !!}
         {!! Field::file('imagen',null,['data-required'=>'false']) !!}
         {!! Field::select('estado',$estados, null, ['data-required'=> 'true']) !!}
         <br/>
