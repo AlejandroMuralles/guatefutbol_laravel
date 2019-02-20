@@ -27,7 +27,7 @@ class AnuncioRepo extends BaseRepo{
             $data['mostrar_anuncio'] = false;
             $data['anuncio'] = null;
         }
-        return $data;        
+        return $data;
     }
 
 }

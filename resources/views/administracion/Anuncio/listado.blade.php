@@ -10,8 +10,10 @@
 	<table id="table" class="table table-bordered">
 		<thead>
 			<tr>
-				<th>ANUNCIANTE</th>
-				<th>PANTALLA APP</th>
+                <th>PANTALLA APP</th>
+                <th>ANUNCIANTE</th>
+                <th>NOMBRE ANUNCIANTE</th>
+				<th>TIPO</th>
 				<th>SEGUNDOS MOSTRANDOSE</th>
                 <th>MINUTOS ESPERA</th>
                 <th>IMAGEN</th>
@@ -23,8 +25,10 @@
 		<tbody>
 			@foreach($anuncios as $anuncio)
 			<tr>
-				<td>{{$anuncio->anunciante}}</td>
-				<td>{{$anuncio->descripcion_pantalla_app}}</td>
+                <td>{{$anuncio->descripcion_pantalla_app}}</td>
+                <td>{{$anuncio->descripcion_anunciante}}</td>
+                <td>{{$anuncio->nombre_anunciante}}</td>
+                <td>{{$anuncio->descripcion_tipo}}</td>
                 <td>{{$anuncio->segundos_mostrandose}}</td>
                 <td>{{$anuncio->minutos_espera}}</td>
                 <td><img src="{{$anuncio->imagen}}" style="width: 25px; height: 25px"></td>

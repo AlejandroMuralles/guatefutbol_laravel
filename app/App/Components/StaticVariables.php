@@ -43,6 +43,18 @@ class StaticVariables {
         'link' => 'Link',
         'evento_partido' => 'Evento Partido',
     ];
+
+    protected $tiposAnunciantes = [
+		'G' => 'GOOGLE',
+        'C' => 'CLIENTE',
+    ];
+
+    protected $tiposAnuncios = [
+		'GB'    => 'GOOGLE - BANNER',
+        'GI'    => 'GOOGLE - INTER',
+        'GA'    => 'GOOGLE - BANNER E INTER',
+        'CI'    => 'CLIENTE - INTER',
+    ];
     
     protected $pantallasApp = [
 		1 => 'Inicio',
@@ -76,7 +88,13 @@ class StaticVariables {
     public function getTipoNotificacion($key){ return $this->tiposNotificacion[$key]; }
     
     public function getPantallasApp() { return $this->pantallasApp; }
-	public function getPantallaApp($key) { return $this->pantallasApp[$key]; }
+    public function getPantallaApp($key) { return $this->pantallasApp[$key]; }
+    
+    public function getTiposAnunciantes(){ return $this->tiposAnunciantes; }
+    public function getTipoAnunciante($key){ return $this->tiposAnunciantes[$key]; }
+
+    public function getTiposAnuncios(){ return $this->tiposAnuncios; }
+    public function getTipoAnuncio($key){ return $this->tiposAnuncios[$key]; }
 
 	public function arrayToCommaSeparatedList($array)
 	{

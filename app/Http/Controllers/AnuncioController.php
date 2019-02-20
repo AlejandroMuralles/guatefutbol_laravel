@@ -27,7 +27,9 @@ class AnuncioController extends BaseController {
 	{
         $pantallas = Variable::getPantallasApp();
         $estados = Variable::getEstadosGenerales();
-		return view('administracion/Anuncio/agregar',compact('pantallas','estados'));
+        $anunciantes = Variable::getTiposAnunciantes();
+        $tipos = Variable::getTiposAnuncios();
+		return view('administracion/Anuncio/agregar',compact('pantallas','estados','anunciantes','tipos'));
 	}
 
 	public function agregar()
@@ -43,7 +45,9 @@ class AnuncioController extends BaseController {
 	{
         $pantallas = Variable::getPantallasApp();
         $estados = Variable::getEstadosGenerales();
-		return view('administracion/Anuncio/editar', compact('anuncio','pantallas','estados'));
+        $anunciantes = Variable::getTiposAnunciantes();
+        $tipos = Variable::getTiposAnuncios();
+		return view('administracion/Anuncio/editar', compact('anuncio','pantallas','estados','anunciantes','tipos'));
 	}
 
 	public function editar(Anuncio $anuncio)
