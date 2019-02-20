@@ -409,7 +409,7 @@ class RestController extends BaseController {
 				$c->nombre = $campeonato->nombre;*/
                 $data['campeonato'] = $campeonato;
                 /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(5);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
@@ -438,7 +438,7 @@ class RestController extends BaseController {
 				$c->nombre = $campeonato->nombre;
                 $data['campeonato'] = $c;
                 /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(4);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
@@ -495,7 +495,7 @@ class RestController extends BaseController {
 
                 $data['equipo'] = $equipo;
                 /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(8);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
@@ -530,7 +530,7 @@ class RestController extends BaseController {
 				$c->nombre = $campeonato->nombre;
                 $data['campeonato'] = $c;
                 /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(7);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
@@ -861,7 +861,7 @@ class RestController extends BaseController {
                 $data['partido'] = $p;
                 
                 /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(6);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 
@@ -898,7 +898,11 @@ class RestController extends BaseController {
                     $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
                     $posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
                 }
-				$data['posiciones'] = $posiciones;
+                $data['posiciones'] = $posiciones;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(9);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
         $posiciones = $data['posiciones'];

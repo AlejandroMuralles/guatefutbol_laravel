@@ -61,12 +61,12 @@ class StaticVariables {
         2 => 'Calendario',
         3 => 'Posiciones',
         4 => 'Goleadores',
-        6 => 'Porteros',
-        7 => 'Partido',
-        8 => 'Equipos',
-        9 => 'Plantilla',
-        10 => 'Tabla Acumulada',
-        11 => 'Noticias'
+        5 => 'Porteros',
+        6 => 'Partido',
+        7 => 'Equipos',
+        8 => 'Plantilla',
+        9 => 'Tabla Acumulada',
+        10 => 'Noticias'
     ];
 
 	public function getEstadosGenerales() { return $this->estadosGenerales; }
