@@ -21,8 +21,8 @@ class CreateTableAnuncio extends Migration
             $table->string('tipo',2);
             $table->integer('segundos_mostrandose');
             $table->integer('minutos_espera');
-            $table->string('link');
-            $table->string('imagen');
+            $table->string('link')->nullable();
+            $table->string('imagen')->nullable();
             $table->string('estado');
             $table->timestamps();
             $table->string('created_by');

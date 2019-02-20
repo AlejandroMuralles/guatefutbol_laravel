@@ -22,7 +22,6 @@ class AnuncioManager extends BaseManager
 			'pantalla_app' => 'required',
             'segundos_mostrandose' => 'required',
             'minutos_espera' => 'required',
-            'imagen' => 'required',
             'estado' => 'required',
 		];
 

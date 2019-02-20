@@ -373,7 +373,11 @@ class RestController extends BaseController {
 				/*$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
 				$c->nombre = $campeonato->nombre;*/
-				$data['campeonato'] = $campeonato;
+                $data['campeonato'] = $campeonato;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(3);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 				return $data;
 		});
 		return json_encode($data);
@@ -581,7 +585,11 @@ class RestController extends BaseController {
 				$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
 				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
+                $data['campeonato'] = $c;
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 
 				return $data;
 		});
