@@ -43,14 +43,14 @@ class AnuncioController extends BaseController {
 	{
         $pantallas = Variable::getPantallasApp();
         $estados = Variable::getEstadosGenerales();
-		return view('administracion/Anuncio/editar', compact('anuncio'));
+		return view('administracion/Anuncio/editar', compact('anuncio','pantallas','estados'));
 	}
 
 	public function editar(Anuncio $anuncio)
 	{
 		$data = Input::all();
 		$manager = new AnuncioManager($anuncio, $data);
-		$manager->save();
+		$manager->editar();
 		Session::flash('success', 'Se editó el anuncio con éxito.');
 		return redirect()->route('anuncios');
 	}

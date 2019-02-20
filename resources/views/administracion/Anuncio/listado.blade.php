@@ -25,7 +25,7 @@
 				<td>{{$anuncio->anunciante}}</td>
 				<td>{{$anuncio->descripcion_pantalla_app}}</td>
                 <td>{{$anuncio->segundos_mostrandose}}</td>
-                <td>{{$anuncio->segundos_mostrandose}}</td>
+                <td>{{$anuncio->minutos_espera}}</td>
                 <td><img src="{{$anuncio->imagen}}" style="width: 25px; height: 25px"></td>
                 <td>{{$anuncio->descripcion_estado}}</td>
 				<td>
