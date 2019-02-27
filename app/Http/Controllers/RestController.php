@@ -789,7 +789,8 @@ class RestController extends BaseController {
 					$nombre = mb_substr($sv->persona->primer_nombre,0,1);
                     $jugador['nombre'] = $nombre . '. ' . $sv->persona->primer_apellido;
                     $jugador['nombre_completo'] = $sv->persona->nombre_completo_apellidos;
-					$jugador['es_titular'] = $sv->es_titular;
+                    $jugador['es_titular'] = $sv->es_titular;
+                    $supVisita[] = $jugador;
                 }
                 $data['alineacionVisita'] = $alVisita;
                 $data['suplentesVisita'] = $supVisita;
