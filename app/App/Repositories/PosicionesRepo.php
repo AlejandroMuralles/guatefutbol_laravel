@@ -109,7 +109,7 @@ class PosicionesRepo {
                 foreach($descuentos as $descuento)
                 {
                     if($equipo->equipo->id == $descuento->equipo_id)
-                        $equipo->PTS -= 3;
+                        $equipo->PTS -= $descuento->puntos;
                 }
             }
         }
@@ -121,7 +121,7 @@ class PosicionesRepo {
                     foreach($descuentos as $descuento)
                     {
                         if($equipo->equipo->id == $descuento->equipo_id)
-                            $equipo->PTS -= 3;
+                            $equipo->PTS -= $descuento->puntos;
                     }
                 }
             }
@@ -132,7 +132,7 @@ class PosicionesRepo {
                     foreach($descuentos as $descuento)
                     {
                         if($equipo->equipo->id == $descuento->equipo_id)
-                            $equipo->PTS -= 3;
+                            $equipo->PTS -= $descuento->puntos;
                     }
                 }
                 $descuentos = $descuentosRepo->getByCampeonatoByTipos($tablaAcumulada[0]->campeonato2_id, [1,2]);
@@ -141,7 +141,7 @@ class PosicionesRepo {
                     foreach($descuentos as $descuento)
                     {
                         if($equipo->equipo->id == $descuento->equipo_id)
-                            $equipo->PTS -= 3;
+                            $equipo->PTS -= $descuento->puntos;
                     }
                 }
             }
