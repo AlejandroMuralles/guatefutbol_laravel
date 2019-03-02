@@ -808,7 +808,7 @@ class RestController extends BaseController {
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($dtVisita->primer_nombre,0,1);
                     $data['dtVisita']['nombre'] = $nombre . '. ' . $dtVisita->primer_apellido;
-                    $data['dtVisita']['nombre_completo'] = $dtLocal->nombre_completo_apellidos;
+                    $data['dtVisita']['nombre_completo'] = $dtVisita->nombre_completo_apellidos;
 				}
 
 				//* SUSTITUCIONES *///
