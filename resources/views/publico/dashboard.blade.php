@@ -46,7 +46,7 @@
 						</tr>
 						<tr>
 							<th colspan="5">
-								<a href="{{route('ficha',$partido['partido']->id)}}" style="color: white; ">
+								<a href="{{route('previa',$partido['partido']->id)}}" style="color: white; ">
 									<img src="{{$partido['partido']->equipo_local->logo}}" width="25px">
 									{{$partido['partido']->equipo_local->nombre}} {{$partido['partido']->goles_local}} - 
 									{{$partido['partido']->goles_visita}} {{$partido['partido']->equipo_visita->nombre}} 	

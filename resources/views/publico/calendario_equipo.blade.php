@@ -36,7 +36,7 @@
 							<td class="text-center">{{date('H:i',strtotime($partido->fecha))}}</td>
 							<td class="text-center">{{$partido->equipo_local->nombre}}</td>
 							<td class="text-center">
-								<a href="{{route('ficha',$partido->id)}}" class="text-default" style="text-decoration: none; font-weight: bold" >
+								<a href="{{route('previa',$partido->id)}}" class="text-default" style="text-decoration: none; font-weight: bold" >
 									@if(!is_null($partido->goles_local))
 										{{$partido->goles_local}} - {{$partido->goles_visita}}
 									@else

@@ -54,7 +54,7 @@
 										<img src="{{$partido->equipo_local->logo}}" height="25px" width="25px">
 									</td>
 									<td class="text-center default" style="color: white !important" width="20%">
-										<a href="{{route('ficha',$partido->id)}}" class="text-white" style="text-decoration: none; font-weight: bold" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver Ficha" >
+										<a href="{{route('previa',$partido->id)}}" class="text-white" style="text-decoration: none; font-weight: bold" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver Ficha" >
 											@if($partido->estado != 1)
 												{{$partido->goles_local}} - {{$partido->goles_visita}}
 											@else
