@@ -67,7 +67,7 @@ td.goles
                                 <i class="fa fa-exchange-alt" style="color: red;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
                                 @endif
                             </td>
-                            <td class="text-center tarjetas">
+                            <!--<td class="text-center tarjetas">
                                 @if($ev->expulsado && count($ev->amarillas)==2)
                                     <i class="fa fa-clone" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}', {{$ev->amarillas[1]}}'"></i>
                                 @elseif($ev->expulsado)
@@ -75,7 +75,7 @@ td.goles
                                 @elseif(count($ev->amarillas))
                                     <i class="fa fa-square" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}'"></i>
                                 @endif
-                            </td>
+                            </td>-->
                             <td class="text-center goles">
                                 @if(count($ev->goles)>0)
                                 <i class="fa fa-futbol"></i>
@@ -94,7 +94,7 @@ td.goles
                                 <i class="fa fa-exchange-alt" style="color: green;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
                                 @endif
                             </td>
-                            <td class="text-center tarjetas">
+                            <!--<td class="text-center tarjetas">
                                 @if($ev->expulsado && count($ev->amarillas)==2)
                                     <i class="fa fa-clone" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}', {{$ev->amarillas[1]}}'"></i>
                                 @elseif($ev->expulsado)
@@ -102,7 +102,7 @@ td.goles
                                 @elseif(count($ev->amarillas))
                                     <i class="fa fa-square" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}'"></i>
                                 @endif
-                            </td>
+                            </td>-->
                             <td class="text-center goles">
                                 @if(count($ev->goles)>0)
                                 <i class="fa fa-futbol"></i> @if(count($ev->goles)>1) x{{count($ev->goles)}} @endif
@@ -111,7 +111,7 @@ td.goles
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="4" class="banquillo" >
+                        <td colspan="3" class="banquillo" >
                             @if(!is_null($dtLocal))
                             DT. {{$dtLocal->nombre_completo}}
                             @endif
@@ -135,7 +135,7 @@ td.goles
                                     <i class="fa fa-exchange-alt" style="color: red;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
                                     @endif
                                 </td>
-                                <td class="text-center tarjetas">
+                                <!--<td class="text-center tarjetas">
                                     @if($ev->expulsado && count($ev->amarillas)==2)
                                         <i class="fa fa-clone" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}', {{$ev->amarillas[1]}}'"></i>
                                     @elseif($ev->expulsado)
@@ -143,7 +143,7 @@ td.goles
                                     @elseif(count($ev->amarillas))
                                         <i class="fa fa-square" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}'"></i>
                                     @endif
-                                </td>
+                                </td>-->
                                 <td class="text-center goles">
                                     @if(count($ev->goles)>0)
                                     <i class="fa fa-futbol"></i>
@@ -162,7 +162,7 @@ td.goles
                                     <i class="fa fa-exchange-alt" style="color: green;" data-toggle="tooltip" data-placement="top" title="{{$ev->minuto_cambio}}'"></i>
                                     @endif
                                 </td>
-                                <td class="text-center tarjetas">
+                                <!--<td class="text-center tarjetas">
                                     @if($ev->expulsado && count($ev->amarillas)==2)
                                         <i class="fa fa-clone" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}', {{$ev->amarillas[1]}}'"></i>
                                     @elseif($ev->expulsado)
@@ -170,7 +170,7 @@ td.goles
                                     @elseif(count($ev->amarillas))
                                         <i class="fa fa-square" style="color: #FFBF00" data-toggle="tooltip" data-placement="top" title="{{$ev->amarillas[0]}}'"></i>
                                     @endif
-                                </td>
+                                </td>-->
                                 <td class="text-center goles">
                                     @if(count($ev->goles)>0)
                                     <i class="fa fa-futbol"></i> @if(count($ev->goles)>1) x{{count($ev->goles)}} @endif
@@ -179,7 +179,7 @@ td.goles
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" class="banquillo" >
+                            <td colspan="3" class="banquillo" >
                                 @if(!is_null($dtVisita))
                                 DT. {{$dtVisita->nombre_completo}}
                                 @endif
