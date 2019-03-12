@@ -181,6 +181,114 @@ td.goles
                     </table>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-6 col-xs-6" style="padding-right:0;">
+                <table class="table">
+					<thead>
+						<tr>
+							<th class="text-center gray-gradient">Goles de {{$partido->equipo_local->nombre}}</th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/gol.png')}}" alt=""></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if($ficha->golesLocal)
+							@foreach($ficha->golesLocal as $gl)
+								<tr>
+									<td>
+										@if($gl->jugador)
+											{{$gl->jugador->nombreCompletoApellidos}} @if($gl->autogol) (ag) @endif
+										@endif
+									</td>
+									<td style="width: 30px;" class="text-center">{{$gl->minuto}}</td>
+								</tr>
+							@endforeach
+						@else
+							<tr><td colspan="2">Sin goles</td></tr>
+						@endif
+					</tbody>
+				</table>
+            </div>
+            <div class="col-lg-6 col-xs-6" style="padding-left:0;">
+                <table class="table">
+					<thead>
+						<tr>
+							<th class="text-center gray-gradient">Goles de {{$partido->equipo_visita->nombre}}</th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/gol.png')}}" alt=""></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if($ficha->golesVisita)
+							@foreach($ficha->golesVisita as $gv)
+								<tr>
+									<td>
+										@if($gv->jugador)
+											{{$gv->jugador->nombreCompletoApellidos}} @if($gv->autogol) (ag) @endif
+										@endif
+									</td>
+									<td style="width: 30px;" class="text-center">{{$gv->minuto}}</td>
+								</tr>
+							@endforeach
+						@else
+							<tr><td colspan="2">Sin goles</td></tr>
+						@endif
+					</tbody>
+				</table>
+            </div>
+        </div>
+        <div class="row">
+			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="text-center gray-gradient">Tarjetas de {{$partido->equipo_local->nombre}}</th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/amarilla.png')}}" alt=""></th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/dobleAmarilla.png')}}" alt=""></th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/roja.png')}}" alt=""></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if($ficha->tarjetasLocal)
+							@foreach($ficha->tarjetasLocal as $tl)
+								<tr>
+									<td>{{$tl->jugador->nombreCompletoApellidos}}</td>
+									<td style="width: 30px;" class="text-center">{{$tl->minutoAmarilla}}</td>
+									<td style="width: 30px;" class="text-center">{{$tl->minutoDoble}}</td>
+									<td style="width: 30px;" class="text-center">{{$tl->minutoRoja}}</td>
+								</tr>
+							@endforeach
+						@else
+							<tr><td colspan="4">Sin tarjetas</td></tr>
+						@endif
+					</tbody>
+				</table>
+			</div>
+			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="text-center gray-gradient">Tarjetas de {{$partido->equipo_visita->nombre}}</th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/amarilla.png')}}" alt=""></th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/dobleAmarilla.png')}}" alt=""></th>
+							<th style="width: 30px" class="text-center gray-gradient"><img src="{{asset('assets/imagenes/eventos/roja.png')}}" alt=""></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if($ficha->tarjetasVisita)
+							@foreach($ficha->tarjetasVisita as $tv)
+								<tr>
+									<td>{{$tv->jugador->nombreCompletoApellidos}}</td>
+									<td style="width: 30px;" class="text-center">{{$tv->minutoAmarilla}}</td>
+									<td style="width: 30px;" class="text-center">{{$tv->minutoDoble}}</td>
+									<td style="width: 30px;" class="text-center">{{$tv->minutoRoja}}</td>
+								</tr>
+							@endforeach
+						@else
+							<tr><td colspan="4">Sin tarjetas</td></tr>
+						@endif
+					</tbody>
+				</table>
+			</div>
+		</div>
     </div>
 </div>
 <br>

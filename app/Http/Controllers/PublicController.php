@@ -420,152 +420,194 @@ class PublicController extends BaseController {
 
 	public function previa($partidoId)
 	{
-		$configuracion = $this->configuracionRepo->find(5);
-		$partido = $this->partidoRepo->find($partidoId);
-		$partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
-        $partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
-        $partidosEntreEquipos = $this->partidoRepo->getBetweenEquiposByFaseByEstadoBeforeFecha($partido->equipo_local_id,$partido->equipo_visita_id,['R','F'],[3],$partido->fecha,'fecha','DESC',10);
-		$ficha = new FichaPartido();
-		$eventos = array();
-		$ficha->generarEventos($partido, $eventos);
-		$ligaId = $partido->campeonato->liga_id;
-		
-		$rachaLocal = $this->getRacha($partidosLocal, $partido->equipo_local);
-        $rachaVisita = $this->getRacha($partidosVisita, $partido->equipo_visita);
-        $rachaEntreEquipos = ['equipo_local_ganados'=>0,'equipo_visita_ganados'=>0,'empatados'=>0];
-        ///dd($partidosEntreEquipos);
-        foreach($partidosEntreEquipos as $p)
-        {
-            if($partido->equipo_local_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
-                $rachaEntreEquipos['equipo_local_ganados']++;
-            if($partido->equipo_local_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
-                $rachaEntreEquipos['equipo_local_ganados']++;
-            if($partido->equipo_visita_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
-                $rachaEntreEquipos['equipo_visita_ganados']++;
-            if($partido->equipo_visita_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
-                $rachaEntreEquipos['equipo_visita_ganados']++;
-            if($p->goles_local == $p->goles_visita)
-                $rachaEntreEquipos['empatados']++;
-        }
+		$data = Cache::remember('publico.previa'.$partidoId, 1, function() use($partidoId) {
+            $configuracion = $this->configuracionRepo->find(5);
+            $partido = $this->partidoRepo->find($partidoId);
+            $partidosLocal = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_local_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
+            $partidosVisita = $this->partidoRepo->getByCampeonatoByEquipoByFaseByEstadoBeforeFecha($partido->campeonato_id, $partido->equipo_visita_id, ['R','F'], [3],$partido->fecha,'fecha','DESC',10);
+            $partidosEntreEquipos = $this->partidoRepo->getBetweenEquiposByFaseByEstadoBeforeFecha($partido->equipo_local_id,$partido->equipo_visita_id,['R','F'],[3],$partido->fecha,'fecha','DESC',10);
+            $ficha = new FichaPartido();
+            $eventos = array();
+            $ficha->generarEventos($partido, $eventos);
+            $ligaId = $partido->campeonato->liga_id;
+            
+            $rachaLocal = $this->getRacha($partidosLocal, $partido->equipo_local);
+            $rachaVisita = $this->getRacha($partidosVisita, $partido->equipo_visita);
+            $rachaEntreEquipos = ['equipo_local_ganados'=>0,'equipo_visita_ganados'=>0,'empatados'=>0];
+            ///dd($partidosEntreEquipos);
+            foreach($partidosEntreEquipos as $p)
+            {
+                if($partido->equipo_local_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
+                    $rachaEntreEquipos['equipo_local_ganados']++;
+                if($partido->equipo_local_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
+                    $rachaEntreEquipos['equipo_local_ganados']++;
+                if($partido->equipo_visita_id == $p->equipo_local_id && $p->goles_local > $p->goles_visita)
+                    $rachaEntreEquipos['equipo_visita_ganados']++;
+                if($partido->equipo_visita_id == $p->equipo_visita_id && $p->goles_visita > $p->goles_local)
+                    $rachaEntreEquipos['equipo_visita_ganados']++;
+                if($p->goles_local == $p->goles_visita)
+                    $rachaEntreEquipos['empatados']++;
+            }
+            $data['configuracion'] = $configuracion;
+            $data['partido'] = $partido;
+            $data['ficha'] = $ficha;
+            $data['ligaId'] = $ligaId;
+            $data['rachaLocal'] = $rachaLocal;
+            $data['rachaVisita'] = $rachaVisita;
+            $data['rachaEntreEquipos'] = $rachaEntreEquipos;
+            return $data;
+        });
+
+        $partido = $data['partido'];
+		$ficha = $data['ficha'];
+		$ligaId = $data['ligaId'];
+        $configuracion = $data['configuracion'];
+        $rachaLocal = $data['rachaLocal'];
+        $rachaVisita = $data['rachaVisita'];
+        $rachaEntreEquipos = $data['rachaEntreEquipos'];
 		return View::make('publico/previa', compact('partido','ficha','ligaId','configuracion','rachaLocal','rachaVisita','rachaEntreEquipos'));
 	}
 
 	public function alineaciones($partidoId)
 	{
-		$configuracion = $this->configuracionRepo->find(5);
-		$partido = $this->partidoRepo->find($partidoId);
+		$data = Cache::remember('publico.alineaciones'.$partidoId, 1, function() use($partidoId) {
+            $configuracion = $this->configuracionRepo->find(5);
+            $partido = $this->partidoRepo->find($partidoId);
+            $ficha = new FichaPartido();
+            $eventos = array();
+            $ficha->generarEventos($partido, $eventos);
 
-		$alineacionLocal = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_local_id);
-		$titularesLocales = [];
-		$suplentesLocales = [];
-		foreach($alineacionLocal as $al)
-		{
-			if($al->es_titular == 1){
-				$titularesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
-			}
-			else
-			{
-				$suplentesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
-			}
-		}
-		$dtLocal = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_local_id);
+            $alineacionLocal = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_local_id);
+            $titularesLocales = [];
+            $suplentesLocales = [];
+            foreach($alineacionLocal as $al)
+            {
+                if($al->es_titular == 1){
+                    $titularesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
+                }
+                else
+                {
+                    $suplentesLocales[$al->persona_id] = new AlineacionPartido($al->persona);
+                }
+            }
+            $dtLocal = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_local_id);
 
-		$alineacionVisita = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_visita_id);
-		$titularesVisita = [];
-		$suplentesVisita = [];
-		foreach($alineacionVisita as $av)
-		{
-			if($av->es_titular == 1){
-				$titularesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
-			}
-			else
-			{
-				$suplentesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
-			}
-		}
-		$dtVisita = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_visita_id);
+            $alineacionVisita = $this->alineacionRepo->getJugadores($partido->id, $partido->equipo_visita_id);
+            $titularesVisita = [];
+            $suplentesVisita = [];
+            foreach($alineacionVisita as $av)
+            {
+                if($av->es_titular == 1){
+                    $titularesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
+                }
+                else
+                {
+                    $suplentesVisita[$av->persona_id] = new AlineacionPartido($av->persona);
+                }
+            }
+            $dtVisita = $this->alineacionRepo->getTecnico($partido->id,$partido->equipo_visita_id);
 
-		$eventos = $this->eventoPartidoRepo->getByEventos($partido->id, array(6,7,8,9,10,11));
-		foreach($eventos as $evento)
-		{
-			if($evento->equipo_id == $partido->equipo_local_id){
-				if($evento->evento_id == 6 || $evento->evento_id == 8)
-				{
-					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->goles[] = $evento->minuto;
-					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->goles = $evento->minuto;
-				}
-				if($evento->evento_id == 9)
-				{
-					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->cambio = true;
-					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
-					if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->cambio = true;
-					if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+            $eventos = $this->eventoPartidoRepo->getByEventos($partido->id, array(6,7,8,9,10,11));
+            foreach($eventos as $evento)
+            {
+                if($evento->equipo_id == $partido->equipo_local_id){
+                    if($evento->evento_id == 6 || $evento->evento_id == 8)
+                    {
+                        if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->goles[] = $evento->minuto;
+                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->goles = $evento->minuto;
+                    }
+                    if($evento->evento_id == 9)
+                    {
+                        if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->cambio = true;
+                        if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+                        if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->cambio = true;
+                        if(isset($titularesLocales[$evento->jugador2_id])) $titularesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
 
-					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->cambio = true;
-					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
-					if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->cambio = true;
-					if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
-				}
-				if($evento->evento_id == 10)
-				{
-					if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-					if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-				}
-				if($evento->evento_id == 11)
-				{
-					if($evento->doble_amarilla){
-						if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->roja = $evento->minuto;
-						if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->expulsado = true;
-					}
-				}
-			}
-			if($evento->equipo_id == $partido->equipo_visita_id){
-				if($evento->evento_id == 6 || $evento->evento_id == 8)
-				{
-					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->goles[] = $evento->minuto;
-					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->goles = $evento->minuto;
-				}
-				if($evento->evento_id == 9)
-				{
-					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->cambio = true;
-					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
-					if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->cambio = true;
-					if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->cambio = true;
+                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+                        if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->cambio = true;
+                        if(isset($suplentesLocales[$evento->jugador2_id])) $suplentesLocales[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+                    }
+                    if($evento->evento_id == 10)
+                    {
+                        if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                    }
+                    if($evento->evento_id == 11)
+                    {
+                        if($evento->doble_amarilla){
+                            if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->expulsado = true;
+                        }
+                    }
+                }
+                if($evento->equipo_id == $partido->equipo_visita_id){
+                    if($evento->evento_id == 6 || $evento->evento_id == 8)
+                    {
+                        if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->goles[] = $evento->minuto;
+                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->goles = $evento->minuto;
+                    }
+                    if($evento->evento_id == 9)
+                    {
+                        if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->cambio = true;
+                        if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+                        if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->cambio = true;
+                        if(isset($titularesVisita[$evento->jugador2_id])) $titularesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
 
-					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->cambio = true;
-					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
-					if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->cambio = true;
-					if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
-				}
-				if($evento->evento_id == 10)
-				{
-					if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-					if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-				}
-				if($evento->evento_id == 11)
-				{
-					if($evento->doble_amarilla){
-						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
-						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
+                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->cambio = true;
+                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->minuto_cambio = $evento->minuto;
+                        if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->cambio = true;
+                        if(isset($suplentesVisita[$evento->jugador2_id])) $suplentesVisita[$evento->jugador2_id]->minuto_cambio = $evento->minuto;
+                    }
+                    if($evento->evento_id == 10)
+                    {
+                        if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                    }
+                    if($evento->evento_id == 11)
+                    {
+                        if($evento->doble_amarilla){
+                            if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
 
-						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
-						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
-						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
-					}
-					else{
-						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
-						if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
+                            if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
+                        }
+                        else{
+                            if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->expulsado = true;
 
-						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
-						if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
-					}
-				}
-			}
-		}		
-		return View::make('publico/alineaciones', compact('partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion','dtLocal','dtVisita'));
+                            if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->expulsado = true;
+                        }
+                    }
+                }
+            }
+            $data['partido'] = $partido;
+            $data['titularesLocales'] = $titularesLocales;
+            $data['suplentesLocales'] = $suplentesLocales;
+            $data['titularesVisita'] = $titularesVisita;
+            $data['suplentesVisita'] = $suplentesVisita;
+            $data['configuracion'] = $configuracion;
+            $data['dtLocal'] = $dtLocal;
+            $data['dtVisita'] = $dtVisita;
+            $data['ficha'] = $ficha;
+            return $data;
+        });
+        $partido = $data['partido'];
+        $titularesLocales = $data['titularesLocales'];
+        $suplentesLocales = $data['suplentesLocales'];
+        $titularesVisita = $data['titularesVisita'];
+        $suplentesVisita = $data['suplentesVisita'];
+        $configuracion = $data['configuracion'];
+        $dtLocal = $data['dtLocal'];
+        $dtVisita = $data['dtVisita'];
+        $ficha = $data['ficha'];
+		return View::make('publico/alineaciones', compact('ficha','partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion','dtLocal','dtVisita'));
 	}
 
 	private function getRacha($partidos, $equipo)
