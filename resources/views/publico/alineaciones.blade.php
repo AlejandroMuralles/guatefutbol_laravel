@@ -111,7 +111,11 @@ td.goles
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="4" class="banquillo" >DT. {{$dtLocal->nombre_completo}}</td>
+                        <td colspan="4" class="banquillo" >
+                            @if(!is_null($dtLocal))
+                            DT. {{$dtLocal->nombre_completo}}
+                            @endif
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -175,7 +179,11 @@ td.goles
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" class="banquillo" >DT. {{$dtVisita->nombre_completo}}</td>
+                            <td colspan="4" class="banquillo" >
+                                @if(!is_null($dtVisita))
+                                DT. {{$dtVisita->nombre_completo}}
+                                @endif
+                            </td>
                         </tr>
                         </tbody>
                     </table>

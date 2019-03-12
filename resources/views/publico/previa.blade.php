@@ -32,7 +32,11 @@
                         <div class="icono"><i class="flaticon flaticon-whistle"></i></div>
                         <div class="dato">
                             <div class="titulo">ARBITRO</div>
-                            <div class="sub-titulo">{{$partido->arbitro_central->nombre_completo}}</div>
+                            <div class="sub-titulo">
+                                @if(!is_null($partido->arbitro_central))
+                                {{$partido->arbitro_central->nombre_completo}}
+                                @endif
+                            </div>
                         </div>
                     </div>                    
                 </div>

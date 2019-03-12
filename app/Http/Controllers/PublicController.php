@@ -537,7 +537,17 @@ class PublicController extends BaseController {
                     {
                         if($evento->doble_amarilla){
                             if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->expulsado = true;
+
                             if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->amarillas[] = $evento->minuto;
+                            if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->expulsado = true;
+                        }
+                        else{
+                            if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->roja = $evento->minuto;
+                            if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->expulsado = true;
+
                             if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->roja = $evento->minuto;
                             if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->expulsado = true;
                         }
