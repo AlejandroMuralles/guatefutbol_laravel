@@ -244,7 +244,7 @@ td.goles
             </div>
         </div>
         <div class="row">
-			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
+			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0;">
 				<table class="table">
 					<thead>
 						<tr>
@@ -270,7 +270,7 @@ td.goles
 					</tbody>
 				</table>
 			</div>
-			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0; padding-left: 0">
+			<div class="col-lg-6 col-sm-6 col-xs-6" style="padding-left: 0">
 				<table class="table">
 					<thead>
 						<tr>
