@@ -39,13 +39,28 @@ return [
             'prefix' => '',
         ],
 
-        'mysql' => [
+        'mysql-dev' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
+            'database' => env('DB_DATABASE', 'gf_webapp'),
+            'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'mysql-prod' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'gfsysbd.cddrx6jm0v02.us-west-2.rds.amazonaws.com'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'gf_webapp'),
+            'username' => env('DB_USERNAME', 'gfsysbd'),
+            'password' => env('DB_PASSWORD', 'AWP^f2=x;GN_'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
