@@ -94,6 +94,18 @@ class EventoPartidoManager extends BaseManager
 				if($this->entity->evento_id == 4){
 					$partido->estado_tiempo = 'ST';
 					$partido->fecha_tiempo = $this->data['fecha_tiempo'];
+                }
+                if($this->entity->evento_id == 13){
+					$partido->estado_tiempo = 'PTE';
+					$partido->fecha_tiempo = $this->data['fecha_tiempo'];
+                }
+                if($this->entity->evento_id == 14){
+					$partido->estado_tiempo = 'FPTE';
+					$partido->fecha_tiempo = $this->data['fecha_tiempo'];
+                }
+                if($this->entity->evento_id == 15){
+					$partido->estado_tiempo = 'STE';
+					$partido->fecha_tiempo = $this->data['fecha_tiempo'];
 				}
 				$partido->save();
 

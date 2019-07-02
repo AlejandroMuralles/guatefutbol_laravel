@@ -38,9 +38,15 @@
                         </div>
                         <div class="marcador cf">
                             <span class="tanteo-local">{{$partido->goles_local}}</span>
-                            <span class="tanteo-time" id="tiempoPartido"></span>
+                            @if(!is_null($partido->descripcion_penales))
+                                <span class="tanteo-time">
+                                    <span id="tiempoPartido" style="position: relative;top: -10px;left: 20px;"></span>
+                                    <span style="position: relative;top: 10px;left: -10px;">({{$partido->descripcion_penales}})</span>
+                                </span>
+                            @else
+                                <span class="tanteo-time" id="tiempoPartido"></span>
+                            @endif
                             <span class="tanteo-visit">{{$partido->goles_visita}}</span>
-                            @if(!is_null($partido->descripcion_penales)) <span class="tanteo-visit">({{$partido->descripcion_penales}})</span> @endif
                         </div>
                         <div class="eq-visit">
                             <a class="nom-equip" href="#">

@@ -106,7 +106,7 @@
         if(txtSeg<10) txtSeg = "0"+txtSeg;
         if(txtMin<10) txtMin = "0"+txtMin;
 
-        tiempoPartido = txtMin + " : " + txtSeg;
+        tiempoPartido = txtMin + ":" + txtSeg;
 
         $('#tiempoPartido').text(tiempoPartido);
 
