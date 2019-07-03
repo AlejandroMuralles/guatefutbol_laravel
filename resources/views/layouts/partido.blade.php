@@ -18,15 +18,25 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
     @yield('css')
+    <style>
+        #refresh
+        {
+            position: absolute;
+            top: 0px;
+            right: 30px;
+            color: white;
+            z-index: 10;
+        }
+    </style>
     </head>
 
     <body>
-
     <div id="wrapper">
         <!-- begin MAIN PAGE CONTENT -->
         <div id="page-wrapper">
             <div class="page-content">
                 <div class="dir-result">
+                    <h2 id="refresh"><i class="fas fa-sync"></i> <span id="txtActualizar"></span></h2>
                     <div class="container">
                         <div class="eq-local">
                             <a class="nom-equip" href="#">

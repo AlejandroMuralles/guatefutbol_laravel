@@ -134,6 +134,8 @@
 		@if($configuracion->parametro3 && $partido->estado != 3)
 			segundos = {{$configuracion->parametro1}};
  			actualizar();
+        @else
+            $('#refresh').hide();
 		@endif
 
         $('.previa').addClass('active');

@@ -58,9 +58,6 @@
         </div>
     </div>
 </div>
-@if($configuracion->parametro3 && $partido->estado != 3)
-	<h2 style="margin-top: 10px; float:right"><i class="fa fa-refresh"></i> <span id="txtActualizar"></span></h2>
-@endif
 @endsection
 @section('js')
 
@@ -70,6 +67,8 @@
 		@if($configuracion->parametro3 && $partido->estado != 3)
 			segundos = {{$configuracion->parametro1}};
  			actualizar();
+        @else
+            $('#refresh').hide();
 		@endif
 
         $('.narracion').addClass('active');
