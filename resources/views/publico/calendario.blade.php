@@ -137,9 +137,11 @@
 
 		$('select, input').on('change', function () {
 
+			var campeonato = $('#campeonato').val();
+			if(campeonato == '') campeonato = 0;
 			check = $('input').prop('checked') ? 1 : 0;
 			
-          	var url = '{{route("inicio")}}/calendario/{{$campeonato->liga_id}}/'+$('#campeonato').val()+'/'+ check;
+          	var url = '{{route("inicio")}}/calendario/{{$campeonato->liga_id}}/'+campeonato+'/'+ check;
           	if (url) { // require a URL
             	window.location = url; // redirect
           	}
