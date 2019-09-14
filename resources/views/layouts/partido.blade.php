@@ -22,9 +22,9 @@
         #refresh
         {
             position: absolute;
-            top: 0px;
+            top: -5px;
             right: 30px;
-            color: white;
+            color: black;
             z-index: 10;
         }
     </style>
@@ -36,7 +36,6 @@
         <div id="page-wrapper">
             <div class="page-content">
                 <div class="dir-result">
-                    <h2 id="refresh"><i class="fas fa-sync"></i> <span id="txtActualizar"></span></h2>
                     <div class="container">
                         <div class="eq-local">
                             <a class="nom-equip" href="#">
@@ -71,6 +70,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="menu-partido">
+                            <h2 id="refresh"><i class="fas fa-sync"></i> <span id="txtActualizar"></span></h2>
                             <div class="container">
                                 <ul>
                                     <li class="previa">
