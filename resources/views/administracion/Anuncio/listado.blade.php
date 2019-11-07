@@ -10,6 +10,7 @@
 	<table id="table" class="table table-bordered">
 		<thead>
 			<tr>
+				<th></th>
                 <th>PANTALLA APP</th>
                 <th>ANUNCIANTE</th>
                 <th>NOMBRE ANUNCIANTE</th>
@@ -19,12 +20,16 @@
                 <th>IMAGEN</th>
                 <th>LINK</th>
                 <th>ESTADO</th>
-				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($anuncios as $anuncio)
 			<tr>
+				<td>
+					<a href="{{route('editar_anuncio',$anuncio->id)}}" class="btn btn-warning btn-flat btn-xs">
+						Editar
+					</a>
+				</td>
                 <td>{{$anuncio->descripcion_pantalla_app}}</td>
                 <td>{{$anuncio->descripcion_anunciante}}</td>
                 <td>{{$anuncio->nombre_anunciante}}</td>
@@ -34,11 +39,6 @@
                 <td><img src="{{$anuncio->imagen}}" style="width: 25px; height: 25px"></td>
                 <td>{{$anuncio->link}}</td>
                 <td>{{$anuncio->descripcion_estado}}</td>
-				<td>
-					<a href="{{route('editar_anuncio',$anuncio->id)}}" class="btn btn-warning btn-flat btn-xs">
-						Editar
-					</a>
-				</td>
 			</tr>
 			@endforeach
 		</tbody>
