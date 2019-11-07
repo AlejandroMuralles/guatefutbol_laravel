@@ -37,7 +37,7 @@ class FacebookController extends BaseController {
  			'app_id' => env('FB_API_KEY'),
          	'app_secret' => env('FB_API_SECRET'),
 			'allowSignedRequest' => false,
-			'default_graph_version' => '2.11',
+			'default_graph_version' => env('FB_GRAPH_VERSION'),
     	);
 
     	$facebook = new Facebook($config);
