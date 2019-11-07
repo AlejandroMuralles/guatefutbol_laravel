@@ -38,8 +38,8 @@ return [
     'facebook' => [
         'client_id'     => env('FB_API_KEY'),
         'client_secret' => env('FB_API_SECRET'),
-        'redirect'      => 'https://gfs.guatefutbol.com/account/facebook',
-        //'redirect'      => 'http://localhost/sistemas/guatefutbol/account/facebook',
+        //'redirect'      => 'https://gfs.guatefutbol.com/account/facebook',
+        'redirect'      => 'http://localhost/sistemas/guatefutbol/account/facebook',
     ],
 
     'twitter' => [
