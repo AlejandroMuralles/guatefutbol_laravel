@@ -592,16 +592,17 @@ class EventoPartidoManager extends BaseManager
 	public function postFacebook($mensaje)
 	{
 		try{
-				$config = array(
-		 					'app_id' => env('FB_API_KEY'),
-		         	'app_secret' => env('FB_API_SECRET'),
-		        	'allowSignedRequest' => false
-	    	);
+			$config = array(
+					'app_id' => env('FB_API_KEY'),
+					'app_secret' => env('FB_API_SECRET'),
+					'allowSignedRequest' => false,
+					'default_graph_version' => env('FB_GRAPH_VERSION'),
+			);
 
 	    	$facebook = new Facebook($config);
-				$fanPageId = env('FB_FANPAGE_ID');
-				$accessToken = \Session::get('access_token');
-				$data['message'] = $mensaje;
+			$fanPageId = env('FB_FANPAGE_ID');
+			$accessToken = \Session::get('access_token');
+			$data['message'] = $mensaje;
     		$post_url = '/'.$fanPageId.'/feed';
     		$facebook->post($post_url, $data, $accessToken);
     		\Session::flash('fb-success', 'Se posteó en facebook correctamente.');
