@@ -964,5 +964,31 @@ class RestController extends BaseController {
 		return $nuevafecha;
 	}
 
+	function wordpressPosts($page)
+	{
+		$url = 'https://www.guatefutbol.com/wp-json/wp/v2/posts?page='.$page;
+		try{
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_REFERER, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            //curl_setopt($ch, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+            //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            //curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+            //curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+            $exe  = curl_exec($ch);
+			
+			dd(curl_error($ch));
+			curl_close($ch);
+			
+            return json_decode($exe);
+        }
+        catch(\Exception $ex)
+        {
+			dd($ex);
+            return ['resultado' =>false, 'mensaje'=>'No se pudo obtener los servicios.','datos'=>['excepcion'=>$ex->getMessage()]];
+        }
+	}
+
 
 }

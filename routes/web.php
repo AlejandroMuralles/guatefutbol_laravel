@@ -252,6 +252,7 @@ Route::get('rest/calendario/{ligaId}/{campeonatoid}/{completo}', ['uses' => 'Res
 Route::get('rest/eventos/{partidoId}', ['uses' => 'RestController@eventos']);
 Route::get('rest/en-vivo/{partidoId}', ['uses' => 'RestController@enVivo']);
 Route::get('rest/alineaciones/{partidoId}', ['uses' => 'RestController@alineaciones']);
+Route::get('rest/wordpress-posts/{page}', ['uses' => 'RestController@wordpressPosts']);
 
 Route::get('rest/equipos/{ligaId}/{campeonatoId}', ['uses' => 'RestController@equipos']);
 Route::get('rest/plantilla/{ligaId}/{campeonatoId}/{equipoId}', ['uses' => 'RestController@plantilla']);
