@@ -967,6 +967,7 @@ class RestController extends BaseController {
 	function wordpressPosts($page)
 	{
 		$url = 'https://www.guatefutbol.com/wp-json/wp/v2/posts?page='.$page;
+		//$url = 'https://www.futsal502.com/wp-json/wp/v2/posts?page='.$page;
 		try{
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -980,11 +981,23 @@ class RestController extends BaseController {
 			
 			curl_close($ch);
 			
-            return json_decode($exe);
+			$json = json_decode($exe);
+			$articulos = [];
+			foreach($json as $j)
+			{
+				$a['id'] = $j->id;
+				$a['link'] = $j->link;
+				$a['titulo'] = $j->title->rendered;
+				$a['title']['rendered'] = $j->title->rendered;
+				$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
+				$a['image'] = $j->jetpack_featured_media_url;
+				$a['date'] = $j->date;
+				$articulos[] = $a;
+			}
+			return $articulos;
         }
         catch(\Exception $ex)
         {
-			dd($ex);
             return ['resultado' =>false, 'mensaje'=>'No se pudo obtener los servicios.','datos'=>['excepcion'=>$ex->getMessage()]];
         }
 	}
