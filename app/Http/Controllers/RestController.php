@@ -989,7 +989,8 @@ class RestController extends BaseController {
 				$a['link'] = $j->link;
 				$a['titulo'] = $j->title->rendered;
 				$a['title']['rendered'] = $j->title->rendered;
-				$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
+				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
+				$a['jetpack_featured_media_url'] = asset('assets/imagenes/fondo_noticias.jpg');
 				$a['image'] = $j->jetpack_featured_media_url;
 				$a['date'] = $j->date;
 				$articulos[] = $a;
