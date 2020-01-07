@@ -986,11 +986,12 @@ class RestController extends BaseController {
 			foreach($json as $j)
 			{
 				$a['id'] = $j->id;
+				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
+				$imagen = $this->getImage($j->id, $j->jetpack_featured_media_url);
 				$a['link'] = $j->link;
 				$a['titulo'] = $j->title->rendered;
 				$a['title']['rendered'] = $j->title->rendered;
-				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
-				$a['jetpack_featured_media_url'] = asset('assets/imagenes/fondo_noticias.jpg');
+				$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
 				$a['image'] = $j->jetpack_featured_media_url;
 				$a['date'] = $j->date;
 				$articulos[] = $a;
@@ -1001,6 +1002,16 @@ class RestController extends BaseController {
         {
             return ['resultado' =>false, 'mensaje'=>'No se pudo obtener los servicios.','datos'=>['excepcion'=>$ex->getMessage()]];
         }
+	}
+
+	function getImage($id, $url)
+	{
+		$info = pathinfo($url);
+		$name = 'noticias/'.$id.'.'.$info['extension'];
+		if(file_exists($name)) return $name;
+		$contents = file_get_contents($url);
+		\Storage::put($name, $contents);
+		return $name;
 	}
 
 
