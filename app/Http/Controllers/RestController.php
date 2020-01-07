@@ -1010,7 +1010,7 @@ class RestController extends BaseController {
 		$name = 'noticias/'.$id.'.'.$info['extension'];
 		if(file_exists($name)) return $name;
 		$contents = file_get_contents($url);
-		\Storage::put($name, $contents);
+		\Storage::disk('public')->put($name, $contents);
 		return $name;
 	}
 
