@@ -575,14 +575,16 @@ class RestController extends BaseController {
 
 					$p = new \App\App\Entities\Partido;
 					$p->id = $partido->id;
-					$p->equipo_local = $partido->equipo_local;
-					$p->equipo_visita = $partido->equipo_visita;
+					$p->equipo_local = $this->getObjetoEquipo($partido->equipo_local);
+					$p->equipo_visita = $this->getObjetoEquipo($partido->equipo_visita);
 					$p->goles_local = $partido->goles_local;
 					$p->goles_visita = $partido->goles_visita;
+					$p->fecha_real = $partido->fecha;
 					$p->fecha = date('d/m',strtotime($partido->fecha));
 					$p->hora = date('H:i',strtotime($partido->fecha));
 					$p->estadio = $partido->estadio->nombre;
 					$p->estado = $partido->descripcion_estado;
+					$p->estado_real = $partido->estado;
 
 					$jornadas[$partido->jornada_id]['partidos'][] = $p;
 				}
@@ -596,7 +598,23 @@ class RestController extends BaseController {
 					$jj->partidos = $jornada['partidos'];
 					$j[] = $jj;
 				}
+				
 				$data['jornadas'] = $j;
+				//encontrando jornada actual
+				$jornadaActual = 0;
+				foreach($j as $index => $value)
+				{
+					$jornadaEncontrada = false;
+					foreach($value->partidos as $partido)
+					{
+						$fechaPartido = date('Y-m-d', strtotime($partido->fecha_real));
+						$hoy = date('Y-m-d');
+						if($partido->estado_real == 2 || $partido->estado_real == 3) $jornadaActual = $index;
+						if($fechaPartido == $hoy) { $jornadaActual = $index; $jornadaEncontrada = true; }
+					}
+					if($jornadaEncontrada) break;
+				}
+
 
 				$c = new \App\App\Entities\Campeonato;
 				$c->id = $campeonato->id;
@@ -605,7 +623,8 @@ class RestController extends BaseController {
                 /*Anuncios*/
                 $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-                $data['anuncio'] = $anuncios['anuncio'];
+				$data['anuncio'] = $anuncios['anuncio'];
+				$data['jornada_actual'] = $jornadaActual;
 
 				return $data;
 		});
@@ -1012,6 +1031,16 @@ class RestController extends BaseController {
 		$contents = file_get_contents($url);
 		\Storage::disk('public')->put($name, $contents);
 		return $name;
+	}
+
+	public function getObjetoEquipo($equipo)
+	{
+		$e = new stdClass();
+		$e->id = $equipo->id;
+		$e->nombre = $equipo->nombre;
+		$e->nombre_corto = $equipo->nombre_corto;
+		$e->logo = $equipo->logo;
+		return $e;
 	}
 
 
