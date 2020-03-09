@@ -159,7 +159,8 @@ class AdminController extends BaseController {
 
 	    foreach($alineaciones as $alineacion)
 	    {
-	    	$apariciones++;
+			if($alineacion->minutos_jugados > 0)
+	    		$apariciones++;
 	    	$alineacion->AP = $apariciones;
 	    	$minutosJugados += $alineacion->minutos_jugados;
 	    	$campeonato = $alineacion->partido->campeonato->nombre;
@@ -179,10 +180,10 @@ class AdminController extends BaseController {
 			    $totalesEquipos[$alineacion->equipo_id]->minutos_jugados = 0;
 			}
 
-
 	    	$totalesEquipos[$alineacion->equipo_id]->equipo = $alineacion->equipo;
-	    	$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;
-	    	$totalesEquipos[$alineacion->equipo_id]->apariciones++;
+			$totalesEquipos[$alineacion->equipo_id]->minutos_jugados+= $alineacion->minutos_jugados;
+			if($alineacion->minutos_jugados > 0)
+	    		$totalesEquipos[$alineacion->equipo_id]->apariciones++;
 
 	    	if($alineacion->equipo_id == $alineacion->partido->equipo_local_id){
 	    		$alineacion->rival = $alineacion->partido->equipo_visita;

@@ -125,7 +125,10 @@ class PlantillaRepo extends BaseRepo{
 					if($evento->evento_id == 6 || $evento->evento_id == 8) $goles++;
 					if($evento->evento_id == 10) $amarillas++;
 					if($evento->evento_id == 11){
-						if($evento->doble_amarilla){ $doblesamarillas++; $amarillas--; }
+						if($evento->doble_amarilla){ 
+							$doblesamarillas++; 
+							$amarillas--; 
+						}
 						else $rojas++;
 					}
 				}
@@ -134,6 +137,7 @@ class PlantillaRepo extends BaseRepo{
 			$jugador->amarillas = $amarillas;
 			$jugador->rojas = $rojas;
 			$jugador->doblesamarillas = $doblesamarillas;
+			//if($jugador->id == 1881) dd($jugador);
 
 			if(strtotime($campeonato->fecha_fin) > time() ){
 				$jugador->edad = intval( (time() - strtotime($jugador->fecha_nacimiento))/60/60/24/365 );
