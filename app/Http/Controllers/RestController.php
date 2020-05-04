@@ -1006,12 +1006,11 @@ class RestController extends BaseController {
 			{
 				$a['id'] = $j->id;
 				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
-				if(isset($j->jetpack_featured_media_url))
-				{
+				try{
 					$imagen = $this->getImage($j->id, $j->jetpack_featured_media_url);
 					$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
 				}
-				else
+				catch(\Exception $ex)
 				{
 					$a['jetpack_featured_media_url'] = asset('assets/imagenes/fondo_noticias.png');
 				}
