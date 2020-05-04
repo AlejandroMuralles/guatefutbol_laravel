@@ -1009,15 +1009,16 @@ class RestController extends BaseController {
 				try{
 					$imagen = $this->getImage($j->id, $j->jetpack_featured_media_url);
 					$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
+					$a['image'] = $j->jetpack_featured_media_url;
 				}
 				catch(\Exception $ex)
 				{
 					$a['jetpack_featured_media_url'] = asset('assets/imagenes/fondo_noticias.png');
+					$a['image'] = asset('assets/imagenes/fondo_noticias.png');
 				}
 				$a['link'] = $j->link;
 				$a['titulo'] = $j->title->rendered;
 				$a['title']['rendered'] = $j->title->rendered;
-				$a['image'] = $j->jetpack_featured_media_url;
 				$a['date'] = $j->date;
 				$articulos[] = $a;
 			}
