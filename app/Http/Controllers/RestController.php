@@ -1011,6 +1011,7 @@ class RestController extends BaseController {
 					$imagen = $this->getImage($j->id,$url);
 					$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
 					$a['image'] = $j->jetpack_featured_media_url;
+					$a['jetpack_featured_media_url'] = $url;
 				}
 				catch(\Exception $ex)
 				{
@@ -1034,6 +1035,7 @@ class RestController extends BaseController {
 	function getImage($id, $url)
 	{
 		$info = pathinfo($url);
+		//dd($info);
 		$name = 'noticias/'.$id.'.'.$info['extension'];
 		if(file_exists($name)) return $name;
 		$contents = file_get_contents($url);
