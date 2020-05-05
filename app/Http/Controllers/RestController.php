@@ -1008,8 +1008,8 @@ class RestController extends BaseController {
 				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
 				try{
 					$url = str_replace('\/','/',$j->jetpack_featured_media_url);
-					$imagen = $this->getImage($j->id,$url);
-					$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
+					//$imagen = $this->getImage($j->id,$url);
+					//$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
 					$a['image'] = $j->jetpack_featured_media_url;
 					$a['jetpack_featured_media_url'] = $url;
 				}
