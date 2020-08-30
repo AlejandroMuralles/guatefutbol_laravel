@@ -8,7 +8,7 @@ use Facebook\Facebook as Facebook;
 class FacebookController extends BaseController {
 
 	public function facebook_redirect() {
-		return \Socialize::with('facebook')->scopes(['manage_pages','publish_pages'])->redirect();
+		return \Socialize::with('facebook')->scopes(['pages_manage_posts'])->redirect();
 		//dd('hola facebook redirect');
 		//return Socialize::with('facebook')->redirect();
 	}
