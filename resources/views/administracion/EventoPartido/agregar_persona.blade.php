@@ -7,7 +7,10 @@
 	{!! Form::open(['route' => array('agregar_evento_persona',$partido->id,$evento->id,$equipo->id), 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
 
 		{!! Field::checkbox('facebook',null,['checked']) !!}
-		{!! Field::checkbox('twitter', null, null, null, $twitterChecked) !!}
+		<div class="form-group">
+			<label for="twitter">Twitter</label>
+			<input name="twitter" type="checkbox" checked>
+		</div>
 	
 		{!! Field::number('minuto', null, ['data-required'=>'true']) !!}
 
