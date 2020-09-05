@@ -274,7 +274,7 @@ Route::post('rest/users-app/desactivar-notificaciones', ['as' => 'desactivar_not
 
 
 // Redirect to github to authenticate
-Route::get('facebook', 'FacebookController@facebook_redirect');
+Route::get('facebook', 'FacebookController@facebook_redirect')->name('login_facebook');
 // Get back to redirect url
 Route::get('account/facebook', 'FacebookController@facebook');
 

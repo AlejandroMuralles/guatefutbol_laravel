@@ -43,18 +43,15 @@
 	@if(!is_null($partido))
 	<div class="row">
 		<div class="col-lg-12">
-		<a href="{!!URL::to('facebook')!!}" class="btn btn-primary" >
-			<i class="fa fa-facebook fa-2x"></i> 
-			@if(!is_null(Auth::user()->facebook_user))
-			<span style="vertical-align: super"> Conectado como: {{Auth::user()->facebook_user}}</span>
-			@endif
-		</a>
-		<!--<a href="{!!URL::to('twitter')!!}" class="btn btn-primary" >
-			<i class="fa fa-twitter fa-2x"></i>
-			@if(!is_null(Auth::user()->twitter_user))
-			<span style="vertical-align: super"> Conectado como: {{Auth::user()->twitter_user}}</span>
-			@endif
-		</a>-->
+			{!! Form::open(['route' => array('login_facebook'), 'method' => 'POST', 'id' => 'form', 'class'=>'validate-form']) !!}
+			<input type="hidden" name="ruta_redirect" value="{{route('monitorear_jornada',[$ligaId,$campeonatoId,$jornadaId,$partidoId,$equipoId])}}">
+			<button type="submit" class="btn btn-primary" >
+				<i class="fab fa-facebook fa-2x"></i> 
+				@if(!is_null(Auth::user()->facebook_user))
+				<span style="vertical-align: super"> Conectado como: {{Auth::user()->facebook_user}}</span>
+				@endif
+			</a>
+			{!! Form::close() !!}
 		</div>
 		<div class="col-lg-12">
 			<h2 style="border-top: 3px solid black; border-bottom: 3px solid black; padding: 5px">
