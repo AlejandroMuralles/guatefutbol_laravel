@@ -171,7 +171,7 @@ class PartidoController extends BaseController {
 		$partido = $this->partidoRepo->find($partidoId);
 		$eventos = $this->eventoRepo->all('id');
 		return view('administracion/Partido/monitorear_jornada', compact('partido','eventos','jornadas','ligas','campeonatos','partidos',
-					'ligaId','campeonatoId','jornadaId','equipoId'));
+					'ligaId','campeonatoId','jornadaId','equipoId','partidoId'));
 	}
 
 
