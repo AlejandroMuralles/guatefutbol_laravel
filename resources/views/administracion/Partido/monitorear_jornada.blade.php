@@ -46,7 +46,7 @@
 			{!! Form::open(['route' => array('login_facebook'), 'method' => 'POST', 'id' => 'form', 'class'=>'validate-form']) !!}
 			<input type="hidden" name="ruta_redirect" value="{{route('monitorear_jornada',[$ligaId,$campeonatoId,$jornadaId,$partidoId,$equipoId])}}">
 			<button type="submit" class="btn btn-primary" >
-				<i class="fab fa-facebook fa-2x"></i> 
+				<i class="fa fa-facebook fa-2x"></i> 
 				@if(!is_null(Auth::user()->facebook_user))
 				<span style="vertical-align: super"> Conectado como: {{Auth::user()->facebook_user}}</span>
 				@endif
