@@ -187,30 +187,30 @@ class AdminController extends BaseController {
 
 	    	if($alineacion->equipo_id == $alineacion->partido->equipo_local_id){
 	    		$alineacion->rival = $alineacion->partido->equipo_visita;
-	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita){
+	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0){
 	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
 	    		}
-	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
+	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0) {
 	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
-	    		else {
+	    		else if($alineacion->partido->goles_local == $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0) {
 	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
 	    	}
 	    	else{
 	    		$alineacion->rival = $alineacion->partido->equipo_local;
-	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita) {
+	    		if($alineacion->partido->goles_local > $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0) {
 	    			$totalesEquipos[$alineacion->equipo_id]->perdidos++;
 	    			$perdidos++;
 	    		}
-	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita) {
+	    		else if($alineacion->partido->goles_local < $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0) {
 	    			$totalesEquipos[$alineacion->equipo_id]->ganados++;
 	    			$ganados++;
 	    		}
-	    		else {
+	    		else if($alineacion->partido->goles_local == $alineacion->partido->goles_visita && $alineacion->minutos_jugados > 0) {
 	    			$totalesEquipos[$alineacion->equipo_id]->empatados++;
 	    			$empatados++;
 	    		}
