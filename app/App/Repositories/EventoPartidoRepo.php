@@ -157,6 +157,14 @@ class EventoPartidoRepo extends BaseRepo{
 								->orderBy('minuto')->get();
 	}
 
+	public function getAllByEventoByPartidosByPersona($eventos, $partidosIds, $jugadorId)
+	{
+		return EventoPartido::whereIn('evento_id',$eventos)
+								->whereIn('partido_id',$partidosIds)
+								->whereRaw('(jugador1_id = '.$jugadorId.' or jugador2_id = '.$jugadorId.')')
+								->orderBy('minuto')->get();
+	}
+
 	public function getJugadoresEnCampo($partidoId, $equipoId)
 	{
 		$jugadoresExpulsados = \DB::table('evento_partido')

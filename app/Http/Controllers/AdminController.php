@@ -155,7 +155,10 @@ class AdminController extends BaseController {
 	    $minutosJugados = 0;
 	    $totales = new stdClass();
 
-	    $totalesEquipos = [];
+		$totalesEquipos = [];
+		
+		$partidosIds = $alineaciones->pluck('partido_id')->toArray();
+		$eventos = $this->eventoPartidoRepo->getAllByEventoByPartidosByPersona([6,7,8,10,11], $partidosIds, $jugadorId);
 
 	    foreach($alineaciones as $alineacion)
 	    {
@@ -218,39 +221,42 @@ class AdminController extends BaseController {
 
 	    	$rival = $alineacion->rival->nombre;
 
-	    	$eventos = $this->eventoPartidoRepo->getAllByEventoByPartidoByPersona([6,7,8,10,11], $alineacion->partido_id, $alineacion->persona_id);
-
 	    	$alineacion->goles = 0;
 	    	$alineacion->amarillas = 0;
 	    	$alineacion->doblesamarillas = 0;
 	    	$alineacion->rojas = 0;
 	    	foreach($eventos as $evento)
 	    	{
-	    		if($evento->evento_id == 6 || $evento->evento_id == 8){
-	    			$goles++;
-	    			$alineacion->goles++;
-	    			$totalesEquipos[$alineacion->equipo_id]->goles++;
-	    		}
-	    		if($evento->evento_id == 10){
-	    			$amarillas++;
-	    			$alineacion->amarillas++;
-	    			$totalesEquipos[$alineacion->equipo_id]->amarillas++;
-	    		}
-	    		if($evento->evento_id == 11)
-	    			if($evento->doble_amarilla == 1) {
-	    				$doblesamarillas++;
-	    				$alineacion->doblesamarillas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;
-
-	    				$alineacion->amarillas--;
-						$totalesEquipos[$alineacion->equipo_id]->amarillas--;
-						$amarillas--;
-	    			}
-	    			else{
-	    				$rojas++;
-	    				$alineacion->rojas++;
-	    				$totalesEquipos[$alineacion->equipo_id]->rojas++;
-	    			}
+				if($evento->partido_id == $alineacion->partido_id)
+				{
+					if($evento->evento_id == 6 || $evento->evento_id == 8){
+						$goles++;
+						$alineacion->goles++;
+						$totalesEquipos[$alineacion->equipo_id]->goles++;
+					}
+					if($evento->evento_id == 10){
+						$amarillas++;
+						$alineacion->amarillas++;
+						$totalesEquipos[$alineacion->equipo_id]->amarillas++;
+					}
+					if($evento->evento_id == 11)
+					{
+						if($evento->doble_amarilla == 1) {
+							$doblesamarillas++;
+							$alineacion->doblesamarillas++;
+							$totalesEquipos[$alineacion->equipo_id]->doblesamarillas++;
+	
+							$alineacion->amarillas--;
+							$totalesEquipos[$alineacion->equipo_id]->amarillas--;
+							$amarillas--;
+						}
+						else{
+							$rojas++;
+							$alineacion->rojas++;
+							$totalesEquipos[$alineacion->equipo_id]->rojas++;
+						}
+					}
+				}
 	    	}
 	    	$alineacion->goles_acumulados = $goles;
 
