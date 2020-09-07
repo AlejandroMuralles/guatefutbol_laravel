@@ -195,7 +195,7 @@
     <div class="row">
         <div class="col-lg-12">
             @if($jornada)
-            <div class="imagen">
+            <div id="imagen" class="imagen">
                 <div class="transparente"></div>
                 <div class="cuadrado"></div>
                 <div class="logos">
@@ -240,12 +240,18 @@
             @endif
         </div>
     </div>
+    <div id="imagen2"></div>
 @endsection
 @section('js')
 
 <script>
 	
 	$(function(){
+
+        html2canvas(document.querySelector("#imagen")).then(canvas => {
+            document.querySelector('#imagen2').appendChild(canvas);
+            $('#imagen').hide();
+        });
 
 		var equipoId = 0;
 

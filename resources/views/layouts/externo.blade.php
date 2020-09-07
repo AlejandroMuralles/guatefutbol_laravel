@@ -15,6 +15,7 @@
 @yield('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{ asset('assets/admin/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/html2canvas.min.js') }}"></script>
 @yield('js')
 </body>
 </html>
