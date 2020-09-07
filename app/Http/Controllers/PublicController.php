@@ -20,7 +20,8 @@ use App\App\Repositories\AlineacionRepo;
 use App\App\ExtraEntities\FichaPartido;
 use App\App\ExtraEntities\RachaEquipo;
 use App\App\ExtraEntities\AlineacionPartido;
-
+use App\App\Repositories\JornadaRepo;
+use App\App\Repositories\LigaRepo;
 use View, Cache;
 
 class PublicController extends BaseController {
@@ -39,11 +40,13 @@ class PublicController extends BaseController {
 	protected $equipoRepo;
 	protected $historialCampeonRepo;
 	protected $alineacionRepo;
+	protected $ligaRepo;
+	protected $jornadaRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		EstadioRepo $estadioRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, PorteroRepo $porteroRepo, PlantillaRepo $plantillaRepo,EquipoRepo $equipoRepo, 
-		HistorialCampeonRepo $historialCampeonRepo, AlineacionRepo $alineacionRepo)
+		HistorialCampeonRepo $historialCampeonRepo, AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, JornadaRepo $jornadaRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -59,6 +62,8 @@ class PublicController extends BaseController {
 		$this->equipoRepo = $equipoRepo;
 		$this->historialCampeonRepo = $historialCampeonRepo;
 		$this->alineacionRepo = $alineacionRepo;
+		$this->ligaRepo = $ligaRepo;
+		$this->jornadaRepo = $jornadaRepo;
 		View::composer('layouts.publico', 'App\Http\Controllers\PublicMenuController');
 	}
 
@@ -965,6 +970,37 @@ class PublicController extends BaseController {
 		});
 
 		return View::make('publico/partidos_scroll',compact('partidos'));
+	}
+
+	public function imagenJornada($ligaId, $campeonatoId, $jornadaId, $tipo='R')
+	{
+		$ligas = $this->ligaRepo->lists('nombre','id');
+		$jornadas = $this->jornadaRepo->lists('nombre','id');
+		if($campeonatoId == 0)
+		{
+			$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			$campeonatoId = $campeonato->id;
+		}
+		else
+		{
+			$campeonato = $this->campeonatoRepo->find($campeonatoId);
+		}
+		$jornada = $this->jornadaRepo->find($jornadaId);
+		$campeonatos = $this->campeonatoRepo->getByLiga($ligaId)->pluck('nombre','id')->toArray();
+		if($tipo == 'R'){
+			$partidos = $this->partidoRepo->getByJornada($campeonatoId, $jornadaId);
+			return view()->make('publico/imagen_resultados_jornada', compact('jornada','jornadas','ligas','campeonatos','partidos','ligaId','campeonatoId','jornadaId','campeonato','tipo'));
+		}
+		elseif($tipo == 'P'){
+			$partidos = $this->partidoRepo->getByJornadaByEstado($campeonatoId, $jornadaId, ['P','R']);
+			return view()->make('publico/imagen_jornada', compact('jornada','jornadas','ligas','campeonatos','partidos','ligaId','campeonatoId','jornadaId','campeonato','tipo'));
+		}
+		else
+		{
+			$partidos = $this->partidoRepo->getByJornada($campeonatoId, $jornadaId);
+			return view()->make('publico/imagen_jornada', compact('jornada','jornadas','ligas','campeonatos','partidos','ligaId','campeonatoId','jornadaId','campeonato','tipo'));
+		}
+
 	}
 
 

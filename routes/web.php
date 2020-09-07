@@ -221,6 +221,7 @@ Route::get('en-vivo/{partidoId}', ['as' => 'en_vivo', 'uses' => 'PublicControlle
 Route::get('previa/{partidoId}', ['as' => 'previa', 'uses' => 'PublicController@previa']);
 Route::get('alineaciones/{partidoId}', ['as' => 'alineaciones', 'uses' => 'PublicController@alineaciones']);
 Route::get('narracion/{partidoId}', ['as' => 'narracion', 'uses' => 'PublicController@narracion']);
+Route::get('imagen-jornada/{ligaId}/{campeonatoId}/{jornadaId}/{tipo}', ['as' => 'imagen_jornada', 'uses' => 'PublicController@imagenJornada']);
 
 Route::get('mini-posiciones/{ligaId}/{campeonatoId}', ['as' => 'mini_posiciones', 'uses' => 'PublicController@miniPosiciones']);
 Route::get('mini-calendario/{ligaId}/{campeonatoId}/{completo}', ['as' => 'mini_calendario', 'uses' => 'PublicController@miniCalendario']);

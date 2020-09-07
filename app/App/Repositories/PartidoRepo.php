@@ -157,6 +157,17 @@ class PartidoRepo extends BaseRepo{
 						->get();
 	}
 
+	public function getByJornadaByEstado($campeonatoId, $jornadaId, $estados)
+	{
+		return Partido::where('campeonato_id','=',$campeonatoId)
+						->where('jornada_id','=',$jornadaId)
+						->whereIn('estado',$estados)
+						->with('equipo_local')
+						->with('equipo_visita')
+						->orderBy('fecha')
+						->get();
+	}
+
 	public function getOtrosByJornada($campeonatoId, $jornadaId,$partidoId)
 	{
 		return Partido::where('campeonato_id','=',$campeonatoId)
