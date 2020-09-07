@@ -241,17 +241,13 @@
         </div>
     </div>
     <div id="imagen2"></div>
+    <a href="#" onclick="generarImagen(); return false;" class="btn btn-primary">Generar Imagen</a>
 @endsection
 @section('js')
 
 <script>
 	
 	$(function(){
-
-        html2canvas(document.querySelector("#imagen")).then(canvas => {
-            document.querySelector('#imagen2').appendChild(canvas);
-            $('#imagen').hide();
-        });
 
 		var equipoId = 0;
 
@@ -271,6 +267,13 @@
 		});
 
 	})
+
+    function generarImagen(){
+        html2canvas(document.querySelector("#imagen")).then(canvas => {
+            document.querySelector('#imagen2').appendChild(canvas);
+            $('#imagen').hide();
+        });
+    }
 
 </script>
 
