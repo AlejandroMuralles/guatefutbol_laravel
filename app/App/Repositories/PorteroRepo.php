@@ -48,9 +48,9 @@ class PorteroRepo {
 			if($numeroJornada != 0){
 				$porcentaje = ( $partidosJugados * 100 ) / $numeroJornada ;
 				$promedioGoles = $portero->goles / $partidosJugados;
-				$portero->partidosJugados = number_format($partidosJugados,2);
-				$portero->porcentaje = number_format($porcentaje,2);
-				$portero->promedio = number_format($promedioGoles,2);
+				$portero->partidosJugados = round($partidosJugados,2);
+				$portero->porcentaje = round($porcentaje,2);
+				$portero->promedio = round($promedioGoles,2);
 			}
 		}
 		$size = sizeof($porteros);
