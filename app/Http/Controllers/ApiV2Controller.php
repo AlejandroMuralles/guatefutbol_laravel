@@ -111,6 +111,58 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
+	public function acumulada($ligaId, $campeonatoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.acumulada'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
+				if($campeonatoId == 0)
+				{
+					$campeonato = $this->campeonatoRepo->getActual($ligaId);
+				}
+				else
+				{
+					$campeonato = $this->campeonatoRepo->find($campeonatoId);
+				}
+                $ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
+                if(count($ta) > 0)
+                {
+                    $partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
+                    $partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
+                    $partidos = $partidosC1->merge($partidosC2);
+                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+                    $posicionesDB = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
+                }
+                else
+                {
+                    $partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+                    $posicionesDB = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
+                }
+                $data['posiciones'] = [];
+				foreach($posicionesDB as $posicion)
+				{
+					$p['equipo'] = $posicion->equipo->nombre_corto;
+					$p['logo_equipo'] = $posicion->equipo->logo;
+					$p['POS'] = $posicion->POS;
+					$p['JJ'] = $posicion->JJ;
+					$p['JG'] = $posicion->JG;
+					$p['JE'] = $posicion->JE;
+					$p['JP'] = $posicion->JP;
+					$p['GF'] = $posicion->GF;
+					$p['GC'] = $posicion->GC;
+					$p['DIF'] = $posicion->DIF;
+					$p['PTS'] = $posicion->PTS;
+					$data['posiciones'][] = $p;
+				}
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(9);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
+				return $data;
+		});
+		return json_encode($data);
+	}
+
 	public function porteros($ligaId,$campeonatoId)
 	{
 		$minutos = 1;
@@ -634,43 +686,7 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
-	public function acumulada($ligaId, $campeonatoId)
-	{
-		$minutos = 1;
-		$data = Cache::remember('rest.acumulada'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
-				if($campeonatoId == 0)
-				{
-					$campeonato = $this->campeonatoRepo->getActual($ligaId);
-				}
-				else
-				{
-					$campeonato = $this->campeonatoRepo->find($campeonatoId);
-				}
-                $ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
-                if(count($ta) > 0)
-                {
-                    $partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
-                    $partidosC2 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato2_id, ['R'], [2,3]);
-                    $partidos = $partidosC1->merge($partidosC2);
-                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-                    $posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
-                }
-                else
-                {
-                    $partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
-                    $equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
-                    $posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
-                }
-                $data['posiciones'] = $posiciones;
-                /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(9);
-                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-                $data['anuncio'] = $anuncios['anuncio'];
-				return $data;
-		});
-        $posiciones = $data['posiciones'];
-		return json_encode($posiciones);
-	}
+	
 
 	public function campeonatosApp()
 	{
