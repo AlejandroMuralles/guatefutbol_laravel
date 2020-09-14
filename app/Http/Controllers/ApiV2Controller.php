@@ -337,7 +337,7 @@ class ApiV2Controller extends BaseController {
 
 	public function jornadas($ligaId, $campeonatoId)
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.jornadas'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
 			if($campeonatoId == 0)
 			{
@@ -349,10 +349,16 @@ class ApiV2Controller extends BaseController {
 			}
 			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
 			$data['jornadas'] = [];
+			$jornadas = [];
 			foreach($partidos as $partido)
 			{
-				$data['jornadas'][$partido->jornada_id]['id'] = $partido->jornada->id;
-				$data['jornadas'][$partido->jornada_id]['nombre'] = $partido->jornada->nombre;
+				$j['id'] = $partido->jornada->id;
+				$j['nombre'] = $partido->jornada->nombre;
+				$jornadas[$partido->jornada_id] = $j;
+			}
+			foreach($jornadas as $jornada)
+			{
+				$data['jornadas'][] = $jornada;
 			}
 			return $data;
 		});
@@ -361,7 +367,7 @@ class ApiV2Controller extends BaseController {
 
 	public function partidosByJornada($ligaId, $campeonatoId, $jornadaId)
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.partidosByJornada'.$ligaId.'-'.$campeonatoId.'-'.$jornadaId, $minutos, function() use ($ligaId, $campeonatoId,$jornadaId){
 			if($campeonatoId == 0)
 			{
