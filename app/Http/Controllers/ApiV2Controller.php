@@ -376,12 +376,14 @@ class ApiV2Controller extends BaseController {
 			foreach($partidos as $partido)
 			{
 				$fecha = date('Ymd',strtotime($partido->fecha));
-
 				$fechas[$fecha]['fecha'] = date('Y-m-d',strtotime($partido->fecha));
-				$fechas[$fecha]['partidos'][$partido->id]['id'] = $partido->id;
-				$fechas[$fecha]['partidos'][$partido->id]['hora'] = date('H:i',strtotime($partido->fecha));
-				$fechas[$fecha]['partidos'][$partido->id]['equipo_local'] = $partido->equipo_local->nombre_corto;
-				$fechas[$fecha]['partidos'][$partido->id]['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+
+				$p['id'] = $partido->id;
+				$p['hora'] = date('H:i',strtotime($partido->fecha));
+				$p['equipo_local'] = $partido->equipo_local->nombre_corto;
+				$p['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+
+				$fechas[$fecha]['partidos'][] = $p;
 			}
 			$data['fechas_partidos'] = [];
 			foreach($fechas as $fecha)
