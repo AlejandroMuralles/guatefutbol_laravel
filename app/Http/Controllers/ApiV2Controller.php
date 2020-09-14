@@ -335,93 +335,147 @@ class ApiV2Controller extends BaseController {
 
 	}
 
+	public function jornadas($ligaId, $campeonatoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.jornadas'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
+			$data['jornadas'] = [];
+			foreach($partidos as $partido)
+			{
+				$data['jornadas'][$partido->jornada_id]['id'] = $partido->jornada->id;
+				$data['jornadas'][$partido->jornada_id]['nombre'] = $partido->jornada->nombre;
+			}
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+	public function partidosByJornada($ligaId, $campeonatoId, $jornadaId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.partidosByJornada'.$ligaId.'-'.$campeonatoId.'-'.$jornadaId, $minutos, function() use ($ligaId, $campeonatoId,$jornadaId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$partidos = $this->partidoRepo->getByCampeonatoByJornada($campeonato->id, $jornadaId);
+			$data = [];
+			foreach($partidos as $partido)
+			{
+				$fecha = date('Ymd',strtotime($partido->fecha));
+
+				$data['fechas_partidos'][$fecha]['fecha'] = date('Y-m-d',strtotime($partido->fecha));
+				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['id'] = $partido->id;
+				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['hora'] = date('H:i',strtotime($partido->fecha));
+				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['equipo_local'] = $partido->equipo_local->nombre_corto;
+				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+			}
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+
 	public function calendario($ligaId, $campeonatoId, $completo)
 	{
-		$minutos = 1;
-		$data = Cache::remember('rest.calendario'.$ligaId.'-'.$campeonatoId.'-'.$completo, $minutos, function() use ($ligaId, $campeonatoId, $completo){
-				if($campeonatoId == 0)
+		$minutos = 0;
+		$data = Cache::remember('apiV2.calendario'.$ligaId.'-'.$campeonatoId.'-'.$completo, $minutos, function() use ($ligaId, $campeonatoId, $completo){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+
+			if($completo == 0){
+				$configuracion = $this->configuracionRepo->find(1);
+				$diasInicio = $configuracion->parametro1;
+				$diasFin = $configuracion->parametro2;
+
+				$fechaInicio = $this->getFecha($diasInicio . ' day');
+				$fechaFin = $this->getFecha($diasFin . ' day');
+
+				//$fechaInicio = $this->getFecha($configuracion->parametro1) . ' 00:00:00';
+				//$fechaFin = $this->getFecha($configuracion->parametro2) . ' 23:59:59';
+				$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
+			}
+			else
+				$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
+
+			$jornadas = array();
+			foreach($partidos as $partido){
+
+				$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada->nombre;
+
+				$p = new \App\App\Entities\Partido;
+				$p->id = $partido->id;
+				$p->equipo_local = $this->getObjetoEquipo($partido->equipo_local);
+				$p->equipo_visita = $this->getObjetoEquipo($partido->equipo_visita);
+				$p->goles_local = $partido->goles_local;
+				$p->goles_visita = $partido->goles_visita;
+				$p->fecha_real = $partido->fecha;
+				$p->fecha = date('d/m',strtotime($partido->fecha));
+				$p->hora = date('H:i',strtotime($partido->fecha));
+				$p->estadio = $partido->estadio->nombre;
+				$p->estado = $partido->descripcion_estado;
+				$p->estado_real = $partido->estado;
+
+				$jornadas[$partido->jornada_id]['partidos'][] = $p;
+			}
+			//$data['jornadas'] = $jornadas;
+
+			$j = array();
+			foreach($jornadas as $jornada)
+			{
+				$jj = new stdClass();
+				$jj->jornada = $jornada['jornada'];
+				$jj->partidos = $jornada['partidos'];
+				$j[] = $jj;
+			}
+			
+			$data['jornadas'] = $j;
+			//encontrando jornada actual
+			$jornadaActual = 0;
+			foreach($j as $index => $value)
+			{
+				$jornadaEncontrada = false;
+				foreach($value->partidos as $partido)
 				{
-					$campeonato = $this->campeonatoRepo->getActual($ligaId);
+					$fechaPartido = date('Y-m-d', strtotime($partido->fecha_real));
+					$hoy = date('Y-m-d');
+					if($partido->estado_real == 2 || $partido->estado_real == 3) $jornadaActual = $index;
+					if($fechaPartido == $hoy) { $jornadaActual = $index; $jornadaEncontrada = true; }
 				}
-				else
-				{
-					$campeonato = $this->campeonatoRepo->find($campeonatoId);
-				}
-
-				if($completo == 0){
-					$configuracion = $this->configuracionRepo->find(1);
-					$diasInicio = $configuracion->parametro1;
-					$diasFin = $configuracion->parametro2;
-
-					$fechaInicio = $this->getFecha($diasInicio . ' day');
-					$fechaFin = $this->getFecha($diasFin . ' day');
-
-					//$fechaInicio = $this->getFecha($configuracion->parametro1) . ' 00:00:00';
-					//$fechaFin = $this->getFecha($configuracion->parametro2) . ' 23:59:59';
-					$partidos = $this->partidoRepo->getByCampeonatoByFechas($campeonato->id, $fechaInicio, $fechaFin);
-				}
-				else
-					$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
-
-				$jornadas = array();
-				foreach($partidos as $partido){
-
-					$jornadas[$partido->jornada_id]['jornada'] = $partido->jornada->nombre;
-
-					$p = new \App\App\Entities\Partido;
-					$p->id = $partido->id;
-					$p->equipo_local = $this->getObjetoEquipo($partido->equipo_local);
-					$p->equipo_visita = $this->getObjetoEquipo($partido->equipo_visita);
-					$p->goles_local = $partido->goles_local;
-					$p->goles_visita = $partido->goles_visita;
-					$p->fecha_real = $partido->fecha;
-					$p->fecha = date('d/m',strtotime($partido->fecha));
-					$p->hora = date('H:i',strtotime($partido->fecha));
-					$p->estadio = $partido->estadio->nombre;
-					$p->estado = $partido->descripcion_estado;
-					$p->estado_real = $partido->estado;
-
-					$jornadas[$partido->jornada_id]['partidos'][] = $p;
-				}
-				//$data['jornadas'] = $jornadas;
-
-				$j = array();
-				foreach($jornadas as $jornada)
-				{
-					$jj = new stdClass();
-					$jj->jornada = $jornada['jornada'];
-					$jj->partidos = $jornada['partidos'];
-					$j[] = $jj;
-				}
-				
-				$data['jornadas'] = $j;
-				//encontrando jornada actual
-				$jornadaActual = 0;
-				foreach($j as $index => $value)
-				{
-					$jornadaEncontrada = false;
-					foreach($value->partidos as $partido)
-					{
-						$fechaPartido = date('Y-m-d', strtotime($partido->fecha_real));
-						$hoy = date('Y-m-d');
-						if($partido->estado_real == 2 || $partido->estado_real == 3) $jornadaActual = $index;
-						if($fechaPartido == $hoy) { $jornadaActual = $index; $jornadaEncontrada = true; }
-					}
-					if($jornadaEncontrada) break;
-				}
+				if($jornadaEncontrada) break;
+			}
 
 
-				$c = new \App\App\Entities\Campeonato;
-				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-                $data['campeonato'] = $c;
-                /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
-                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-				$data['anuncio'] = $anuncios['anuncio'];
-				$data['jornada_actual'] = $jornadaActual;
+			$c = new \App\App\Entities\Campeonato;
+			$c->id = $campeonato->id;
+			$c->nombre = $campeonato->nombre;
+			$data['campeonato'] = $c;
+			/*Anuncios*/
+			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+			$data['anuncio'] = $anuncios['anuncio'];
+			$data['jornada_actual'] = $jornadaActual;
 
-				return $data;
+			return $data;
 		});
 		return json_encode($data);
 	}
