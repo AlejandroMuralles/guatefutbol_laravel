@@ -372,16 +372,21 @@ class ApiV2Controller extends BaseController {
 				$campeonato = $this->campeonatoRepo->find($campeonatoId);
 			}
 			$partidos = $this->partidoRepo->getByCampeonatoByJornada($campeonato->id, $jornadaId);
-			$data = [];
+			$fechas = [];
 			foreach($partidos as $partido)
 			{
 				$fecha = date('Ymd',strtotime($partido->fecha));
 
-				$data['fechas_partidos'][$fecha]['fecha'] = date('Y-m-d',strtotime($partido->fecha));
-				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['id'] = $partido->id;
-				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['hora'] = date('H:i',strtotime($partido->fecha));
-				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['equipo_local'] = $partido->equipo_local->nombre_corto;
-				$data['fechas_partidos'][$fecha]['partidos'][$partido->id]['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+				$fechas[$fecha]['fecha'] = date('Y-m-d',strtotime($partido->fecha));
+				$fechas[$fecha]['partidos'][$partido->id]['id'] = $partido->id;
+				$fechas[$fecha]['partidos'][$partido->id]['hora'] = date('H:i',strtotime($partido->fecha));
+				$fechas[$fecha]['partidos'][$partido->id]['equipo_local'] = $partido->equipo_local->nombre_corto;
+				$fechas[$fecha]['partidos'][$partido->id]['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+			}
+			$data['fechas_partidos'] = [];
+			foreach($fechas as $fecha)
+			{
+				$data['fechas_partidos'][] = $fecha;
 			}
 			return $data;
 		});
