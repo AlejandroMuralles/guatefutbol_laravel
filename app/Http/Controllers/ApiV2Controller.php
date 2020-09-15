@@ -447,22 +447,76 @@ class ApiV2Controller extends BaseController {
 					}
 				}
 				$data['eventos'] = $es;
+				return $data;
+		});
 
-				/*$p = new \App\App\Entities\Partido;
-				$p->id = $partido->id;
-				$p->equipo_local = $partido->equipo_local;
-				$p->equipo_visita = $partido->equipo_visita;
-				$p->goles_local = $partido->goles_local;
-				$p->goles_visita = $partido->goles_visita;
-				$partido->fecha = strtotime($partido->fecha);
-				$p->fecha = date('d/m',$partido->fecha);
-				$p->hora = date('H:i',$partido->fecha);
-				$p->estadio = $partido->estadio->nombre;
-				$p->estado = $partido->descripcion_estado;
-				$p->minuto_jugado = $partido->tiempo;
-				if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
+		return json_encode($data);
+	}
 
-				$data['partido'] = $p;*/
+	public function alineaciones($partidoId)
+	{
+		$minutos = 1;
+		$data = Cache::remember('rest.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
+				$partido = $this->partidoRepo->find($partidoId);
+                $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 1);
+                $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 0);
+                $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 1);
+				$suplentesVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 0);
+				$dtLocal = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_local_id);
+                $dtVisita = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_visita_id);
+                $alLocal = [];
+                $supLocal = [];
+                $alVisita = [];
+                $supVisita = [];
+				foreach($alineacionLocal as $al)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($al->persona->primer_nombre,0,1);
+                    $jugador['jugador'] = $nombre . '. ' . $al->persona->primer_apellido;
+					$alLocal[] = $jugador;
+                }
+                foreach($suplentesLocal as $sl)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($sl->persona->primer_nombre,0,1);
+                    $jugador['jugador'] = $nombre . '. ' . $sl->persona->primer_apellido;
+					$supLocal[] = $jugador;
+                }
+				foreach($alineacionVisita as $av)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($av->persona->primer_nombre,0,1);
+                    $jugador['jugador'] = $nombre . '. ' . $av->persona->primer_apellido;
+					$alVisita[] = $jugador;
+                }
+                foreach($suplentesVisita as $sv)
+				{
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($sv->persona->primer_nombre,0,1);
+                    $jugador['jugador'] = $nombre . '. ' . $sv->persona->primer_apellido;
+                    $supVisita[] = $jugador;
+				}
+				$data['alineaciones_local'] = $alLocal;
+                $data['suplentes_local'] = $supLocal;
+                $data['alineaciones_visita'] = $alVisita;
+                $data['suplentes_visita'] = $supVisita;
+				$data['dt_local'] = '';
+				$data['dt_visita'] = '';
+				if(!is_null($dtLocal))  {
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($dtLocal->primer_nombre,0,1);
+                    $data['dt_local'] = $nombre . '. ' . $dtLocal->primer_apellido;
+				}
+				if(!is_null($dtVisita)){
+					mb_internal_encoding("UTF-8");
+					$nombre = mb_substr($dtVisita->primer_nombre,0,1);
+                    $data['dt_visita'] = $nombre . '. ' . $dtVisita->primer_apellido;
+				}
+                
+                /*Anuncios*/
+                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(6);
+                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+                $data['anuncio'] = $anuncios['anuncio'];
 
 				return $data;
 		});
@@ -635,139 +689,7 @@ class ApiV2Controller extends BaseController {
 
 	
 
-	public function alineaciones($partidoId)
-	{
-		$minutos = 1;
-		$data = Cache::remember('rest.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
-				$partido = $this->partidoRepo->find($partidoId);
-                $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 1);
-                $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 0);
-                $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 1);
-				$suplentesVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 0);
-				$dtLocal = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_local_id);
-                $dtVisita = $this->alineacionRepo->getTecnico($partidoId, $partido->equipo_visita_id);
-                $alLocal = [];
-                $supLocal = [];
-                $alVisita = [];
-                $supVisita = [];
-				foreach($alineacionLocal as $al)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($al->persona->primer_nombre,0,1);
-                    $jugador['nombre'] = $nombre . '. ' . $al->persona->primer_apellido;
-                    $jugador['nombre_completo'] = $al->persona->nombre_completo_apellidos;
-					$jugador['es_titular'] = $al->es_titular;
-
-					$alLocal[] = $jugador;
-                }
-                foreach($suplentesLocal as $sl)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($sl->persona->primer_nombre,0,1);
-                    $jugador['nombre'] = $nombre . '. ' . $sl->persona->primer_apellido;
-                    $jugador['nombre_completo'] = $sl->persona->nombre_completo_apellidos;
-					$jugador['es_titular'] = $sl->es_titular;
-
-					$supLocal[] = $jugador;
-                }
-				foreach($alineacionVisita as $av)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($av->persona->primer_nombre,0,1);
-                    $jugador['nombre'] = $nombre . '. ' . $av->persona->primer_apellido;
-                    $jugador['nombre_completo'] = $av->persona->nombre_completo_apellidos;
-					$jugador['es_titular'] = $av->es_titular;
-
-					$alVisita[] = $jugador;
-                }
-                foreach($suplentesVisita as $sv)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($sv->persona->primer_nombre,0,1);
-                    $jugador['nombre'] = $nombre . '. ' . $sv->persona->primer_apellido;
-                    $jugador['nombre_completo'] = $sv->persona->nombre_completo_apellidos;
-                    $jugador['es_titular'] = $sv->es_titular;
-                    $supVisita[] = $jugador;
-                }
-                $data['alineacionVisita'] = $alVisita;
-                $data['suplentesVisita'] = $supVisita;
-                $data['alineacionLocal'] = $alLocal;
-                $data['suplentesLocal'] = $supLocal;
-				$data['dtLocal'] = [];
-				$data['dtVisita'] = [];
-				if(!is_null($dtLocal))  {
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($dtLocal->primer_nombre,0,1);
-                    $data['dtLocal']['nombre'] = $nombre . '. ' . $dtLocal->primer_apellido;
-                    $data['dtLocal']['nombre_completo'] = $dtLocal->nombre_completo_apellidos;
-				}
-				if(!is_null($dtVisita)){
-					mb_internal_encoding("UTF-8");
-					$nombre = mb_substr($dtVisita->primer_nombre,0,1);
-                    $data['dtVisita']['nombre'] = $nombre . '. ' . $dtVisita->primer_apellido;
-                    $data['dtVisita']['nombre_completo'] = $dtVisita->nombre_completo_apellidos;
-				}
-
-				//* SUSTITUCIONES *///
-				$sustitucionesLocal = [];
-				$sustitucionesVisita = [];
-				$eventosLocal = $this->eventoPartidoRepo->getByEventosByEquipo($partidoId, array(9), $partido->equipo_local_id);
-				$eventosVisita = $this->eventoPartidoRepo->getByEventosByEquipo($partidoId, array(9), $partido->equipo_visita_id);
-				foreach($eventosLocal as $el)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombreEntra = mb_substr($el->jugador1->primer_nombre,0,1);
-                    $s['entra_nombre'] = $nombreEntra . '. ' . $el->jugador1->primer_apellido;
-                    $s['entra_nombre_completo'] = $el->jugador1->nombre_completo_apellidos;
-					$nombreSale = mb_substr($el->jugador2->primer_nombre,0,1);
-                    $s['sale_nombre'] = $nombreSale . '. ' .$el->jugador2->primer_apellido;
-                    $s['sale_nombre_completo'] = $el->jugador2->nombre_completo_apellidos;
-					$s['minuto'] = $el->minuto;
-					$sustitucionesLocal[] = $s;
-				}
-
-				foreach($eventosVisita as $ev)
-				{
-					mb_internal_encoding("UTF-8");
-					$nombreEntra = mb_substr($ev->jugador1->primer_nombre,0,1);
-                    $s['entra_nombre'] = $nombreEntra . '. ' . $ev->jugador1->primer_apellido;
-                    $s['entra_nombre_completo'] = $ev->jugador1->nombre_completo_apellidos;
-					$nombreSale = mb_substr($ev->jugador2->primer_nombre,0,1);
-                    $s['sale_nombre'] = $nombreSale . '. ' .$ev->jugador2->primer_apellido;
-                    $s['sale_nombre_completo'] = $ev->jugador2->nombre_completo_apellidos;
-					$s['minuto'] = $ev->minuto;
-					$sustitucionesVisita[] = $s;
-				}
-
-				$data['sustitucionesLocal'] = $sustitucionesLocal;
-				$data['sustitucionesVisita'] = $sustitucionesVisita;
-
-				$p = new \App\App\Entities\Partido;
-				$p->id = $partido->id;
-				$p->equipo_local = $partido->equipo_local;
-				$p->equipo_visita = $partido->equipo_visita;
-				$p->goles_local = $partido->goles_local;
-				$p->goles_visita = $partido->goles_visita;
-				$partido->fecha = strtotime($partido->fecha);
-				$p->fecha = date('d/m',$partido->fecha);
-				$p->hora = date('H:i',$partido->fecha);
-				$p->estadio = $partido->estadio->nombre;
-				$p->estado = $partido->descripcion_estado;
-				$p->minuto_jugado = $partido->tiempo;
-				if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
-
-                $data['partido'] = $p;
-                
-                /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(6);
-                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-                $data['anuncio'] = $anuncios['anuncio'];
-
-				return $data;
-		});
-
-		return json_encode($data);
-	}
+	
 
 	
 
