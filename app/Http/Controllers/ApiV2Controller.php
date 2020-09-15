@@ -448,7 +448,7 @@ class ApiV2Controller extends BaseController {
 				}
 				$data['eventos'] = $es;
 
-				$p = new \App\App\Entities\Partido;
+				/*$p = new \App\App\Entities\Partido;
 				$p->id = $partido->id;
 				$p->equipo_local = $partido->equipo_local;
 				$p->equipo_visita = $partido->equipo_visita;
@@ -462,7 +462,7 @@ class ApiV2Controller extends BaseController {
 				$p->minuto_jugado = $partido->tiempo;
 				if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
 
-				$data['partido'] = $p;
+				$data['partido'] = $p;*/
 
 				return $data;
 		});
