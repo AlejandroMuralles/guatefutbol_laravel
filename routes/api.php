@@ -13,4 +13,6 @@ Route::group(['prefix' => 'v2'], function () {
     Route::get('jornadas/{liga}/{campeonatoId}','ApiV2Controller@jornadas');
     Route::get('partidos-por-jornada/{liga}/{campeonatoId}/{jornada}','ApiV2Controller@partidosByJornada');
 
+    Route::get('narracion/{partido}','ApiV2Controller@narracion');
+
 });
