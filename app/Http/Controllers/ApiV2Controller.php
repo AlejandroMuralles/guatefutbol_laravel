@@ -462,8 +462,8 @@ class ApiV2Controller extends BaseController {
 						}
 						if($evento->evento_id == 9)//cambio
 						{
-							$es[$i]['jugador_entra'] = $evento->jugador1->nombre_completo ?? '';
-							$es[$i]['jugador_sale'] = $evento->jugador2->nombre_completo ?? '';
+							$es[$i]['jugador_sale'] = $evento->jugador1->nombre_completo ?? '';
+							$es[$i]['jugador_entra'] = $evento->jugador2->nombre_completo ?? '';
 						}
 						$i++;
 					}
