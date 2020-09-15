@@ -505,12 +505,12 @@ class ApiV2Controller extends BaseController {
 				if(!is_null($dtLocal))  {
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($dtLocal->primer_nombre,0,1);
-                    $data['dt_local'] = $nombre . '. ' . $dtLocal->primer_apellido;
+                    $data['dt_local'] = 'DT. ' . $nombre . '. ' . $dtLocal->primer_apellido;
 				}
 				if(!is_null($dtVisita)){
 					mb_internal_encoding("UTF-8");
 					$nombre = mb_substr($dtVisita->primer_nombre,0,1);
-                    $data['dt_visita'] = $nombre . '. ' . $dtVisita->primer_apellido;
+                    $data['dt_visita'] = 'DT. ' . $nombre . '. ' . $dtVisita->primer_apellido;
 				}
                 
                 /*Anuncios*/
