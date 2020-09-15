@@ -408,7 +408,7 @@ class ApiV2Controller extends BaseController {
 
 	public function narracion($partidoId)
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.narracion'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
 				$es = [];
@@ -456,7 +456,7 @@ class ApiV2Controller extends BaseController {
 	public function alineaciones($partidoId)
 	{
 		$minutos = 1;
-		$data = Cache::remember('rest.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
+		$data = Cache::remember('apiV2.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
                 $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 1);
                 $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 0);
@@ -518,6 +518,42 @@ class ApiV2Controller extends BaseController {
                 $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
                 $data['anuncio'] = $anuncios['anuncio'];
 
+				return $data;
+		});
+
+		return json_encode($data);
+	}
+
+	public function eventos($partidoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.eventos'.$partidoId, $minutos, function() use ($partidoId){
+
+				$partido = $this->partidoRepo->find($partidoId);
+				$data['eventos'] = [];
+				if($partido->estado_id != 1)
+				{
+					$eventos = $this->eventoPartidoRepo->getByEventos($partidoId, array(6,7,8,9,10,11),'minuto','DESC');
+					$eventos->load('jugador1','jugador2');
+					foreach($eventos as $evento)
+					{
+						$e['evento_id'] = $evento->evento_id;
+						$e['minuto'] = $evento->minuto;
+						$e['equipo_evento'] = $evento->equipo_id == $partido->equipo_local_id ? 'local' : 'visita';
+						if($evento->evento_id == 9){ //cambio
+							mb_internal_encoding("UTF-8");
+							$nombreEntra = mb_substr($evento->jugador1->primer_nombre,0,1);
+							$e['jugador_entra'] = $nombreEntra . '. ' . $evento->jugador1->primer_apellido;
+							$nombreSale = mb_substr($evento->jugador2->primer_nombre,0,1);
+							$e['jugador_sale'] = $nombreSale . '. ' . $evento->jugador2->primer_apellido;
+						}
+						else{
+							$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
+							$e['jugador'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
+						}
+						$data['eventos'][] = $e;
+					}
+				}
 				return $data;
 		});
 
@@ -618,74 +654,7 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
-	public function eventos($partidoId)
-	{
-		$minutos = 1;
-		$data = Cache::remember('rest.eventos'.$partidoId, $minutos, function() use ($partidoId){
-
-				$partido = $this->partidoRepo->find($partidoId);
-
-				$es = [];
-				if($partido->estado_id != 1){
-
-					$eventos = $this->eventoPartidoRepo->getByEventos($partidoId, array(6,7,8,10,11));
-
-					$i = 0;
-					$golesLocal = 0;
-					$golesVisita = 0;
-					foreach($eventos as $evento)
-					{
-						if($evento->evento_id == 6 || $evento->evento_id == 7 || $evento->evento_id == 8)
-						{
-							if($evento->equipo_id == $partido->equipo_local_id){
-								$golesLocal++;
-							}
-							else{
-								$golesVisita++;
-							}
-							$es[$i]['resultado'] = $golesLocal . ' - ' . $golesVisita;
-						}
-						if($evento->equipo_id == $partido->equipo_local_id){
-							$es[$i]['minuto_local'] = $evento->minuto;
-							mb_internal_encoding("UTF-8");
-							$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
-							$es[$i]['nombre_local'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
-							$es[$i]['imagen_local'] = $evento->evento->imagen;
-						}
-						else{
-							$es[$i]['minuto_visita'] = $evento->minuto;
-							mb_internal_encoding("UTF-8");
-							$nombre = mb_substr($evento->jugador1->primer_nombre,0,1);
-							$es[$i]['nombre_visita'] = $nombre . '. ' . $evento->jugador1->primer_apellido;
-							$es[$i]['imagen_visita'] = $evento->evento->imagen;
-						}
-
-						$i++;
-					}
-				}
-				$data['eventos'] = $es;
-
-				$p = new \App\App\Entities\Partido;
-				$p->id = $partido->id;
-				$p->equipo_local = $partido->equipo_local;
-				$p->equipo_visita = $partido->equipo_visita;
-				$p->goles_local = $partido->goles_local;
-				$p->goles_visita = $partido->goles_visita;
-				$partido->fecha = strtotime($partido->fecha);
-				$p->fecha = date('d/m',$partido->fecha);
-				$p->hora = date('H:i',$partido->fecha);
-				$p->estadio = $partido->estadio->nombre;
-				$p->estado = $partido->descripcion_estado;
-				$p->minuto_jugado = $partido->tiempo;
-				if($p->minuto_jugado == 'P') $p->minuto_jugado = date('d/m H:i',$partido->fecha);
-
-				$data['partido'] = $p;
-
-				return $data;
-		});
-
-		return json_encode($data);
-	}
+	
 
 	
 

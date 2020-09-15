@@ -86,13 +86,13 @@ class EventoPartidoRepo extends BaseRepo{
 					->get();
 	}
 
-	public function getByEventos($partidoId, $eventos)
+	public function getByEventos($partidoId, $eventos, $orderBy="minuto", $orderType="ASC")
 	{
 		return EventoPartido::where('partido_id',$partidoId)
 							->with('jugador1')
 							->with('evento')
 							->whereIn('evento_id',$eventos)
-							->orderBy('minuto','ASC')
+							->orderBy($orderBy,$orderType)
 							->get();
 	}
 

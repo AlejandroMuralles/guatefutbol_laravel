@@ -15,5 +15,6 @@ Route::group(['prefix' => 'v2'], function () {
 
     Route::get('narracion/{partido}','ApiV2Controller@narracion');
     Route::get('alineaciones/{partido}','ApiV2Controller@alineaciones');
+    Route::get('eventos/{partido}','ApiV2Controller@eventos');
 
 });
