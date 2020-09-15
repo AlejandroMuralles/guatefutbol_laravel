@@ -406,6 +406,28 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
+	public function partido($partidoId)
+	{
+		$minutos = 1;
+		$data = Cache::remember('apiV2.partido'.$partidoId, $minutos, function() use ($partidoId){
+
+			$partido = $this->partidoRepo->find($partidoId);
+
+			$p['id'] = $partido->id;
+			$p['hora'] = date('H:i',strtotime($partido->fecha));
+			$p['equipo_local'] = $partido->equipo_local->nombre_corto;
+			$p['logo_equipo_local'] = $partido->equipo_local->logo;
+			$p['goles_equipo_local'] = $partido->goles_local;
+			$p['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+			$p['logo_equipo_visita'] = $partido->equipo_visita->logo;
+			$p['goles_equipo_visita'] = $partido->goles_visita;
+			$p['estado'] = $partido->estado;
+			$data['partido'] = $p;
+			return $data;
+		});
+		return json_encode($data);
+	}
+
 	public function narracion($partidoId)
 	{
 		$minutos = 1;
