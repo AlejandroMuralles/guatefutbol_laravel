@@ -458,6 +458,10 @@ class ApiV2Controller extends BaseController {
 							$es[$i]['jugador_sale'] = $evento->jugador1->nombre_completo ?? '';
 							$es[$i]['jugador_entra'] = $evento->jugador2->nombre_completo ?? '';
 						}
+						if($evento->evento_id == 10 || $evento->evento_id == 11)
+						{
+							$es[$i]['jugador'] = $evento->jugador1->nombre_completo ?? '';
+						}
 						$i++;
 					}
 				}
