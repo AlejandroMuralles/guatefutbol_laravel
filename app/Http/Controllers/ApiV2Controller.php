@@ -412,16 +412,7 @@ class ApiV2Controller extends BaseController {
 		$data = Cache::remember('apiV2.partido'.$partidoId, $minutos, function() use ($partidoId){
 
 			$partido = $this->partidoRepo->find($partidoId);
-
-			$p['id'] = $partido->id;
-			$p['hora'] = date('H:i',strtotime($partido->fecha));
-			$p['equipo_local'] = $partido->equipo_local->nombre_corto;
-			$p['logo_equipo_local'] = $partido->equipo_local->logo;
-			$p['goles_equipo_local'] = $partido->goles_local;
-			$p['equipo_visita'] = $partido->equipo_visita->nombre_corto;
-			$p['logo_equipo_visita'] = $partido->equipo_visita->logo;
-			$p['goles_equipo_visita'] = $partido->goles_visita;
-			$p['estado'] = $partido->estado;
+			$p = $this->getArrayPartido($partido);
 			$data['partido'] = $p;
 			return $data;
 		});
@@ -433,6 +424,8 @@ class ApiV2Controller extends BaseController {
 		$minutos = 1;
 		$data = Cache::remember('apiV2.narracion'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
+				$p = $this->getArrayPartido($partido);
+				$data['partido'] = $p;
 				$es = [];
 				if($partido->estado_id != 1){
 
@@ -480,6 +473,9 @@ class ApiV2Controller extends BaseController {
 		$minutos = 1;
 		$data = Cache::remember('apiV2.alineaciones'.$partidoId, $minutos, function() use ($partidoId){
 				$partido = $this->partidoRepo->find($partidoId);
+				$p = $this->getArrayPartido($partido);
+				$data['partido'] = $p;
+
                 $alineacionLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 1);
                 $suplentesLocal = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_local_id, 0);
                 $alineacionVisita = $this->alineacionRepo->getAlineacionByEstado($partidoId, $partido->equipo_visita_id, 1);
@@ -552,6 +548,9 @@ class ApiV2Controller extends BaseController {
 		$data = Cache::remember('apiV2.eventos'.$partidoId, $minutos, function() use ($partidoId){
 
 				$partido = $this->partidoRepo->find($partidoId);
+				$p = $this->getArrayPartido($partido);
+				$data['partido'] = $p;
+
 				$data['eventos'] = [];
 				if($partido->estado_id != 1)
 				{
@@ -676,14 +675,6 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
-	
-
-	
-
-	
-
-	
-
 	public function campeonatosApp()
 	{
 		$minutos = 1;
@@ -738,66 +729,6 @@ class ApiV2Controller extends BaseController {
 		return $nuevafecha;
 	}
 
-	function wordpressPosts($page)
-	{
-		$url = 'https://www.guatefutbol.com/wp-json/wp/v2/posts?page='.$page;
-		//$url = 'https://www.futsal502.com/wp-json/wp/v2/posts?page='.$page;
-		try{
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_REFERER, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            //curl_setopt($ch, CURLOPT_USERPWD, $this->username . ":" . $this->password);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)');
-            $exe  = curl_exec($ch);
-			
-			curl_close($ch);
-			
-			$json = json_decode($exe);
-			$articulos = [];
-			foreach($json as $j)
-			{
-				$a['id'] = $j->id;
-				//$a['jetpack_featured_media_url'] = $j->jetpack_featured_media_url;
-				try{
-					$url = str_replace('\/','/',$j->jetpack_featured_media_url);
-					//$imagen = $this->getImage($j->id,$url);
-					//$a['jetpack_featured_media_url'] = \Storage::disk('public')->url($imagen);
-					$a['image'] = $j->jetpack_featured_media_url;
-					$a['jetpack_featured_media_url'] = $url;
-				}
-				catch(\Exception $ex)
-				{
-					$a['jetpack_featured_media_url'] = asset('assets/imagenes/fondo_noticias.png');
-					$a['image'] = asset('assets/imagenes/fondo_noticias.png');
-				}
-				$a['link'] = $j->link;
-				$a['titulo'] = $j->title->rendered;
-				$a['title']['rendered'] = $j->title->rendered;
-				$a['date'] = $j->date;
-				$articulos[] = $a;
-			}
-			return $articulos;
-        }
-        catch(\Exception $ex)
-        {
-            return ['resultado' =>false, 'mensaje'=>'No se pudo obtener los servicios.','datos'=>['excepcion'=>$ex->getMessage()]];
-        }
-	}
-
-	function getImage($id, $url)
-	{
-		$info = pathinfo($url);
-		//dd($info);
-		$name = 'noticias/'.$id.'.'.$info['extension'];
-		if(file_exists($name)) return $name;
-		$contents = file_get_contents($url);
-		\Storage::disk('public')->put($name, $contents);
-		return $name;
-	}
-
 	public function getObjetoEquipo($equipo)
 	{
 		$e = new stdClass();
@@ -806,6 +737,20 @@ class ApiV2Controller extends BaseController {
 		$e->nombre_corto = $equipo->nombre_corto;
 		$e->logo = $equipo->logo;
 		return $e;
+	}
+
+	public function getArrayPartido($partido)
+	{
+		$p['id'] = $partido->id;
+		$p['hora'] = date('H:i',strtotime($partido->fecha));
+		$p['equipo_local'] = $partido->equipo_local->nombre_corto;
+		$p['logo_equipo_local'] = $partido->equipo_local->logo;
+		$p['goles_equipo_local'] = $partido->goles_local;
+		$p['equipo_visita'] = $partido->equipo_visita->nombre_corto;
+		$p['logo_equipo_visita'] = $partido->equipo_visita->logo;
+		$p['goles_equipo_visita'] = $partido->goles_visita;
+		$p['estado'] = $partido->estado;
+		return $p;
 	}
 
 
