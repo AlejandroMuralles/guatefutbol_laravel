@@ -70,6 +70,32 @@ class ApiV2Controller extends BaseController {
 		}
 	}
 
+	public function campeonatos()
+	{
+		$minutos = 1;
+		$data = Cache::remember('apiV2.campeonatos', $minutos, function(){
+			
+			$campeonatos = $this->campeonatoRepo->getMostrarApp()->load('liga');
+			$data['campeonatos'] = [];
+			foreach($campeonatos as $campeonato)
+			{
+				$c['id'] = $campeonato->id;
+				$c['nombre'] = $campeonato->nombre;
+				$c['mostrar_calendario'] = $campeonato->menu_app_calendario==1?true:false;
+				$c['mostrar_posiciones'] = $campeonato->menu_app_posiciones==1?true:false;
+				$c['mostrar_tabla_acumulada'] = $campeonato->menu_app_tabla_acumulada==1?true:false;
+				$c['mostrar_goleadores'] = $campeonato->menu_app_goleadores==1?true:false;
+				$c['mostrar_porteros'] = $campeonato->menu_app_porteros==1?true:false;
+				$c['mostrar_plantilla'] = $campeonato->menu_app_plantilla==1?true:false;
+				$c['liga_id'] = $campeonato->liga_id;
+				$c['liga'] = $campeonato->liga->nombre;
+				$data['campeonatos'][] = $c;
+			}
+			return $data;
+		});
+		return json_encode($data);
+	}
+
 	public function posiciones($ligaId, $campeonatoId)
 	{
 		$minutos = 1;

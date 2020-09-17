@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v2'], function () {
 
+    Route::get('campeonatos','ApiV2Controller@campeonatos');
+
     Route::get('posiciones/{liga}/{campeonatoId}','ApiV2Controller@posiciones');
     Route::get('acumulada/{liga}/{campeonatoId}','ApiV2Controller@acumulada');
     Route::get('goleadores/{liga}/{campeonatoId}','ApiV2Controller@goleadores');
