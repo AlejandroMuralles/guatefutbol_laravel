@@ -375,17 +375,28 @@ class ApiV2Controller extends BaseController {
 			}
 			$partidos = $this->partidoRepo->getByCampeonato($campeonato->id);
 			$data['jornadas'] = [];
+			$jornadaActual = 0;
+			$jornadaActualEncontrada = false;
 			$jornadas = [];
 			foreach($partidos as $partido)
 			{
 				$j['id'] = $partido->jornada->id;
 				$j['nombre'] = $partido->jornada->nombre;
 				$jornadas[$partido->jornada_id] = $j;
+
+				if(date('Y-m-d',$partido->fecha) == date('Y-m-d'))
+				{
+					$jornadaActual = $partido->jornada_id;
+					$jornadaActualEncontrada = true;
+				}
+				if(!$jornadaActualEncontrada && $partido->estado == 1 && $jornadaActual == 0)
+					$jornadaActual = $partido->jornada_id;
 			}
 			foreach($jornadas as $jornada)
 			{
 				$data['jornadas'][] = $jornada;
 			}
+			$data['jornada_actual'] = $jornadaActual;
 			return $data;
 		});
 		return json_encode($data);
