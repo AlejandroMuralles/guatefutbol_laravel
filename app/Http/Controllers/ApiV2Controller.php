@@ -384,7 +384,7 @@ class ApiV2Controller extends BaseController {
 				$j['nombre'] = $partido->jornada->nombre;
 				$jornadas[$partido->jornada_id] = $j;
 
-				if(date('Y-m-d',$partido->fecha) == date('Y-m-d'))
+				if(date('Y-m-d',strtotime($partido->fecha)) == date('Y-m-d'))
 				{
 					$jornadaActual = $partido->jornada_id;
 					$jornadaActualEncontrada = true;
