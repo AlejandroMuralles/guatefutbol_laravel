@@ -557,7 +557,7 @@ class ApiV2Controller extends BaseController {
 
 	public function plantilla($ligaId, $campeonatoId, $equipoId)
 	{
-		$minutos = 1;
+		$minutos = 0;
 		$data = Cache::remember('apiV2.plantilla'.$ligaId.'-'.$campeonatoId.'-'.$equipoId, $minutos, function() use ($ligaId, $campeonatoId, $equipoId){
 			if($campeonatoId == 0)
 			{
@@ -583,12 +583,13 @@ class ApiV2Controller extends BaseController {
 
 				mb_internal_encoding("UTF-8");
 				$string = $jugador->primer_nombre;
-				$j->primer_nombre = mb_substr($string,0,1) . '.';
-
-				$j->primer_apellido = $jugador->primer_apellido;
+				$j->nombre = mb_substr($string,0,1) . '. '.$jugador->primer_apellido;
 				$j->minutos_jugados = $jugador->minutos_jugados;
 				$j->goles = $jugador->goles;
 				$j->edad = $jugador->edad;
+				$j->tarjetas_amarillas = $jugador->amarillas;
+				$j->dobles_amarillas = $jugador->doblesamarillas;
+				$j->tarjetas_rojas = $jugador->rojas;
 				$plantilla[] = $j;
 			}
 			$data['plantilla'] = $plantilla;
