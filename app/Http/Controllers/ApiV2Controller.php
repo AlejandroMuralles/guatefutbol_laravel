@@ -267,100 +267,6 @@ class ApiV2Controller extends BaseController {
 		return json_encode($data);
 	}
 
-	public function plantilla($ligaId, $campeonatoId, $equipoId)
-	{
-		$minutos = 1;
-		$data = Cache::remember('rest.plantilla'.$ligaId.'-'.$campeonatoId.'-'.$equipoId, $minutos, function() use ($ligaId, $campeonatoId, $equipoId){
-				if($campeonatoId == 0)
-				{
-					$campeonato = $this->campeonatoRepo->getActual($ligaId);
-				}
-				else
-				{
-					$campeonato = $this->campeonatoRepo->find($campeonatoId);
-				}
-				$equipo = null;
-				if($equipoId != 0){
-					$equipo = $this->equipoRepo->find($equipoId);
-				}
-				$jugadores = $this->plantillaRepo->getPlantilla($campeonato, $equipoId);
-				$plantilla = array();
-				foreach($jugadores as $jugador)
-				{
-					$j = new stdClass();
-
-					mb_internal_encoding("UTF-8");
-					$string = $jugador->primer_nombre;
-					$j->primer_nombre = mb_substr($string,0,1) . '.';
-
-					//$j->primer_nombre = $jugador->persona->primer_nombre;
-
-					/*mb_internal_encoding("UTF-8");
-					$string = $jugador->persona->primer_apellido;
-					$j->primer_apellido = mb_substr($string,0,1);*/
-
-					$j->primer_apellido = $jugador->primer_apellido;
-					$j->mj = $jugador->minutos_jugados;
-					$j->goles = $jugador->goles;
-					$j->edad = $jugador->edad;
-					$plantilla[] = $j;
-				}
-
-
-				$data['plantilla'] = $plantilla;
-
-				$c = new \App\App\Entities\Campeonato;
-				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-				$data['campeonato'] = $c;
-
-                $data['equipo'] = $equipo;
-                /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(8);
-                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-                $data['anuncio'] = $anuncios['anuncio'];
-				return $data;
-		});
-
-
-		return json_encode($data);
-	}
-
-	public function equipos($ligaId, $campeonatoId)
-	{
-		$minutos = 1;
-		$data = Cache::remember('rest.equipos'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
-				if($campeonatoId == 0)
-				{
-					$campeonato = $this->campeonatoRepo->getActual($ligaId);
-				}
-				else
-				{
-					$campeonato = $this->campeonatoRepo->find($campeonatoId);
-				}
-				$campeonatoEquipos = $this->campeonatoEquipoRepo->getEquiposByCampeonato($campeonato->id);
-				$equipos = array();
-				foreach($campeonatoEquipos as $ce)
-				{
-					$equipos[] = $ce;
-				}
-				$data['equipos']  = $equipos;
-
-				$c = new \App\App\Entities\Campeonato;
-				$c->id = $campeonato->id;
-				$c->nombre = $campeonato->nombre;
-                $data['campeonato'] = $c;
-                /*Anuncios*/
-                $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(7);
-                $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-                $data['anuncio'] = $anuncios['anuncio'];
-				return $data;
-		});
-
-		return json_encode($data);
-
-	}
-
 	public function jornadas($ligaId, $campeonatoId)
 	{
 		$minutos = 1;
@@ -619,6 +525,79 @@ class ApiV2Controller extends BaseController {
 				return $data;
 		});
 
+		return json_encode($data);
+	}
+
+	public function equipos($ligaId, $campeonatoId)
+	{
+		$minutos = 1;
+		$data = Cache::remember('apiV2.equipos'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$campeonatoEquipos = $this->campeonatoEquipoRepo->getEquiposByCampeonato($campeonato->id);
+			$equipos = array();
+			foreach($campeonatoEquipos as $ce)
+			{
+				$c['id'] = $ce->id;
+				$c['nombre'] = $ce->nombre;
+				$c['logo'] = $ce->logo;
+				$equipos[] = $c;
+			}
+			$data['equipos']  = $equipos;
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+	public function plantilla($ligaId, $campeonatoId, $equipoId)
+	{
+		$minutos = 1;
+		$data = Cache::remember('apiV2.plantilla'.$ligaId.'-'.$campeonatoId.'-'.$equipoId, $minutos, function() use ($ligaId, $campeonatoId, $equipoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$data['equipo'] = null;
+			if($equipoId != 0){
+				$equipoDB = $this->equipoRepo->find($equipoId);
+				$equipo['id'] = $equipoDB->id;
+				$equipo['nombre'] = $equipoDB->nombre;
+				$equipo['logo'] = $equipoDB->logo;
+				$data['equipo'] = $equipo;
+			}
+			$jugadores = $this->plantillaRepo->getPlantilla($campeonato, $equipoId);
+			$plantilla = array();
+			foreach($jugadores as $jugador)
+			{
+				$j = new stdClass();
+
+				mb_internal_encoding("UTF-8");
+				$string = $jugador->primer_nombre;
+				$j->primer_nombre = mb_substr($string,0,1) . '.';
+
+				$j->primer_apellido = $jugador->primer_apellido;
+				$j->minutos_jugados = $jugador->minutos_jugados;
+				$j->goles = $jugador->goles;
+				$j->edad = $jugador->edad;
+				$plantilla[] = $j;
+			}
+			$data['plantilla'] = $plantilla;
+			/*Anuncios*/
+			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(8);
+			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+			$data['anuncio'] = $anuncios['anuncio'];
+			return $data;
+		});
 		return json_encode($data);
 	}
 

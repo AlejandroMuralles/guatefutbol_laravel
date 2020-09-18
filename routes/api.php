@@ -20,4 +20,7 @@ Route::group(['prefix' => 'v2'], function () {
     Route::get('alineaciones/{partido}','ApiV2Controller@alineaciones');
     Route::get('eventos/{partido}','ApiV2Controller@eventos');
 
+    Route::get('equipos/{ligaId}/{campeonatoId}','ApiV2Controller@equipos');
+    Route::get('plantilla/{ligaId}/{campeonatoId}/{equipo}','ApiV2Controller@plantilla');
+
 });
