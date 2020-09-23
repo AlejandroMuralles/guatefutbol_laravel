@@ -51,7 +51,6 @@ class EventoPartidoController extends BaseController {
 	/* Agregar eventos que necesitan persona, goles, autogoles, amarillas. */
 	public function mostrarAgregarPersona($partidoId,$eventoId,$equipoId)
 	{
-		$twitterChecked = false;
 		$partido = $this->partidoRepo->find($partidoId);
 		$evento = $this->eventoRepo->find($eventoId);
 		$jugadoresBanca = [];
@@ -91,10 +90,9 @@ class EventoPartidoController extends BaseController {
 					$jugadoresContrarios = $this->alineacionRepo->getAlineacionByRol($partido->id, $partido->equipo_local_id,'J')->pluck('nombreCompletoApellidos','id')->toArray();
 			}
 		}
-		if($eventoId == 6 || $eventoId == 7) $twitterChecked = true;
 
 		return view('administracion/EventoPartido/agregar_persona', compact('partido','partidoId','jugadores','evento','equipo','equipoId',
-			'imagenes','jugadoresBanca', 'jugadoresContrarios', 'twitterChecked'));
+			'imagenes','jugadoresBanca', 'jugadoresContrarios'));
 	}
 
 	public function agregar($partidoId,$eventoId,$equipoId)

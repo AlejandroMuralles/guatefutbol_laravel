@@ -6,11 +6,16 @@
 
 	{!! Form::open(['route' => array('agregar_evento_partido',$partido->id, $evento->id, $equipoId), 'method' => 'POST', 'role' => 'form', 'class'=>'validate-form']) !!}
 
-		{!! Field::checkbox('facebook', null, ['checked']) !!}
-		<div class="form-group">
-			<label for="twitter">Twitter</label>
-			<input name="twitter" type="checkbox" checked>
-		</div>
+		@if(auth()->user()->username != 'alessandro')
+			<div class="form-group">
+				<label for="facebook">Facebook</label>
+				<input name="facebook" type="checkbox" checked>
+			</div>
+			<div class="form-group">
+				<label for="twitter">Twitter</label>
+				<input name="twitter" type="checkbox" checked>
+			</div>
+		@endif
 
 		{!! Field::number('minuto') !!}
 
