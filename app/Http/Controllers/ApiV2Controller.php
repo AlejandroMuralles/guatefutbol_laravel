@@ -758,10 +758,10 @@ class ApiV2Controller extends BaseController {
 		$p['hora'] = date('H:i',strtotime($partido->fecha));
 		$p['equipo_local'] = $partido->equipo_local->nombre_corto;
 		$p['logo_equipo_local'] = $partido->equipo_local->logo;
-		$p['goles_equipo_local'] = $partido->goles_local;
+		$p['goles_equipo_local'] = $partido->goles_local ?? 0;
 		$p['equipo_visita'] = $partido->equipo_visita->nombre_corto;
 		$p['logo_equipo_visita'] = $partido->equipo_visita->logo;
-		$p['goles_equipo_visita'] = $partido->goles_visita;
+		$p['goles_equipo_visita'] = $partido->goles_visita ?? 0;
 		$p['estado'] = $partido->estado;
 		return $p;
 	}
