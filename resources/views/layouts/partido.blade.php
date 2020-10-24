@@ -50,7 +50,7 @@
                             @if(!is_null($partido->descripcion_penales))
                                 <span class="tanteo-time">
                                     <span id="tiempoPartido" style="position: relative;top: -10px;left: 20px;"></span>
-                                    <span style="position: relative;top: 10px;left: -10px;">({{$partido->descripcion_penales}})</span>
+                                    <span style="position: relative;top: 10px;left: -10px; font-size:12px">({{$partido->descripcion_penales}})</span>
                                 </span>
                             @else
                                 <span class="tanteo-time" id="tiempoPartido"></span>
