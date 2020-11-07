@@ -129,9 +129,9 @@ class ApiV2Controller extends BaseController {
 			}
 			//$data['campeonato'] = $campeonato;
 			/*Anuncios*/
-			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(3);
-			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-			$data['anuncio'] = $anuncios['anuncio'];
+			$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(3);
+			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
+			$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
 			return $data;
 		});
 		return json_encode($data);
@@ -764,6 +764,20 @@ class ApiV2Controller extends BaseController {
 		$p['goles_equipo_visita'] = $partido->goles_visita ?? 0;
 		$p['estado'] = $partido->estado;
 		return $p;
+	}
+
+	public function getArrayAnuncio($anuncio)
+	{
+		if(is_null($anuncio)) return null;
+
+		$ad['anunciante'] = $anuncio->anunciante;
+		$ad['nombre_anunciante'] = $anuncio->nombre_anunciante;
+		$ad['tipo'] = $anuncio->tipo;
+		$ad['segundos_mostrandose'] = $anuncio->segundos_mostrandose;
+		$ad['minutos_espera'] = $anuncio->minutos_espera;
+		if(!is_null($anuncio->link)) $ad['link'] = $anuncio->link;
+		if(!is_null($anuncio->imagen)) $ad['link'] = $anuncio->imagen;
+		return $ad;
 	}
 
 
