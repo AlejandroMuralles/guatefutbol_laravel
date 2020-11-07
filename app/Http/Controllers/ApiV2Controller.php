@@ -303,6 +303,10 @@ class ApiV2Controller extends BaseController {
 				$data['jornadas'][] = $jornada;
 			}
 			$data['jornada_actual'] = $jornadaActual;
+			/*Anuncios*/
+			$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(2);
+			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
+			$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
 			return $data;
 		});
 		return json_encode($data);
