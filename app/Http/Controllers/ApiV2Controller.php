@@ -129,7 +129,7 @@ class ApiV2Controller extends BaseController {
 			}
 			//$data['campeonato'] = $campeonato;
 			/*Anuncios*/
-			$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+			$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(3);
 			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
 			$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
 			return $data;
