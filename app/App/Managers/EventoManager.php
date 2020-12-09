@@ -48,7 +48,7 @@ class EventoManager extends BaseManager
 				$fileOrginalExtension = $file->getClientOriginalExtension();
 				$fileName = $this->entity->id.'.'.$fileOrginalExtension;
 				$url = 'imagenes/eventos';
-				$this->entity->imagen = $file->storeAs($url,$fileName,'public');
+				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
 			}
 			else
@@ -62,7 +62,6 @@ class EventoManager extends BaseManager
 		}
 		catch(\Exception $ex)
 		{
-			dd($ex);
 			throw new SaveDataException("Error!", $ex);			
 		}
 	}

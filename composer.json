@@ -13,7 +13,8 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.4",
-        "thujohn/twitter": "^2.2"
+        "thujohn/twitter": "^2.2",
+        "league/flysystem-aws-s3-v3": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

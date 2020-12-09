@@ -13,7 +13,7 @@ class Evento extends \Eloquent {
 	public function getImagenAttribute($imagen)
     {
     	if(!is_null($imagen))
-    		return \Storage::disk('public')->url($imagen);
+    		return \Storage::disk(env('DISK'))->url($imagen);
     	return null;
     }
 
