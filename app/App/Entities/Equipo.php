@@ -12,7 +12,7 @@ class Equipo extends \Eloquent {
 
 	public function getLogoAttribute($logo)
     {
-		return asset("asstets/imagenes/$logo");
+		return asset("assets/$logo");
     	if(!is_null($logo))
     		return \Storage::disk('public')->url($logo);
     	return null;
