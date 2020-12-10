@@ -22,6 +22,7 @@ use App\App\ExtraEntities\RachaEquipo;
 use App\App\ExtraEntities\AlineacionPartido;
 use App\App\Repositories\JornadaRepo;
 use App\App\Repositories\LigaRepo;
+use Exception;
 use View, Cache;
 
 class PublicController extends BaseController {
@@ -519,7 +520,7 @@ class PublicController extends BaseController {
                     if($evento->evento_id == 6 || $evento->evento_id == 8)
                     {
                         if(isset($titularesLocales[$evento->jugador1_id])) $titularesLocales[$evento->jugador1_id]->goles[] = $evento->minuto;
-                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->goles = $evento->minuto;
+                        if(isset($suplentesLocales[$evento->jugador1_id])) $suplentesLocales[$evento->jugador1_id]->goles[] = $evento->minuto;
                     }
                     if($evento->evento_id == 9)
                     {
@@ -562,7 +563,7 @@ class PublicController extends BaseController {
                     if($evento->evento_id == 6 || $evento->evento_id == 8)
                     {
                         if(isset($titularesVisita[$evento->jugador1_id])) $titularesVisita[$evento->jugador1_id]->goles[] = $evento->minuto;
-                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->goles = $evento->minuto;
+                        if(isset($suplentesVisita[$evento->jugador1_id])) $suplentesVisita[$evento->jugador1_id]->goles[] = $evento->minuto;
                     }
                     if($evento->evento_id == 9)
                     {
@@ -612,7 +613,8 @@ class PublicController extends BaseController {
             $data['dtVisita'] = $dtVisita;
             $data['ficha'] = $ficha;
             return $data;
-        });
+		});
+		
         $partido = $data['partido'];
         $titularesLocales = $data['titularesLocales'];
         $suplentesLocales = $data['suplentesLocales'];
@@ -621,7 +623,7 @@ class PublicController extends BaseController {
         $configuracion = $data['configuracion'];
         $dtLocal = $data['dtLocal'];
         $dtVisita = $data['dtVisita'];
-        $ficha = $data['ficha'];
+		$ficha = $data['ficha'];
 		return View::make('publico/alineaciones', compact('ficha','partido','titularesLocales','suplentesLocales','titularesVisita','suplentesVisita','configuracion','dtLocal','dtVisita'));
 	}
 
