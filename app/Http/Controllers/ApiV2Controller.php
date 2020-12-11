@@ -205,7 +205,7 @@ class ApiV2Controller extends BaseController {
 
 			foreach($porterosDB as $portero)
 			{
-				$portero->imagen_equipo = \Storage::disk('public')->url($portero->imagen_equipo);
+				$portero->imagen_equipo = \Storage::disk(env('DISK'))->url($portero->imagen_equipo);
 			}
 
 			$data['porteros'] =[];
