@@ -139,7 +139,7 @@ class ApiV2Controller extends BaseController {
 
 	public function acumulada($ligaId, $campeonatoId)
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.acumulada'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
 			if($campeonatoId == 0)
 			{
@@ -257,6 +257,112 @@ class ApiV2Controller extends BaseController {
 				$data['goleadores'][] = $g;
 			}
 
+			//$data['campeonato'] = $campeonato;
+			/*Anuncios*/
+			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(4);
+			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+			$data['anuncio'] = $anuncios['anuncio'];
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+	public function amarillas($ligaId,$campeonatoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.amarillas'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$eventos = $this->eventoPartidoRepo->getByCampeonato($campeonato->id, [10,11]);
+			//$goleadores = array_slice($goleadores, 0, 10);
+			$jugadoresDB = [];
+			foreach($eventos as $evento)
+			{
+				if(!isset($jugadoresDB[$evento->jugador1_id]))
+				{
+					$jugadoresDB[$evento->jugador1_id]['posicion'] = 0;
+					$jugadoresDB[$evento->jugador1_id]['jugador'] = $evento->jugador1->primer_apellido." ".$evento->jugador1->primer_nombre;
+					$jugadoresDB[$evento->jugador1_id]['amarillas'] = 0;
+					$jugadoresDB[$evento->jugador1_id]['equipo'] = $evento->equipo->nombre_corto;
+					$jugadoresDB[$evento->jugador1_id]['logo_equipo'] = $evento->equipo->logo;
+				}
+				if($evento->evento_id == 10)
+				{
+					$jugadoresDB[$evento->jugador1_id]['amarillas']++;
+				}
+				else
+				{
+					if($evento->doble_amarilla) 
+						$jugadoresDB[$evento->jugador1_id]['amarillas']--;
+				}
+			}
+			usort($jugadoresDB, function($a, $b){
+				if($a['amarillas'] == $b['amarillas']) return strcmp($a['jugador'],$b['jugador']);
+				return ($a['amarillas'] < $b['amarillas']) ? 1 : -1;
+			});
+			$posicion = 1;
+			$jugadores = [];
+			foreach($jugadoresDB as $index => $jugador){
+				$jugadoresDB[$index]['posicion'] = $posicion;
+				if($posicion<=1000) $jugadores[] = $jugadoresDB[$index];
+				$posicion++;
+			}
+			$data['jugadores'] = $jugadores;
+			//$data['campeonato'] = $campeonato;
+			/*Anuncios*/
+			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(4);
+			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+			$data['anuncio'] = $anuncios['anuncio'];
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+	public function rojas($ligaId,$campeonatoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.amarillas'.$ligaId.'-'.$campeonatoId, $minutos, function() use ($ligaId, $campeonatoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$eventos = $this->eventoPartidoRepo->getByCampeonato($campeonato->id, [11]);
+			//$goleadores = array_slice($goleadores, 0, 10);
+			$jugadoresDB = [];
+			foreach($eventos as $evento)
+			{
+				if(!isset($jugadoresDB[$evento->jugador1_id]))
+				{
+					$jugadoresDB[$evento->jugador1_id]['posicion'] = 0;
+					$jugadoresDB[$evento->jugador1_id]['jugador'] = $evento->jugador1->primer_apellido." ".$evento->jugador1->primer_nombre;
+					$jugadoresDB[$evento->jugador1_id]['rojas'] = 0;
+					$jugadoresDB[$evento->jugador1_id]['equipo'] = $evento->equipo->nombre_corto;
+					$jugadoresDB[$evento->jugador1_id]['logo_equipo'] = $evento->equipo->logo;
+				}
+				$jugadoresDB[$evento->jugador1_id]['rojas']++;
+			}
+			usort($jugadoresDB, function($a, $b){
+				if($a['rojas'] == $b['rojas']) return strcmp($a['jugador'],$b['jugador']);
+				return ($a['rojas'] < $b['rojas']) ? 1 : -1;
+			});
+			$posicion = 1;
+			$jugadores = [];
+			foreach($jugadoresDB as $index => $jugador){
+				$jugadoresDB[$index]['posicion'] = $posicion;
+				if($posicion<=1000) $jugadores[] = $jugadoresDB[$index];
+				$posicion++;
+			}
+			$data['jugadores'] = $jugadores;
 			//$data['campeonato'] = $campeonato;
 			/*Anuncios*/
 			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(4);
