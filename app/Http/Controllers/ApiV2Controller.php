@@ -215,8 +215,8 @@ class ApiV2Controller extends BaseController {
 				$p['jugador'] = $portero->primerapellido." ".$portero->primernombre;
 				$p['equipo'] = $portero->equipo;
 				$p['logo_equipo'] = $portero->imagen_equipo;
-				$p['goles'] = number_format($portero->goles,2);
-				$p['partidos_jugados'] = number_format($portero->partidosJugados,0);
+				$p['goles'] = number_format($portero->goles,0);
+				$p['partidos_jugados'] = number_format($portero->partidosJugados,2);
 				$p['promedio'] = number_format($portero->promedio,1);
 
 				$data['porteros'][] = $p;
