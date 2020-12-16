@@ -87,13 +87,28 @@ class ApiV2Controller extends BaseController {
 				if(!isset($campeonatos[$partido->campeonato_id])){
 					$campeonatos[$partido->campeonato_id]['campeonato'] = $this->getArrayCampeonato($partido->campeonato);
 				}
-				$campeonatos[$partido->campeonato_id]['partidos'][] = $this->getArrayPartido($partido);
+				$fecha = date('Ymd',strtotime($partido->fecha));
+				if(!isset($campeonatos[$partido->campeonato_id]['fechas_partidos'][$fecha]))
+				{
+					$campeonatos[$partido->campeonato_id]['fechas_partidos'][$fecha]['fecha'] = date('Y-m-d',strtotime($partido->fecha));
+				}
+				$campeonatos[$partido->campeonato_id]['fechas_partidos'][$fecha]['partidos'][] = $this->getArrayPartido($partido);
 			}
 			$campeonatosDB = [];
+			$campeonatosDB2 = [];
 			foreach($campeonatos as $campeonato){
 				$campeonatosDB[] = $campeonato;
 			}
-			$data['campeonatos'] = $campeonatosDB;
+			foreach($campeonatosDB as $index => $campeonato)
+			{
+				$campeonatosDB2[$index]['campeonato'] = $campeonato['campeonato'];
+				foreach($campeonato['fechas_partidos'] as $fecha)
+				{
+					$campeonatosDB2[$index]['fechas_partidos'][] = $fecha;
+
+				}
+			}
+			$data['campeonatos'] = $campeonatosDB2;
 			/*Anuncios*/
             $dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
 			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
