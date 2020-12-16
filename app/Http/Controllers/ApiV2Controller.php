@@ -111,9 +111,9 @@ class ApiV2Controller extends BaseController {
 			}
 			$data['ligas'] = $ligasDB2;
 			/*Anuncios*/
-            $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(1);
-            $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
-            $data['anuncio'] = $anuncios['anuncio'];
+            $dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
+			$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
 
 			return $data;
 
