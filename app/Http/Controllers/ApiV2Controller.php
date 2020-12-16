@@ -80,8 +80,6 @@ class ApiV2Controller extends BaseController {
 
 			$fechaInicio = $this->getFecha($diasInicio . ' day');
 			$fechaFin = $this->getFecha($diasFin . ' day');
-			$fechaInicio = '2019-11-01';
-			$fechaFin = '2019-11-30';
 			$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
 
 			$ligas = [];
