@@ -82,34 +82,18 @@ class ApiV2Controller extends BaseController {
 			$fechaFin = $this->getFecha($diasFin . ' day');
 			$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
 
-			$ligas = [];
 			foreach($partidos as $partido)
 			{
-				$ligaId = $partido->campeonato->liga_id;
-				if(!isset($ligas[$ligaId])){
-					$ligas[$ligaId]['liga'] = $this->getArrayLiga($partido->campeonato->liga);
+				if(!isset($campeonatos[$partido->campeonato_id])){
+					$campeonatos[$partido->campeonato_id]['campeonato'] = $this->getArrayCampeonato($partido->campeonato);
 				}
-
-				if(!isset($ligas[$ligaId]['campeonatos'][$partido->campeonato_id])){
-					$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['campeonato'] = $this->getArrayCampeonato($partido->campeonato);
-				}
-				$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['partidos'][] = $this->getArrayPartido($partido);
+				$campeonatos[$partido->campeonato_id]['partidos'][] = $this->getArrayPartido($partido);
 			}
-			$ligasDB = [];
-			$ligasDB2 = [];
-			foreach($ligas as $liga){
-				$ligasDB[] = $liga;
+			$campeonatosDB = [];
+			foreach($campeonatos as $campeonato){
+				$campeonatosDB[] = $campeonato;
 			}
-			foreach($ligasDB as $index => $liga)
-			{
-				$ligasDB2[$index]['liga'] = $liga['liga'];
-				foreach($liga['campeonatos'] as $campeonato)
-				{
-					$ligasDB2[$index]['campeonatos'][] = $campeonato;
-
-				}
-			}
-			$data['ligas'] = $ligasDB2;
+			$data['campeonatos'] = $campeonatosDB;
 			/*Anuncios*/
             $dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
 			$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
