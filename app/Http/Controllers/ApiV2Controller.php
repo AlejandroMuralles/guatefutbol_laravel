@@ -70,6 +70,60 @@ class ApiV2Controller extends BaseController {
 		}
 	}
 
+	public function partidosAgrupadosPorCampeonato()
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.partidosAgrupadosPorCampeonato', $minutos, function(){
+			$configuracion = $this->configuracionRepo->find(1);
+			$diasInicio = $configuracion->parametro1;
+			$diasFin = $configuracion->parametro2;
+
+			$fechaInicio = $this->getFecha($diasInicio . ' day');
+			$fechaFin = $this->getFecha($diasFin . ' day');
+			$fechaInicio = '2019-11-01';
+			$fechaFin = '2019-11-30';
+			$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
+
+			$ligas = [];
+			foreach($partidos as $partido)
+			{
+				$ligaId = $partido->campeonato->liga_id;
+				if(!isset($ligas[$ligaId])){
+					$ligas[$ligaId]['liga'] = $this->getArrayLiga($partido->campeonato->liga);
+				}
+
+				if(!isset($ligas[$ligaId]['campeonatos'][$partido->campeonato_id])){
+					$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['campeonato'] = $this->getArrayCampeonato($partido->campeonato);
+				}
+				$ligas[$ligaId]['campeonatos'][$partido->campeonato_id]['partidos'][] = $this->getArrayPartido($partido);
+			}
+			$ligasDB = [];
+			$ligasDB2 = [];
+			foreach($ligas as $liga){
+				$ligasDB[] = $liga;
+			}
+			foreach($ligasDB as $index => $liga)
+			{
+				$ligasDB2[$index]['liga'] = $liga['liga'];
+				foreach($liga['campeonatos'] as $campeonato)
+				{
+					$ligasDB2[$index]['campeonatos'][] = $campeonato;
+
+				}
+			}
+			$data['ligas'] = $ligasDB2;
+			/*Anuncios*/
+            $anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+            $data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
+            $data['anuncio'] = $anuncios['anuncio'];
+
+			return $data;
+
+		});
+		return json_encode($data);
+
+	}
+
 	public function campeonatos()
 	{
 		$minutos = 1;
@@ -860,6 +914,28 @@ class ApiV2Controller extends BaseController {
 		$e->nombre_corto = $equipo->nombre_corto;
 		$e->logo = $equipo->logo;
 		return $e;
+	}
+
+	public function getArrayLiga($liga)
+	{
+		$l['id'] = $liga->id;
+		$l['nombre'] = $liga->nombre;
+		return $l;
+	}
+
+	public function getArrayCampeonato($campeonato)
+	{
+		$c['id'] = $campeonato->id;
+		$c['nombre'] = $campeonato->nombre;
+		$c['mostrar_calendario'] = $campeonato->mostrar_calendario;
+		$c['mostrar_posiciones'] = $campeonato->mostrar_posiciones;
+		$c['mostrar_tabla_acumulada'] = $campeonato->mostrar_tabla_acumulada;
+		$c['mostrar_goleadores'] = $campeonato->mostrar_goleadores;
+		$c['mostrar_porteros'] = $campeonato->mostrar_porteros;
+		$c['mostrar_plantilla'] = $campeonato->mostrar_plantilla;
+		$c['liga_id'] = $campeonato->liga_id;
+		$c['liga'] = $campeonato->liga->nombre;
+		return $c;
 	}
 
 	public function getArrayPartido($partido)
