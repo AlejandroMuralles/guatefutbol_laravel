@@ -121,6 +121,25 @@ class ApiV2Controller extends BaseController {
 
 	}
 
+	public function campeonato($ligaId, $campeonatoId)
+	{
+		$minutos = 1;
+		$data = Cache::remember("apiV2.campeonato.$ligaId-$campeonatoId", $minutos, function($ligaId, $campeonatoId){
+			
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$data['campeonato'] = $this->getArrayCampeonato($campeonato);
+			return $data;
+		});
+		return json_encode($data);
+	}
+
 	public function campeonatos()
 	{
 		$minutos = 1;
