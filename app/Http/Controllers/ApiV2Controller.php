@@ -124,7 +124,7 @@ class ApiV2Controller extends BaseController {
 	public function campeonato($ligaId, $campeonatoId)
 	{
 		$minutos = 1;
-		$data = Cache::remember("apiV2.campeonato.$ligaId-$campeonatoId", $minutos, function($ligaId, $campeonatoId){
+		$data = Cache::remember("apiV2.campeonato.$ligaId-$campeonatoId", $minutos, function() use ($ligaId, $campeonatoId){
 			
 			if($campeonatoId == 0)
 			{
