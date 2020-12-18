@@ -943,12 +943,12 @@ class ApiV2Controller extends BaseController {
 	{
 		$c['id'] = $campeonato->id;
 		$c['nombre'] = $campeonato->nombre;
-		$c['mostrar_calendario'] = is_null($campeonato->mostrar_calendario) || $campeonato->mostrar_calendario ? false : true;
-		$c['mostrar_posiciones'] = is_null($campeonato->mostrar_posiciones) || $campeonato->mostrar_posiciones ? false : true;
-		$c['mostrar_tabla_acumulada'] = is_null($campeonato->mostrar_tabla_acumulada) || $campeonato->mostrar_tabla_acumulada ? false : true;
-		$c['mostrar_goleadores'] = is_null($campeonato->mostrar_goleadores) || $campeonato->mostrar_goleadores ? false : true;
-		$c['mostrar_porteros'] = is_null($campeonato->mostrar_porteros) || $campeonato->mostrar_porteros ? false : true;
-		$c['mostrar_plantilla'] = is_null($campeonato->mostrar_plantilla) || $campeonato->mostrar_plantilla ? false : true;
+		$c['mostrar_calendario'] = is_null($campeonato->mostrar_calendario) || $campeonato->mostrar_calendario == 0 ? false : true;
+		$c['mostrar_posiciones'] = is_null($campeonato->mostrar_posiciones) || $campeonato->mostrar_posiciones == 0 ? false : true;
+		$c['mostrar_tabla_acumulada'] = is_null($campeonato->mostrar_tabla_acumulada) || $campeonato->mostrar_tabla_acumulada == 0 ? false : true;
+		$c['mostrar_goleadores'] = is_null($campeonato->mostrar_goleadores) || $campeonato->mostrar_goleadores == 0 ? false : true;
+		$c['mostrar_porteros'] = is_null($campeonato->mostrar_porteros) || $campeonato->mostrar_porteros == 0 ? false : true;
+		$c['mostrar_plantilla'] = is_null($campeonato->mostrar_plantilla) || $campeonato->mostrar_plantilla == 0 ? false : true;
 		$c['liga_id'] = $campeonato->liga_id;
 		$c['liga'] = $campeonato->liga->nombre;
 		return $c;
