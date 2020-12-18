@@ -72,7 +72,7 @@ class ApiV2Controller extends BaseController {
 
 	public function partidosAgrupadosPorCampeonato()
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.partidosAgrupadosPorCampeonato', $minutos, function(){
 			$configuracion = $this->configuracionRepo->find(1);
 			$diasInicio = $configuracion->parametro1;
@@ -124,7 +124,7 @@ class ApiV2Controller extends BaseController {
 	public function campeonato($ligaId, $campeonatoId)
 	{
 		$minutos = 1;
-		$data = Cache::remember("apiV2.campeonato.$ligaId-$campeonatoId", $minutos, function() use ($ligaId, $campeonatoId){
+		$data = Cache::remember("apiV2.campeonatos.$ligaId-$campeonatoId", $minutos, function() use ($ligaId, $campeonatoId){
 			
 			if($campeonatoId == 0)
 			{
@@ -943,12 +943,12 @@ class ApiV2Controller extends BaseController {
 	{
 		$c['id'] = $campeonato->id;
 		$c['nombre'] = $campeonato->nombre;
-		$c['mostrar_calendario'] = is_null($campeonato->mostrar_calendario) || $campeonato->mostrar_calendario == 0 ? false : true;
-		$c['mostrar_posiciones'] = is_null($campeonato->mostrar_posiciones) || $campeonato->mostrar_posiciones == 0 ? false : true;
-		$c['mostrar_tabla_acumulada'] = is_null($campeonato->mostrar_tabla_acumulada) || $campeonato->mostrar_tabla_acumulada == 0 ? false : true;
-		$c['mostrar_goleadores'] = is_null($campeonato->mostrar_goleadores) || $campeonato->mostrar_goleadores == 0 ? false : true;
-		$c['mostrar_porteros'] = is_null($campeonato->mostrar_porteros) || $campeonato->mostrar_porteros == 0 ? false : true;
-		$c['mostrar_plantilla'] = is_null($campeonato->mostrar_plantilla) || $campeonato->mostrar_plantilla == 0 ? false : true;
+		$c['mostrar_calendario'] = is_null($campeonato->menu_app_calendario) || $campeonato->menu_app_calendario == 0 ? false : true;
+		$c['mostrar_posiciones'] = is_null($campeonato->menu_app_posiciones) || $campeonato->menu_app_posiciones == 0 ? false : true;
+		$c['mostrar_tabla_acumulada'] = is_null($campeonato->menu_app_tabla_acumulada) || $campeonato->menu_app_tabla_acumulada == 0 ? false : true;
+		$c['mostrar_goleadores'] = is_null($campeonato->menu_app_goleadores) || $campeonato->menu_app_goleadores == 0 ? false : true;
+		$c['mostrar_porteros'] = is_null($campeonato->menu_app_porteros) || $campeonato->menu_app_porteros == 0 ? false : true;
+		$c['mostrar_plantilla'] = is_null($campeonato->menu_app_plantilla) || $campeonato->menu_app_plantilla == 0 ? false : true;
 		$c['liga_id'] = $campeonato->liga_id;
 		$c['liga'] = $campeonato->liga->nombre;
 		return $c;
