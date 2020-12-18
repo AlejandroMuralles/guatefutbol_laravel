@@ -966,7 +966,6 @@ class ApiV2Controller extends BaseController {
 		$p['goles_equipo_visita'] = $partido->goles_visita ?? 0;
 		$p['goles_equipo_visita'] = $partido->goles_visita ?? 0;
 		$p['estado'] = $partido->estado;
-		$p['estado_tiempo'] = $partido->estado;
 		$p['tiempo'] = $partido->tiempo;
 		return $p;
 	}
