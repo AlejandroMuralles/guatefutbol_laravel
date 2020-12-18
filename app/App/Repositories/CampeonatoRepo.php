@@ -47,6 +47,7 @@ class CampeonatoRepo extends BaseRepo{
 							})
 							->orderBy('liga_id')
 							->orderBy('fecha_inicio','ASC')
+							->orderBy('nombre','ASC')
 							->get();
 	}
 
