@@ -26,5 +26,6 @@ Route::group(['prefix' => 'v2'], function () {
 
     Route::get('equipos/{ligaId}/{campeonatoId}','ApiV2Controller@equipos');
     Route::get('plantilla/{ligaId}/{campeonatoId}/{equipo}','ApiV2Controller@plantilla');
+    Route::get('resumen/{ligaId}/{campeonatoId}/{equipo}','ApiV2Controller@resumen');
 
 });

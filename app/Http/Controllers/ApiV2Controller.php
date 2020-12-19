@@ -184,6 +184,7 @@ class ApiV2Controller extends BaseController {
 			$data['posiciones'] = [];
 			foreach($posicionesDB as $posicion)
 			{
+				$p['equipo_id'] = $posicion->equipo->id;
 				$p['equipo'] = $posicion->equipo->nombre_corto;
 				$p['logo_equipo'] = $posicion->equipo->logo;
 				$p['POS'] = $posicion->POS;
@@ -729,7 +730,7 @@ class ApiV2Controller extends BaseController {
 
 	public function plantilla($ligaId, $campeonatoId, $equipoId)
 	{
-		$minutos = 0;
+		$minutos = 1;
 		$data = Cache::remember('apiV2.plantilla'.$ligaId.'-'.$campeonatoId.'-'.$equipoId, $minutos, function() use ($ligaId, $campeonatoId, $equipoId){
 			if($campeonatoId == 0)
 			{
@@ -769,6 +770,77 @@ class ApiV2Controller extends BaseController {
 			$anuncios = $this->anuncioRepo->getAnuncioForPantallaApp(8);
 			$data['mostrar_anuncio'] = $anuncios['mostrar_anuncio'];
 			$data['anuncio'] = $anuncios['anuncio'];
+			return $data;
+		});
+		return json_encode($data);
+	}
+
+	public function resumen($ligaId, $campeonatoId, $equipoId)
+	{
+		$minutos = 0;
+		$data = Cache::remember('apiV2.resumen'.$ligaId.'-'.$campeonatoId.'-'.$equipoId, $minutos, function() use ($ligaId, $campeonatoId, $equipoId){
+			if($campeonatoId == 0)
+			{
+				$campeonato = $this->campeonatoRepo->getActual($ligaId);
+			}
+			else
+			{
+				$campeonato = $this->campeonatoRepo->find($campeonatoId);
+			}
+			$data['equipo'] = $this->equipoRepo->find($equipoId);
+			$partidosDB = $this->partidoRepo->getByCampeonatoByEquipo($campeonato->id, $equipoId,[3],'fecha','DESC');
+			$countPartidos = 0;
+			$data['ganados'] = 0; $data['empatados'] = 0; $data['perdidos'] = 0;
+			//Racha
+			foreach($partidosDB as $partido)
+			{
+				$countPartidos++;
+				$data['partidos'][] = $this->getArrayPartido($partido);
+				
+				if($partido->equipo_local_id == $equipoId)
+				{
+					if($partido->goles_local == $partido->goles_visita)
+						$data['empatados']++;
+					else if($partido->goles_local > $partido->goles_visita)
+						$data['ganados']++;
+					else if($partido->goles_local < $partido->goles_visita)
+						$data['perdidos']++;
+				}
+				else
+				{
+					if($partido->goles_local == $partido->goles_visita)
+						$data['empatados']++;
+					else if($partido->goles_local > $partido->goles_visita)
+						$data['perdidos']++;
+					else if($partido->goles_local < $partido->goles_visita)
+						$data['ganados']++;
+				}
+				if($countPartidos >= 10) break;
+			}
+			$posicionesData = json_decode($this->posiciones($ligaId, $campeonatoId));
+			$posiciones = $posicionesData->posiciones;
+			foreach($posiciones as $index => $posicion)
+			{
+				if($posicion->equipo_id == $equipoId)
+				{
+					if($index == 0 || $index == 1){
+						$data['posiciones'][] = $posiciones[0];
+						$data['posiciones'][] = $posiciones[1];
+						$data['posiciones'][] = $posiciones[2];
+					}
+					else if($index == count($posiciones)-1 || $index == (count($posiciones)-2)){
+						$data['posiciones'][] = $posiciones[count($posiciones)-3];
+						$data['posiciones'][] = $posiciones[count($posiciones)-2];
+						$data['posiciones'][] = $posiciones[count($posiciones)-1];
+					}
+					else{
+						$data['posiciones'][] = $posiciones[$index-1];
+						$data['posiciones'][] = $posiciones[$index];
+						$data['posiciones'][] = $posiciones[$index+1];
+					}
+					break;
+				}
+			}
 			return $data;
 		});
 		return json_encode($data);
