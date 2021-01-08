@@ -758,7 +758,7 @@ class ApiV2Controller extends BaseController {
 				mb_internal_encoding("UTF-8");
 				$string = $jugador->primer_nombre;
 				$j->nombre = mb_substr($string,0,1) . '. '.$jugador->primer_apellido;
-				$j->minutos_jugados = $jugador->minutos_jugados;
+				$j->minutos_jugados = number_format($jugador->minutos_jugados,0);
 				$j->goles = $jugador->goles;
 				$j->edad = $jugador->edad;
 				$j->tarjetas_amarillas = $jugador->amarillas;
