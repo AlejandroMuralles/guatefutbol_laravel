@@ -82,6 +82,7 @@ class ApiV2Controller extends BaseController {
 			$fechaFin = $this->getFecha($diasFin . ' day');
 			$partidos = $this->partidoRepo->getByCampeonatosEnAppByFechas($fechaInicio, $fechaFin);
 
+			$campeonatos = [];
 			foreach($partidos as $partido)
 			{
 				if(!isset($campeonatos[$partido->campeonato_id])){
