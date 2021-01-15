@@ -1,7 +1,6 @@
 <?php
 
 namespace App\App\Managers;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
@@ -72,7 +71,7 @@ class AnuncioManager extends BaseManager
 				$file = Input::file('imagen');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = Str::uuid().'.'.$fileOrginalExtension;
+				$fileName = uniqid().'.'.$fileOrginalExtension;
 				$url = 'imagenes/anuncios';
 				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
@@ -106,7 +105,7 @@ class AnuncioManager extends BaseManager
 				$file = Input::file('imagen');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = Str::uuid().'.'.$fileOrginalExtension;
+				$fileName = uniqid().'.'.$fileOrginalExtension;
 				$url = 'imagenes/anuncios';
 				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
