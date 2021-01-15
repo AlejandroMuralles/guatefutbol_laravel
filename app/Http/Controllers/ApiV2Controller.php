@@ -19,6 +19,7 @@ use App\App\Repositories\TablaAcumuladaRepo;
 use App\App\Repositories\AnuncioRepo;
 
 use Cache;
+use GuzzleHttp\Client;
 use stdClass;
 
 class ApiV2Controller extends BaseController {
@@ -69,6 +70,37 @@ class ApiV2Controller extends BaseController {
 		    exit(0);
 		}
 	}
+
+	public function noticias($pagina)
+    {
+        $client = new Client(); //GuzzleHttp\Client
+        $url = "https://www.guatefutbol.com/wp-json/wp/v2/posts?page=$pagina";
+
+
+        $response = $client->request('GET', $url, [
+            'verify'  => false,
+        ]);
+
+		$responseBody = json_decode($response->getBody());
+		
+		$noticias = [];
+		foreach($responseBody as $nb)
+		{
+			$n['id'] = $nb->id;
+			$n['date'] = $nb->date;
+			$n['link'] = $nb->link;
+			$n['title'] = $nb->title->rendered;
+			$n['image'] = $nb->jetpack_featured_media_url ?? '';
+			$noticias[] = $n;
+		}
+
+		$data['noticias'] = $noticias;
+        /*Anuncios*/
+		$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+		$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
+		$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
+		return json_encode($data);
+    }
 
 	public function partidosAgrupadosPorCampeonato()
 	{
