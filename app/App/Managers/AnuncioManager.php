@@ -70,7 +70,7 @@ class AnuncioManager extends BaseManager
 				$fileOrginalExtension = $file->getClientOriginalExtension();
 				$fileName = $this->entity->id.'.'.$fileOrginalExtension;
 				$url = 'imagenes/anuncios';
-				$this->entity->imagen = $file->storeAs($url,$fileName,'public');
+				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
 			}
 

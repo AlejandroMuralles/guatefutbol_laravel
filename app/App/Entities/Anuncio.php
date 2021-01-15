@@ -2,7 +2,8 @@
 
 namespace App\App\Entities;
 
-use Variable;
+use Illuminate\Support\Facades\Storage;
+use App\App\Components\Variable;
 
 
 class Anuncio extends \Eloquent {
@@ -38,7 +39,7 @@ class Anuncio extends \Eloquent {
     public function getImagenAttribute($imagen)
     {
     	if(!is_null($imagen))
-    		return \Storage::disk('public')->url($imagen);
+    		return Storage::disk(env('DISK'))->url($imagen);
     	return null;
     }
 
