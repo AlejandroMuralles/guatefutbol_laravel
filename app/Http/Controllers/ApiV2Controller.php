@@ -1092,8 +1092,8 @@ class ApiV2Controller extends BaseController {
 		$ad['tipo'] = $anuncio->tipo;
 		$ad['segundos_mostrandose'] = $anuncio->segundos_mostrandose;
 		$ad['minutos_espera'] = $anuncio->minutos_espera;
-		if(!is_null($anuncio->link)) $ad['link'] = $anuncio->link;
-		if(!is_null($anuncio->imagen)) $ad['imagen'] = $anuncio->imagen;
+		$ad['link'] = $anuncio->link ?? '';
+		$ad['imagen'] = $anuncio->imagen ?? '';
 		return $ad;
 	}
 
