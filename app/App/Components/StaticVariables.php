@@ -59,7 +59,7 @@ class StaticVariables {
     ];
     
     protected $pantallasApp = [
-		1 => 'Inicio',
+		1 => 'Actualidad',
         2 => 'Calendario',
         3 => 'Posiciones',
         4 => 'Goleadores',
@@ -68,7 +68,8 @@ class StaticVariables {
         7 => 'Equipos',
         8 => 'Plantilla',
         9 => 'Tabla Acumulada',
-        10 => 'Noticias'
+		10 => 'Noticias',
+		11 => 'Competiciones',
     ];
 
 	public function getEstadosGenerales() { return $this->estadosGenerales; }
