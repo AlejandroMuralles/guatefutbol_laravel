@@ -53,7 +53,9 @@ class StaticVariables {
 		'GB'    => 'GOOGLE - BANNER',
         'GI'    => 'GOOGLE - INTER',
         'GA'    => 'GOOGLE - BANNER E INTER',
-        'CI'    => 'CLIENTE - INTER',
+		'CI'    => 'CLIENTE - INTER',
+		'CB'    => 'CLIENTE - BANNER (300x100)',
+		'CM'    => 'CLIENTE - BANNER MEDIUM (300x250)',
     ];
     
     protected $pantallasApp = [
