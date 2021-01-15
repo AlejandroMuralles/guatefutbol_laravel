@@ -101,7 +101,7 @@ class AnuncioManager extends BaseManager
 			$this->entity->save();
 			if(Input::hasFile('imagen'))
 			{
-				Storage::disk(env('DISK'))->url($this->entity->imagen);
+				Storage::disk(env('DISK'))->delete($this->entity->imagen);
 				$file = Input::file('imagen');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
