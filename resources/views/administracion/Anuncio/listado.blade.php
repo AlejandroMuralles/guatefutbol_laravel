@@ -30,7 +30,7 @@
 						Editar
 					</a>
 				</td>
-                <td>{{$anuncio->pantalla_ap}} - {{$anuncio->descripcion_pantalla_app}}</td>
+                <td>{{$anuncio->pantalla_app}} - {{$anuncio->descripcion_pantalla_app}}</td>
                 <td>{{$anuncio->descripcion_anunciante}}</td>
                 <td>{{$anuncio->nombre_anunciante}}</td>
                 <td>{{$anuncio->descripcion_tipo}}</td>
