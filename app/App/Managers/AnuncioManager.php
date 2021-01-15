@@ -1,6 +1,10 @@
 <?php
 
 namespace App\App\Managers;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class AnuncioManager extends BaseManager
 {
@@ -57,24 +61,24 @@ class AnuncioManager extends BaseManager
             throw new ValidationException('Validation failed', $validation->messages());
         }
 		try{
-			\DB::beginTransaction();
+			DB::beginTransaction();
 			$this->entity->fill($this->prepareData($this->data));
 
 			$setImagen = is_null($this->entity->id);
 
 			$this->entity->save();
-			if(\Input::hasFile('imagen'))
+			if(Input::hasFile('imagen'))
 			{
-				$file = \Input::file('imagen');
+				$file = Input::file('imagen');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = $this->entity->id.'.'.$fileOrginalExtension;
+				$fileName = Str::uuid().'.'.$fileOrginalExtension;
 				$url = 'imagenes/anuncios';
 				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
 			}
 
-			\DB::commit();
+			DB::commit();
 			return $this->entity;
 		}
 		catch(\Exception $ex)
@@ -92,24 +96,23 @@ class AnuncioManager extends BaseManager
             throw new ValidationException('Validation failed', $validation->messages());
         }
 		try{
-			\DB::beginTransaction();
+			DB::beginTransaction();
 			$this->entity->fill($this->prepareData($this->data));
 
-			$setImagen = is_null($this->entity->id);
-
 			$this->entity->save();
-			if(\Input::hasFile('imagen'))
+			if(Input::hasFile('imagen'))
 			{
-				$file = \Input::file('imagen');
+				Storage::disk(env('DISK'))->url($this->entity->imagen);
+				$file = Input::file('imagen');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = $this->entity->id.'.'.$fileOrginalExtension;
+				$fileName = Str::uuid().'.'.$fileOrginalExtension;
 				$url = 'imagenes/anuncios';
 				$this->entity->imagen = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
 			}
 
-			\DB::commit();
+			DB::commit();
 			return $this->entity;
 		}
 		catch(\Exception $ex)
