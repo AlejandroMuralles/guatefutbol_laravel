@@ -11,6 +11,7 @@
 		<thead>
 			<tr>
 				<th></th>
+				<th>ID</th>
                 <th>PANTALLA APP</th>
                 <th>ANUNCIANTE</th>
                 <th>NOMBRE ANUNCIANTE</th>
@@ -30,6 +31,7 @@
 						Editar
 					</a>
 				</td>
+                <td>{{$anuncio->id}}</td>
                 <td>{{$anuncio->descripcion_pantalla_app}}</td>
                 <td>{{$anuncio->descripcion_anunciante}}</td>
                 <td>{{$anuncio->nombre_anunciante}}</td>

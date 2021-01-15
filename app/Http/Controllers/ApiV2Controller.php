@@ -150,6 +150,11 @@ class ApiV2Controller extends BaseController {
 			return $data;
 
 		});
+		/*Anuncios*/
+		$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(11);
+		$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
+		$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
+
 		return json_encode($data);
 
 	}
