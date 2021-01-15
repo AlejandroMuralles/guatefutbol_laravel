@@ -96,7 +96,7 @@ class ApiV2Controller extends BaseController {
 
 		$data['noticias'] = $noticias;
         /*Anuncios*/
-		$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(1);
+		$dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(10);
 		$data['mostrar_anuncio'] = $dataAnuncio['mostrar_anuncio'];
 		$data['anuncio'] = $this->getArrayAnuncio($dataAnuncio['anuncio']);
 		return json_encode($data);
