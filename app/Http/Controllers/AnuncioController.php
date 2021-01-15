@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\App\Repositories\AnuncioRepo;
 use App\App\Managers\AnuncioManager;
 use App\App\Entities\Anuncio;
-use Controller, Redirect, Input, View, Session,Variable;
+use Controller, Redirect, Input, View, Session,App\App\Components\Variable;
 
 class AnuncioController extends BaseController {
 
