@@ -12,7 +12,7 @@ class PosicionesRepo {
 		$this->partidoRepo = $partidoRepo;
 	}
 
-    public function getTabla($campeonatoId, $tipoTabla, $partidos, $equipos, $esAcumulada = 0, $tablaAcumulada = null)
+    public function getTabla($campeonatoId, $tipoTabla, $partidos, $equipos, $esAcumulada = 0, $tablaAcumuladaDetalle = null)
 	{
 		foreach($partidos as $partido)
 		{
@@ -114,7 +114,7 @@ class PosicionesRepo {
             }
         }
         else {
-            if(count($tablaAcumulada) == 0){
+            if(count($tablaAcumuladaDetalle) == 0){
                 $descuentos = $descuentosRepo->getByCampeonatoByTipos($campeonatoId, [1,2]);
                 foreach($equipos as $equipo)
                 {
@@ -126,6 +126,19 @@ class PosicionesRepo {
                 }
             }
             else {
+                foreach($tablaAcumuladaDetalle as $tad)
+                {
+                    $descuentos = $descuentosRepo->getByCampeonatoByTipos($tad->campeonato_id, [1,2]);
+                    foreach($equipos as $equipo)
+                    {
+                        foreach($descuentos as $descuento)
+                        {
+                            if($equipo->equipo->id == $descuento->equipo_id)
+                                $equipo->PTS -= $descuento->puntos;
+                        }
+                    }
+                }
+                /*TABLA ACUMULADA ANTERIOR
                 $descuentos = $descuentosRepo->getByCampeonatoByTipos($tablaAcumulada[0]->campeonato1_id, [1,2]);
                 foreach($equipos as $equipo)
                 {
@@ -143,7 +156,7 @@ class PosicionesRepo {
                         if($equipo->equipo->id == $descuento->equipo_id)
                             $equipo->PTS -= $descuento->puntos;
                     }
-                }
+                }*/
             }
         }
 

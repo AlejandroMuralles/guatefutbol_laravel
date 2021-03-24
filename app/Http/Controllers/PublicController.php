@@ -22,6 +22,7 @@ use App\App\ExtraEntities\RachaEquipo;
 use App\App\ExtraEntities\AlineacionPartido;
 use App\App\Repositories\JornadaRepo;
 use App\App\Repositories\LigaRepo;
+use App\App\Repositories\TablaAcumuladaLigaDetalleRepo;
 use Exception;
 use View, Cache;
 
@@ -43,11 +44,13 @@ class PublicController extends BaseController {
 	protected $alineacionRepo;
 	protected $ligaRepo;
 	protected $jornadaRepo;
+	protected $tablaAcumuladaLigaDetalleRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		EstadioRepo $estadioRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, PorteroRepo $porteroRepo, PlantillaRepo $plantillaRepo,EquipoRepo $equipoRepo, 
-		HistorialCampeonRepo $historialCampeonRepo, AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, JornadaRepo $jornadaRepo)
+		HistorialCampeonRepo $historialCampeonRepo, AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, JornadaRepo $jornadaRepo,
+		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -65,6 +68,7 @@ class PublicController extends BaseController {
 		$this->alineacionRepo = $alineacionRepo;
 		$this->ligaRepo = $ligaRepo;
 		$this->jornadaRepo = $jornadaRepo;
+		$this->tablaAcumuladaLigaDetalleRepo = $tablaAcumuladaLigaDetalleRepo;
 		View::composer('layouts.publico', 'App\Http\Controllers\PublicMenuController');
 	}
 
@@ -176,6 +180,24 @@ class PublicController extends BaseController {
 			{
 				$campeonato = $this->campeonatoRepo->find($campeonatoId);
 			}
+
+			$tablaAcumuladaDetealle = $this->tablaAcumuladaLigaDetalleRepo->getByCampeonato($campeonato->id);
+			$campeonatosParaAcumulada = $this->tablaAcumuladaLigaDetalleRepo->getByTablaAcumuladaLiga($tablaAcumuladaDetealle->tabla_acumulada_liga_id ?? 0);
+			if(count($campeonatosParaAcumulada) > 0)
+			{
+				$campeonatosParaAcumuladaIds = $campeonatosParaAcumulada->pluck('campeonato_id');
+				$partidos = $this->partidoRepo->getByCampeonatosByFaseByEstado($campeonatosParaAcumuladaIds, ['R'], [2,3]);
+				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosicionesByCampeonatos($campeonatosParaAcumuladaIds);
+				$posiciones = $this->posicionesRepo->getTabla(null, 0, $partidos, $equipos, 1, $campeonatosParaAcumulada);
+			}
+			else
+			{
+				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, []);
+			}
+
+			/*TABLA ACUMULADA ANTERIOR
 			$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
 			if(count($ta) > 0)
 			{
@@ -190,7 +212,7 @@ class PublicController extends BaseController {
 				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 				$posiciones = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
-			}
+			}*/
 
 			$data['configuracion'] = $configuracion;
 			$data['campeonatos'] = $campeonatos;

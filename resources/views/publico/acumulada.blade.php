@@ -1,7 +1,5 @@
 @extends('layouts.publico')
-
 @section('css')
-<link href="{{ asset('assets/public/css/plugins/datatables/datatables.css') }}" rel="stylesheet" type="text/css" />
 @if($configuracion->parametro3)
 <meta http-equiv="refresh" content="{{$configuracion->parametro1}};">
 @endif
@@ -90,19 +88,10 @@
 @stop
 
 @section('js')
-
-<script src="{{ asset('assets/public/js/plugins/datatables/jquery.dataTables.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/public/js/plugins/datatables/datatables-bs3.js') }}" type="text/javascript"></script>
 <script>
 	$(function(){
 
-		$('table').dataTable({
-			"bSort" : false,
-			"bPaginate": false,
-			"bFilter": false,
-			"bInfo": false,
-   			"iDisplayLength" : 25,
-		});
+		
 
 		$('select').on('change', function () {
           var url = '{{route("inicio")}}/tabla-acumulada/{{$ligaId}}/'+ $(this).val();

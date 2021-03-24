@@ -84,6 +84,21 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Tabla-Acumulada/editar/{id}', ['as' => 'editar_tabla_acumulada', 'uses' => 'TablaAcumuladaController@mostrarEditar']);
 	Route::post('Tabla-Acumulada/editar/{id}', ['as' => 'editar_tabla_acumulada', 'uses' => 'TablaAcumuladaController@editar']);
 
+	Route::group(['prefix' => 'Tabla-Acumulada-Liga'], function () {
+		Route::get('listado/{liga}', ['as' => 'tablas_acumuladas_ligas', 'uses' => 'TablaAcumuladaLigaController@listado']);
+		Route::get('agregar/{liga}', ['as' => 'agregar_tabla_acumulada_liga', 'uses' => 'TablaAcumuladaLigaController@mostrarAgregar']);
+		Route::post('agregar/{liga}', ['as' => 'agregar_tabla_acumulada_liga', 'uses' => 'TablaAcumuladaLigaController@agregar']);
+		Route::get('editar/{tabla_acumulada_liga}', ['as' => 'editar_tabla_acumulada_liga', 'uses' => 'TablaAcumuladaLigaController@mostrarEditar']);
+		Route::post('editar/{tabla_acumulada_liga}', ['as' => 'editar_tabla_acumulada_liga', 'uses' => 'TablaAcumuladaLigaController@editar']);
+		Route::get('ver/{tabla_acumulada_liga}', ['as' => 'ver_tabla_acumulada_liga', 'uses' => 'TablaAcumuladaLigaController@mostrarTabla']);
+	});
+
+	Route::group(['prefix' => 'Tabla-Acumulada-Liga-Detalle'], function () {
+		Route::get('listado/{tabla_acumulada_liga}', ['as' => 'tablas_acumuladas_ligas_detalle', 'uses' => 'TablaAcumuladaLigaDetalleController@listado']);
+		Route::get('agregar/{tabla_acumulada_liga}', ['as' => 'agregar_tabla_acumulada_liga_detalle', 'uses' => 'TablaAcumuladaLigaDetalleController@mostrarAgregar']);
+		Route::post('agregar/{tabla_acumulada_liga}', ['as' => 'agregar_tabla_acumulada_liga_detalle', 'uses' => 'TablaAcumuladaLigaDetalleController@agregar']);
+	});
+
 	Route::get('Descuento-Puntos/listado/{liga}', ['as' => 'descuento_puntos', 'uses' => 'DescuentoPuntosController@listado']);
 	Route::get('Descuento-Puntos/agregar/{liga}/{campeonatoId}', ['as' => 'agregar_descuento_puntos', 'uses' => 'DescuentoPuntosController@mostrarAgregar']);
 	Route::post('Descuento-Puntos/agregar/{liga}/{campeonatoId}', ['as' => 'agregar_descuento_puntos', 'uses' => 'DescuentoPuntosController@agregar']);

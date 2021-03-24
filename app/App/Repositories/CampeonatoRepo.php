@@ -3,6 +3,8 @@
 namespace App\App\Repositories;
 
 use App\App\Entities\Campeonato;
+use App\App\Entities\TablaAcumuladaLiga;
+use App\App\Entities\TablaAcumuladaLigaDetalle;
 
 class CampeonatoRepo extends BaseRepo{
 
@@ -14,6 +16,15 @@ class CampeonatoRepo extends BaseRepo{
 	public function getByLiga($ligaId)
 	{
 		return Campeonato::where('liga_id',$ligaId)
+							->orderBy('fecha_inicio','DESC')
+							->get();
+	}
+
+	public function getByLigaNotInTablaAcumuladaLiga($ligaId, $tablaAcumuladaLigaId)
+	{
+		$campeonatosIds = TablaAcumuladaLigaDetalle::where('tabla_acumulada_liga_id',$tablaAcumuladaLigaId)->pluck('campeonato_id');
+		return Campeonato::where('liga_id',$ligaId)
+							->whereNotIn('id',$campeonatosIds)
 							->orderBy('fecha_inicio','DESC')
 							->get();
 	}

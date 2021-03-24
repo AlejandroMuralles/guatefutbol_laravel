@@ -38,6 +38,9 @@
 						Campeonatos
 					</a>
 					<a href="{{route('tablas_acumuladas',$liga->id)}}" class="btn btn-info btn-flat btn-xs">
+						Tablas Acumuladas Anterior
+					</a>
+					<a href="{{route('tablas_acumuladas_ligas',$liga->id)}}" class="btn btn-info btn-flat btn-xs">
 						Tablas Acumuladas
 					</a>
 					<a href="{{route('agregar_campeonato',$liga->id)}}" class="btn bg-navy btn-flat btn-xs">

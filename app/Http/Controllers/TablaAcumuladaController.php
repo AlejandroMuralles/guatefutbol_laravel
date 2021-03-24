@@ -10,7 +10,7 @@ use Controller, Redirect, Input, View, Session;
 use App\App\Repositories\LigaRepo;
 use App\App\Repositories\CampeonatoRepo;
 
-class tablaAcumuladaController extends BaseController {
+class TablaAcumuladaController extends BaseController {
 
 	protected $tablaAcumuladaRepo;
 	protected $ligaRepo;

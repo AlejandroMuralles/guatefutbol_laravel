@@ -258,7 +258,22 @@ class ApiV2Controller extends BaseController {
 			{
 				$campeonato = $this->campeonatoRepo->find($campeonatoId);
 			}
-			$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
+			$tablaAcumuladaDetealle = $this->tablaAcumuladaLigaDetalleRepo->getByCampeonato($campeonato->id);
+			$campeonatosParaAcumulada = $this->tablaAcumuladaLigaDetalleRepo->getByTablaAcumuladaLiga($tablaAcumuladaDetealle->tabla_acumulada_liga_id ?? 0);
+			if(count($campeonatosParaAcumulada) > 0)
+			{
+				$campeonatosParaAcumuladaIds = $campeonatosParaAcumulada->pluck('campeonato_id');
+				$partidos = $this->partidoRepo->getByCampeonatosByFaseByEstado($campeonatosParaAcumuladaIds, ['R'], [2,3]);
+				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosicionesByCampeonatos($campeonatosParaAcumuladaIds);
+				$posicionesDB = $this->posicionesRepo->getTabla(null, 0, $partidos, $equipos, 1, $campeonatosParaAcumulada);
+			}
+			else
+			{
+				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
+				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
+				$posicionesDB = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, []);
+			}
+			/*$ta = $this->tablaAcumuladaRepo->getByCampeonato($campeonato->id);
 			if(count($ta) > 0)
 			{
 				$partidosC1 = $this->partidoRepo->getByCampeonatoByFaseByEstado($ta[0]->campeonato1_id, ['R'], [2,3]);
@@ -272,7 +287,7 @@ class ApiV2Controller extends BaseController {
 				$partidos = $this->partidoRepo->getByCampeonatoByFaseByEstado($campeonato->id, ['R'], [2,3]);
 				$equipos = $this->campeonatoEquipoRepo->getEquiposWithPosiciones($campeonato->id);
 				$posicionesDB = $this->posicionesRepo->getTabla($campeonato->id, 0, $partidos, $equipos, 1, $ta);
-			}
+			}*/
 			$data['posiciones'] = [];
 			foreach($posicionesDB as $posicion)
 			{
