@@ -17,7 +17,7 @@ use App\App\Repositories\EstadioRepo;
 use App\App\Repositories\EquipoRepo;
 use App\App\Repositories\TablaAcumuladaRepo;
 use App\App\Repositories\AnuncioRepo;
-
+use App\App\Repositories\TablaAcumuladaLigaDetalleRepo;
 use Cache;
 use GuzzleHttp\Client;
 use stdClass;
@@ -39,11 +39,13 @@ class ApiV2Controller extends BaseController {
 	protected $equipoRepo;
     protected $tablaAcumuladaRepo;
     protected $anuncioRepo;
+    protected $tablaAcumuladaLigaDetalleRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, PlantillaRepo $plantillaRepo,
-		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, AnuncioRepo $anuncioRepo)
+		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, AnuncioRepo $anuncioRepo, 
+		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -60,6 +62,7 @@ class ApiV2Controller extends BaseController {
 		$this->porteroRepo = $porteroRepo;
         $this->tablaAcumuladaRepo = $tablaAcumuladaRepo;
         $this->anuncioRepo = $anuncioRepo;
+        $this->tablaAcumuladaLigaDetalleRepo = $tablaAcumuladaLigaDetalleRepo;
 
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");

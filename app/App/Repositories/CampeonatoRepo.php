@@ -20,9 +20,9 @@ class CampeonatoRepo extends BaseRepo{
 							->get();
 	}
 
-	public function getByLigaNotInTablaAcumuladaLiga($ligaId, $tablaAcumuladaLigaId)
+	public function getByLigaNotInTablaAcumuladaLiga($ligaId)
 	{
-		$campeonatosIds = TablaAcumuladaLigaDetalle::where('tabla_acumulada_liga_id',$tablaAcumuladaLigaId)->pluck('campeonato_id');
+		$campeonatosIds = TablaAcumuladaLigaDetalle::pluck('campeonato_id');
 		return Campeonato::where('liga_id',$ligaId)
 							->whereNotIn('id',$campeonatosIds)
 							->orderBy('fecha_inicio','DESC')

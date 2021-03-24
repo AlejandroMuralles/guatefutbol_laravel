@@ -33,7 +33,7 @@ class TablaAcumuladaLigaDetalleController extends BaseController {
 
 	public function mostrarAgregar(TablaAcumuladaLiga $tablaAcumuladaLiga)
 	{
-		$campeonatos = $this->campeonatoRepo->getByLigaNotInTablaAcumuladaLiga($tablaAcumuladaLiga->liga_id, $tablaAcumuladaLiga->id)->pluck('nombre','id')->toArray();
+		$campeonatos = $this->campeonatoRepo->getByLigaNotInTablaAcumuladaLiga($tablaAcumuladaLiga->liga_id)->pluck('nombre','id')->toArray();
 		return view('administracion/TablaAcumuladaLigaDetalle/agregar', compact('tablaAcumuladaLiga','campeonatos'));
 	}
 
