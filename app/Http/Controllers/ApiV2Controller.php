@@ -847,6 +847,7 @@ class ApiV2Controller extends BaseController {
 			$partidosDB = $this->partidoRepo->getByCampeonatoByEquipo($campeonato->id, $equipoId,[3],'fecha','DESC');
 			$countPartidos = 0;
 			$data['ganados'] = 0; $data['empatados'] = 0; $data['perdidos'] = 0;
+			$data['partidos'] = [];
 			//Racha
 			foreach($partidosDB as $partido)
 			{
