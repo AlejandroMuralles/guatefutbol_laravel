@@ -7,7 +7,7 @@ use App\App\Managers\EventoManager;
 use App\App\Entities\Evento;
 use Controller, Redirect, Input, View, Session, Variable;
 
-class eventoController extends BaseController {
+class EventoController extends BaseController {
 
 	protected $eventoRepo;
 

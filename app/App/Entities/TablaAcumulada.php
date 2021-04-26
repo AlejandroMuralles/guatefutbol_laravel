@@ -2,7 +2,7 @@
 
 namespace App\App\Entities;
 
-class TablaACumulada extends \Eloquent {
+class TablaAcumulada extends \Eloquent {
 
 	use UserStamps;
 

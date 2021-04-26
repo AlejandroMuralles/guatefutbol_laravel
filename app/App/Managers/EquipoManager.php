@@ -1,6 +1,8 @@
 <?php
 
 namespace App\App\Managers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EquipoManager extends BaseManager
 {
@@ -40,18 +42,18 @@ class EquipoManager extends BaseManager
             throw new ValidationException('Validation failed', $validation->messages());
         }
 		try{
-			\DB::beginTransaction();
+			DB::beginTransaction();
 			$this->entity->fill($this->prepareData($this->data));
 
 			$setLogo = is_null($this->entity->id);
 
 			$this->entity->save();
-			if(\Input::hasFile('logo'))
+			if(request()->hasFile('logo'))
 			{
-				$file = \Input::file('logo');
+				$file = request()->file('logo');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = $this->entity->id.'.'.$fileOrginalExtension;
+				$fileName = Str::uuid().'.'.$fileOrginalExtension;
 				$url = 'imagenes/equipos';
 				$this->entity->logo = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
@@ -64,7 +66,7 @@ class EquipoManager extends BaseManager
 				}
 			}
 
-			\DB::commit();
+			DB::commit();
 			return $this->entity;
 		}
 		catch(\Exception $ex)
