@@ -13,7 +13,7 @@
 			</div>
 			<div class="form-group">
 				<label for="twitter">Twitter</label>
-				<input name="twitter" type="checkbox" checked>
+				<input name="twitter" type="checkbox">
 			</div>
 		@endif
 
