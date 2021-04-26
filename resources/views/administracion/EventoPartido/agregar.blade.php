@@ -9,7 +9,7 @@
 		@if(auth()->user()->username != 'alessandro')
 			<div class="form-group">
 				<label for="facebook">Facebook</label>
-				<input name="facebook" type="checkbox" checked>
+				<input name="facebook" type="checkbox">
 			</div>
 			<div class="form-group">
 				<label for="twitter">Twitter</label>
