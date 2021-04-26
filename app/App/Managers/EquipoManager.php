@@ -53,7 +53,7 @@ class EquipoManager extends BaseManager
 				$file = request()->file('logo');
 				$fileOriginalName = $file->getClientOriginalName();
 				$fileOrginalExtension = $file->getClientOriginalExtension();
-				$fileName = Str::uuid().'.'.$fileOrginalExtension;
+				$fileName = uniqid('logo_').'.'.$fileOrginalExtension;
 				$url = 'imagenes/equipos';
 				$this->entity->logo = $file->storeAs($url,$fileName,env('DISK'));
 				$this->entity->save();
