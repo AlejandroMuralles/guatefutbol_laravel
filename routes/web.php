@@ -219,6 +219,14 @@ Route::group(['middleware' => 'auth'], function(){
 		Route::post('editar/{campeonato_externo}', ['as' => 'editar_campeonato_externo', 'uses' => 'CampeonatoExternoController@editar']);
 	});
 
+	Route::group(['prefix' => 'Version'], function () {
+		Route::get('ver', ['as' => 'ver_version', 'uses' => 'VersionController@ver']);
+		Route::get('agregar', ['as' => 'agregar_version', 'uses' => 'VersionController@mostrarAgregar']);
+		Route::post('agregar', ['as' => 'agregar_version', 'uses' => 'VersionController@agregar']);
+		Route::get('editar', ['as' => 'editar_version', 'uses' => 'VersionController@mostrarEditar']);
+		Route::post('editar', ['as' => 'editar_version', 'uses' => 'VersionController@editar']);
+	});
+
 	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
 
 });

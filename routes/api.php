@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v2'], function () {
 
+    Route::get('actualizar-android/{version}','ApiV2Controller@actualizarAndroid');
+    Route::get('actualizar-ios/{version}','ApiV2Controller@actualizarIos');
+
     Route::get('noticias/{pagina}','ApiV2Controller@noticias');
 
     Route::get('partidos-agrupados-campeonato','ApiV2Controller@partidosAgrupadosPorCampeonato');

@@ -19,6 +19,7 @@ use App\App\Repositories\TablaAcumuladaRepo;
 use App\App\Repositories\AnuncioRepo;
 use App\App\Repositories\CampeonatoExternoRepo;
 use App\App\Repositories\TablaAcumuladaLigaDetalleRepo;
+use App\App\Repositories\VersionRepo;
 use Cache;
 use GuzzleHttp\Client;
 use stdClass;
@@ -42,12 +43,13 @@ class ApiV2Controller extends BaseController {
     protected $anuncioRepo;
     protected $tablaAcumuladaLigaDetalleRepo;
     protected $campeonatoExternoRepo;
+    protected $versionRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, PlantillaRepo $plantillaRepo,
 		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, AnuncioRepo $anuncioRepo, 
-		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo, CampeonatoExternoRepo $campeonatoExternoRepo)
+		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo, CampeonatoExternoRepo $campeonatoExternoRepo, VersionRepo $versionRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -66,6 +68,7 @@ class ApiV2Controller extends BaseController {
         $this->anuncioRepo = $anuncioRepo;
         $this->tablaAcumuladaLigaDetalleRepo = $tablaAcumuladaLigaDetalleRepo;
         $this->campeonatoExternoRepo = $campeonatoExternoRepo;
+        $this->versionRepo = $versionRepo;
 
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
@@ -75,6 +78,26 @@ class ApiV2Controller extends BaseController {
 		    http_response_code(200);
 		    exit(0);
 		}
+	}
+
+	public function actualizarAndroid($version)
+	{
+		$data['actualizar'] = false;
+		$ultimaVersion = $this->versionRepo->getVersion();
+		if(is_null($ultimaVersion)) return json_encode($data);
+
+		if(intval($version) < $ultimaVersion->android) $data['actualizar'] = true;
+		return json_encode($data);
+	}
+
+	public function actualizarIos($version)
+	{
+		$data['actualizar'] = false;
+		$ultimaVersion = $this->versionRepo->getVersion();
+		if(is_null($ultimaVersion)) return json_encode($data);
+
+		if(intval($version) < $ultimaVersion->ios) $data['actualizar'] = true;
+		return json_encode($data);
 	}
 
 	public function noticias($pagina)
