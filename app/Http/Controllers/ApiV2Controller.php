@@ -17,6 +17,7 @@ use App\App\Repositories\EstadioRepo;
 use App\App\Repositories\EquipoRepo;
 use App\App\Repositories\TablaAcumuladaRepo;
 use App\App\Repositories\AnuncioRepo;
+use App\App\Repositories\CampeonatoExternoRepo;
 use App\App\Repositories\TablaAcumuladaLigaDetalleRepo;
 use Cache;
 use GuzzleHttp\Client;
@@ -40,12 +41,13 @@ class ApiV2Controller extends BaseController {
     protected $tablaAcumuladaRepo;
     protected $anuncioRepo;
     protected $tablaAcumuladaLigaDetalleRepo;
+    protected $campeonatoExternoRepo;
 
 	public function __construct(PosicionesRepo $posicionesRepo, ConfiguracionRepo $configuracionRepo, CampeonatoRepo $campeonatoRepo,
 		PartidoRepo $partidoRepo, CampeonatoEquipoRepo $campeonatoEquipoRepo, GoleadorRepo $goleadorRepo, EventoPartidoRepo $eventoPartidoRepo,
 		AlineacionRepo $alineacionRepo, LigaRepo $ligaRepo, EstadioRepo $estadioRepo, EquipoRepo $equipoRepo, PlantillaRepo $plantillaRepo,
 		PorteroRepo $porteroRepo, TablaAcumuladaRepo $tablaAcumuladaRepo, AnuncioRepo $anuncioRepo, 
-		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo)
+		TablaAcumuladaLigaDetalleRepo $tablaAcumuladaLigaDetalleRepo, CampeonatoExternoRepo $campeonatoExternoRepo)
 	{
 		$this->posicionesRepo = $posicionesRepo;
 		$this->campeonatoRepo = $campeonatoRepo;
@@ -63,6 +65,7 @@ class ApiV2Controller extends BaseController {
         $this->tablaAcumuladaRepo = $tablaAcumuladaRepo;
         $this->anuncioRepo = $anuncioRepo;
         $this->tablaAcumuladaLigaDetalleRepo = $tablaAcumuladaLigaDetalleRepo;
+        $this->campeonatoExternoRepo = $campeonatoExternoRepo;
 
 		header('Access-Control-Allow-Origin: *');
 		header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
@@ -197,6 +200,17 @@ class ApiV2Controller extends BaseController {
 				$c['liga_id'] = $campeonato->liga_id;
 				$c['liga'] = $campeonato->liga->nombre;
 				$data['campeonatos'][] = $c;
+			}
+			/* Campeonatos Externos */
+			$campeonatosExternos = $this->campeonatoExternoRepo->getByEstado(['A']);
+			$data['campeonatos_externos'] = [];
+			foreach($campeonatosExternos as $campeonatoExterno)
+			{
+				$ce['id'] = $campeonatoExterno->id;
+				$ce['nombre_liga'] = $campeonatoExterno->nombre;
+				$ce['nombre'] = $campeonatoExterno->nombre;
+				$ce['link'] = $campeonatoExterno->link;
+				$data['campeonatos_externos'][] = $ce;
 			}
 			/*Anuncios*/
             $dataAnuncio = $this->anuncioRepo->getAnuncioForPantallaApp(11);

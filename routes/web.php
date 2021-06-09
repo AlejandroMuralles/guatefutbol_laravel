@@ -211,6 +211,13 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('Estadisticas-Arbitros/dashboard/{ligaId}', ['as' => 'dashboard_admin_estadisticas_arbitros', 'uses' => 'EstadisticasArbitroController@dashboard']);
 	Route::get('Estadisticas-Arbitros/{ligaId}/{campeonatoId}/{arbitroId}', ['as' => 'estadistica_arbitro_campeonato', 'uses' => 'EstadisticasArbitroController@partidoPorCampeonato']);
 
+	Route::group(['prefix' => 'CampeonatoExterno'], function () {
+		Route::get('listado', ['as' => 'campeonatos_externos', 'uses' => 'CampeonatoExternoController@listado']);
+		Route::get('agregar', ['as' => 'agregar_campeonato_externo', 'uses' => 'CampeonatoExternoController@mostrarAgregar']);
+		Route::post('agregar', ['as' => 'agregar_campeonato_externo', 'uses' => 'CampeonatoExternoController@agregar']);
+		Route::get('editar/{campeonato_externo}', ['as' => 'editar_campeonato_externo', 'uses' => 'CampeonatoExternoController@mostrarEditar']);
+		Route::post('editar/{campeonato_externo}', ['as' => 'editar_campeonato_externo', 'uses' => 'CampeonatoExternoController@editar']);
+	});
 
 	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
 
